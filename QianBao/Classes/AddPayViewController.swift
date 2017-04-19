@@ -241,7 +241,6 @@ class AddPayViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDeleg
         收起所有输入面板()
         //DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
         DispatchQueue.main.async {
-            
             self.close()
             DispatchQueue.main.async(execute: {
                 HUD.close(self.view)

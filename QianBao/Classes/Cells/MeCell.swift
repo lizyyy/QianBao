@@ -5,7 +5,6 @@
 //  Created by zhiyuan10 on 2016/11/22.
 //  Copyright © 2016年 leeey. All rights reserved.
 //
-import UIKit
 import Foundation
 enum MeCellStyle {
     case total //顶部统计

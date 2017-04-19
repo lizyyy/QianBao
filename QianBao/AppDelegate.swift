@@ -18,12 +18,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         //调试工具
         //FLEXManager.sharedManager().showExplorer()
+        UserDefaults.standard.set(0, forKey: "seluser")
+        if(UserDefaults.standard.string(forKey: "apiUrl") == nil){
+            UserDefaults.standard.setValue("http://qian8.sinaapptest.com/apitest/", forKey: "apiUrl")
+        }
+        
         self.window = UIWindow(frame: UIScreen.main.bounds)
         self.window!.backgroundColor = UIColor.white
         self.tabbarController = TabbarViewController()
         self.window!.rootViewController = self.tabbarController
         tabbarController?.selectedIndex = 0
         self.window!.makeKeyAndVisible()
+        if( UserDefaults.standard.integer(forKey: "DeviceID") == 0 ){
+            UserDefaults.standard.set(4, forKey: "DeviceID")
+        }
         return true
     }
     

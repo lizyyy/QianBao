@@ -14,7 +14,7 @@ class ConfViewController : UITableViewController{
     var progress:Float = 0
     fileprivate let itemDataSouce: [ [(name:String,iconImage:UIImage?)]] = [
         [("导入",nil),("导出",nil)],
-        [("设备",nil)],
+        [("设备ID",nil),("接口地址",nil)],
         [("建议",nil),("关于",nil)]]
     
     
@@ -81,8 +81,27 @@ class ConfViewController : UITableViewController{
                 }
             default:break
             }
+        case 1:
+            switch indexPath.row {
+            case 0:
+                let terminal = TerminalTableViewController()
+                self.navigationController?.pushViewController(terminal,animated:true)
+                break
+                
+            case 1:
+                print("1")
+                let alertController = UIAlertController(title: "输入接口地址：", message: "", preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: "确认", style: .default, handler: {(action) in
+                    UserDefaults.standard.setValue(alertController.textFields?[0].text, forKey: "apiUrl")
+                }))
+                alertController.addTextField(configurationHandler: {(text:UITextField) in text.text = UserDefaults.standard.string(forKey: "apiUrl")})
+                present(alertController, animated: true, completion: nil)
+            default:break
+            }
         default:break
         }
+        
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func importDB(item:JSON){

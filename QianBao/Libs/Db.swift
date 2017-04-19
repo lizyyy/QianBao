@@ -23,15 +23,19 @@ class DBRecord {
         return Int(db.lastInsertRowId());
     }
     
-//MARK: 获取用户
+    class func userAgent()->Dictionary<Int,String>{
+        return [1:"lzy's iphone",2:"jyy's iphone",3:"macbook",4:"初始化设备数据"]
+    }
+    
+    //MARK: 获取用户
     func getBankUser()-> [bankItem]{
         do{
             let data = try self.db.executeQuery("select * from qian8_bank group by user_id", values: nil)
             return bankSet(data)
         }catch{ return []}
     }
-
-//MARK: 获取银行账户列表
+    
+    //MARK: 获取银行账户列表
     func getBank() -> [bankItem] {
         do{
             let data = try self.db.executeQuery("select * from qian8_bank", values: nil)
@@ -39,7 +43,7 @@ class DBRecord {
         }catch{ return []}
     }
     
-//MARK: 获取支出数据
+    //MARK: 获取支出数据
     func getExpensesList() ->[expenseListItem] {
         do{
             let data = try self.db.executeQuery("select l.*,c.name as cate_name,u.user as user_name,b.name as bank_name from qian8_expense_category c,qian8_expense_list l,qian8_bank b,qian8_user u where l.cate_id = c.id and l.user_id = u.id and l.bank_id = b.id and l.time like '2016%' order by l.time desc", values: nil)
@@ -54,7 +58,7 @@ class DBRecord {
         }catch{ return []}
     }
     
-//MARK: 获取收入数据
+    //MARK: 获取收入数据
     func getIncomeList() ->[incomeListItem] {
         do{
             let data = try self.db.executeQuery("select * from qian8_income_list where time like '2016-11%'", values: nil)
@@ -69,7 +73,7 @@ class DBRecord {
         }catch{ return []}
     }
     
-//MARK: 获取转账数据
+    //MARK: 获取转账数据
     func getBankList() ->[bankListItem] {
         do{
             let data = try self.db.executeQuery("select * from qian8_bank_list where time like '2016-11%'", values: nil)
@@ -103,8 +107,8 @@ class DBRecord {
         })
         return groupList
     }
- 
-//MARK:- 设置数据集
+    
+    //MARK:- 设置数据集
     func bankSet(_ data:FMResultSet) ->[bankItem] {
         var rs = [bankItem]()
         while (data.next() != false){
@@ -137,7 +141,7 @@ class DBRecord {
         }
         return rs
     }
- 
+    
     func expenseSet(_ data:FMResultSet) ->[expenseItem] {
         var rs = [expenseItem]()
         while (data.next() != false){
@@ -149,7 +153,7 @@ class DBRecord {
         }
         return rs
     }
- 
+    
     func expenseListSet(_ data:FMResultSet) ->[expenseListItem] {
         var rs = [expenseListItem]()
         while (data.next() != false){
@@ -170,7 +174,7 @@ class DBRecord {
         }
         return rs
     }
- 
+    
     func incomeSet(_ data:FMResultSet) ->[incomeItem] {
         var rs = [incomeItem]()
         while (data.next() != false){
@@ -182,7 +186,7 @@ class DBRecord {
         }
         return rs
     }
- 
+    
     func incomeListSet(_ data:FMResultSet) ->[incomeListItem] {
         var rs = [incomeListItem]()
         while (data.next() != false){
@@ -229,7 +233,7 @@ struct expenseItem { //支出分类
 }
 
 struct expenseListItem:Foo {
- //支出记录
+    //支出记录
     var id  = 0
     var time = ""
     var user_id = 0

@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		150D236A1EA714170055CE68 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150D23691EA714170055CE68 /* AppDelegate.swift */; };
-		150D236C1EA714170055CE68 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150D236B1EA714170055CE68 /* ViewController.swift */; };
 		150D236F1EA714170055CE68 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 150D236D1EA714170055CE68 /* Main.storyboard */; };
 		150D23711EA714170055CE68 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 150D23701EA714170055CE68 /* Assets.xcassets */; };
 		150D23741EA714170055CE68 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 150D23721EA714170055CE68 /* LaunchScreen.storyboard */; };
@@ -37,6 +36,7 @@
 		15FFCEDB1EA7BA6F001ACBFE /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFCEDA1EA7BA6F001ACBFE /* HUD.swift */; };
 		15FFCEDE1EA7BA9B001ACBFE /* FMDB-Extras.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFCEDD1EA7BA9B001ACBFE /* FMDB-Extras.swift */; };
 		15FFCEE01EA7BADD001ACBFE /* AddPayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFCEDF1EA7BADD001ACBFE /* AddPayViewController.swift */; };
+		15FFCEE21EA7BD4A001ACBFE /* TerminalTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFCEE11EA7BD4A001ACBFE /* TerminalTableViewController.swift */; };
 		AC19E200E9438E979E027156 /* Pods_QianBao.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E970AE0B061867256E47D108 /* Pods_QianBao.framework */; };
 /* End PBXBuildFile section */
 
@@ -76,7 +76,6 @@
 /* Begin PBXFileReference section */
 		150D23661EA714170055CE68 /* QianBao.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QianBao.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		150D23691EA714170055CE68 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		150D236B1EA714170055CE68 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		150D236E1EA714170055CE68 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		150D23701EA714170055CE68 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		150D23731EA714170055CE68 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -108,6 +107,7 @@
 		15FFCEDA1EA7BA6F001ACBFE /* HUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
 		15FFCEDD1EA7BA9B001ACBFE /* FMDB-Extras.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FMDB-Extras.swift"; sourceTree = "<group>"; };
 		15FFCEDF1EA7BADD001ACBFE /* AddPayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPayViewController.swift; sourceTree = "<group>"; };
+		15FFCEE11EA7BD4A001ACBFE /* TerminalTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TerminalTableViewController.swift; sourceTree = "<group>"; };
 		9A9D7AFD3FE4D1ABAE5A6A78 /* Pods-QianBao.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QianBao.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QianBao/Pods-QianBao.debug.xcconfig"; sourceTree = "<group>"; };
 		DA59DB0975DD4F618F592712 /* Pods-QianBao.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QianBao.release.xcconfig"; path = "Pods/Target Support Files/Pods-QianBao/Pods-QianBao.release.xcconfig"; sourceTree = "<group>"; };
 		E970AE0B061867256E47D108 /* Pods_QianBao.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QianBao.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -173,10 +173,9 @@
 				15FFCEC41EA7B4CA001ACBFE /* General */,
 				15FFCEBF1EA7B420001ACBFE /* Libs */,
 				150D23691EA714170055CE68 /* AppDelegate.swift */,
-				150D236B1EA714170055CE68 /* ViewController.swift */,
-				150D236D1EA714170055CE68 /* Main.storyboard */,
 				150D23701EA714170055CE68 /* Assets.xcassets */,
 				150D23721EA714170055CE68 /* LaunchScreen.storyboard */,
+				150D236D1EA714170055CE68 /* Main.storyboard */,
 				150D23751EA714170055CE68 /* Info.plist */,
 				15FFCED11EA7BA12001ACBFE /* QianBao-Bridging-Header.h */,
 			);
@@ -222,6 +221,7 @@
 				15FFCEB81EA7B2DF001ACBFE /* MeViewController.swift */,
 				15FFCEB41EA7B2C5001ACBFE /* IncomeViewController.swift */,
 				15FFCEBA1EA7B2ED001ACBFE /* ConfViewController.swift */,
+				15FFCEE11EA7BD4A001ACBFE /* TerminalTableViewController.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -474,7 +474,6 @@
 			files = (
 				15FFCED91EA7BA55001ACBFE /* Rsync.swift in Sources */,
 				15FFCEBB1EA7B2ED001ACBFE /* ConfViewController.swift in Sources */,
-				150D236C1EA714170055CE68 /* ViewController.swift in Sources */,
 				15FFCEC61EA7B4CA001ACBFE /* TabbarViewController.swift in Sources */,
 				15FFCEB91EA7B2DF001ACBFE /* MeViewController.swift in Sources */,
 				15FFCEDB1EA7BA6F001ACBFE /* HUD.swift in Sources */,
@@ -489,6 +488,7 @@
 				15FFCECE1EA7B6D7001ACBFE /* MeCell.swift in Sources */,
 				15FFCEDE1EA7BA9B001ACBFE /* FMDB-Extras.swift in Sources */,
 				15FFCEB71EA7B2D5001ACBFE /* TransfViewController.swift in Sources */,
+				15FFCEE21EA7BD4A001ACBFE /* TerminalTableViewController.swift in Sources */,
 				15FFCEB31EA7B2B6001ACBFE /* PayViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
