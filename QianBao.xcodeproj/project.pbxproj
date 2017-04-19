@@ -20,6 +20,23 @@
 		156727311EA747B900AE472C /* SwiftyJSON.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1567271F1EA7438100AE472C /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		156727321EA747BC00AE472C /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1567271D1EA7437D00AE472C /* Alamofire.framework */; };
 		156727331EA747BC00AE472C /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1567271D1EA7437D00AE472C /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		15FFCEB31EA7B2B6001ACBFE /* PayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFCEB21EA7B2B6001ACBFE /* PayViewController.swift */; };
+		15FFCEB51EA7B2C5001ACBFE /* IncomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFCEB41EA7B2C5001ACBFE /* IncomeViewController.swift */; };
+		15FFCEB71EA7B2D5001ACBFE /* TransfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFCEB61EA7B2D5001ACBFE /* TransfViewController.swift */; };
+		15FFCEB91EA7B2DF001ACBFE /* MeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFCEB81EA7B2DF001ACBFE /* MeViewController.swift */; };
+		15FFCEBB1EA7B2ED001ACBFE /* ConfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFCEBA1EA7B2ED001ACBFE /* ConfViewController.swift */; };
+		15FFCEBE1EA7B3F0001ACBFE /* ZYKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFCEBD1EA7B3F0001ACBFE /* ZYKeyboard.swift */; };
+		15FFCEC11EA7B434001ACBFE /* tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFCEC01EA7B434001ACBFE /* tools.swift */; };
+		15FFCEC31EA7B450001ACBFE /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFCEC21EA7B450001ACBFE /* Date.swift */; };
+		15FFCEC61EA7B4CA001ACBFE /* TabbarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFCEC51EA7B4CA001ACBFE /* TabbarViewController.swift */; };
+		15FFCECE1EA7B6D7001ACBFE /* MeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFCECD1EA7B6D7001ACBFE /* MeCell.swift */; };
+		15FFCED01EA7B6E4001ACBFE /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFCECF1EA7B6E4001ACBFE /* ListCell.swift */; };
+		15FFCED71EA7BA55001ACBFE /* Init.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 15FFCED41EA7BA55001ACBFE /* Init.sqlite */; };
+		15FFCED81EA7BA55001ACBFE /* Db.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFCED51EA7BA55001ACBFE /* Db.swift */; };
+		15FFCED91EA7BA55001ACBFE /* Rsync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFCED61EA7BA55001ACBFE /* Rsync.swift */; };
+		15FFCEDB1EA7BA6F001ACBFE /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFCEDA1EA7BA6F001ACBFE /* HUD.swift */; };
+		15FFCEDE1EA7BA9B001ACBFE /* FMDB-Extras.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFCEDD1EA7BA9B001ACBFE /* FMDB-Extras.swift */; };
+		15FFCEE01EA7BADD001ACBFE /* AddPayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFCEDF1EA7BADD001ACBFE /* AddPayViewController.swift */; };
 		AC19E200E9438E979E027156 /* Pods_QianBao.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E970AE0B061867256E47D108 /* Pods_QianBao.framework */; };
 /* End PBXBuildFile section */
 
@@ -73,6 +90,24 @@
 		1567271D1EA7437D00AE472C /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		1567271F1EA7438100AE472C /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
 		156727211EA746A500AE472C /* MBProgressHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MBProgressHUD.framework; path = Carthage/Build/iOS/MBProgressHUD.framework; sourceTree = "<group>"; };
+		15FFCEB21EA7B2B6001ACBFE /* PayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PayViewController.swift; sourceTree = "<group>"; };
+		15FFCEB41EA7B2C5001ACBFE /* IncomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncomeViewController.swift; sourceTree = "<group>"; };
+		15FFCEB61EA7B2D5001ACBFE /* TransfViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransfViewController.swift; sourceTree = "<group>"; };
+		15FFCEB81EA7B2DF001ACBFE /* MeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeViewController.swift; sourceTree = "<group>"; };
+		15FFCEBA1EA7B2ED001ACBFE /* ConfViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfViewController.swift; sourceTree = "<group>"; };
+		15FFCEBD1EA7B3F0001ACBFE /* ZYKeyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZYKeyboard.swift; sourceTree = "<group>"; };
+		15FFCEC01EA7B434001ACBFE /* tools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = tools.swift; sourceTree = "<group>"; };
+		15FFCEC21EA7B450001ACBFE /* Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		15FFCEC51EA7B4CA001ACBFE /* TabbarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabbarViewController.swift; sourceTree = "<group>"; };
+		15FFCECD1EA7B6D7001ACBFE /* MeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeCell.swift; sourceTree = "<group>"; };
+		15FFCECF1EA7B6E4001ACBFE /* ListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
+		15FFCED11EA7BA12001ACBFE /* QianBao-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "QianBao-Bridging-Header.h"; sourceTree = "<group>"; };
+		15FFCED41EA7BA55001ACBFE /* Init.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = Init.sqlite; sourceTree = "<group>"; };
+		15FFCED51EA7BA55001ACBFE /* Db.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Db.swift; sourceTree = "<group>"; };
+		15FFCED61EA7BA55001ACBFE /* Rsync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rsync.swift; sourceTree = "<group>"; };
+		15FFCEDA1EA7BA6F001ACBFE /* HUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
+		15FFCEDD1EA7BA9B001ACBFE /* FMDB-Extras.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FMDB-Extras.swift"; sourceTree = "<group>"; };
+		15FFCEDF1EA7BADD001ACBFE /* AddPayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPayViewController.swift; sourceTree = "<group>"; };
 		9A9D7AFD3FE4D1ABAE5A6A78 /* Pods-QianBao.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QianBao.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QianBao/Pods-QianBao.debug.xcconfig"; sourceTree = "<group>"; };
 		DA59DB0975DD4F618F592712 /* Pods-QianBao.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QianBao.release.xcconfig"; path = "Pods/Target Support Files/Pods-QianBao/Pods-QianBao.release.xcconfig"; sourceTree = "<group>"; };
 		E970AE0B061867256E47D108 /* Pods_QianBao.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QianBao.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -132,12 +167,18 @@
 		150D23681EA714170055CE68 /* QianBao */ = {
 			isa = PBXGroup;
 			children = (
+				15FFCEAE1EA7B249001ACBFE /* Classes */,
+				15FFCEBC1EA7B3DC001ACBFE /* Utils */,
+				15FFCEDC1EA7BA90001ACBFE /* Extensions */,
+				15FFCEC41EA7B4CA001ACBFE /* General */,
+				15FFCEBF1EA7B420001ACBFE /* Libs */,
 				150D23691EA714170055CE68 /* AppDelegate.swift */,
 				150D236B1EA714170055CE68 /* ViewController.swift */,
 				150D236D1EA714170055CE68 /* Main.storyboard */,
 				150D23701EA714170055CE68 /* Assets.xcassets */,
 				150D23721EA714170055CE68 /* LaunchScreen.storyboard */,
 				150D23751EA714170055CE68 /* Info.plist */,
+				15FFCED11EA7BA12001ACBFE /* QianBao-Bridging-Header.h */,
 			);
 			path = QianBao;
 			sourceTree = "<group>";
@@ -169,6 +210,66 @@
 				E970AE0B061867256E47D108 /* Pods_QianBao.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		15FFCEAE1EA7B249001ACBFE /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				15FFCEC81EA7B66D001ACBFE /* Cells */,
+				15FFCEB21EA7B2B6001ACBFE /* PayViewController.swift */,
+				15FFCEB61EA7B2D5001ACBFE /* TransfViewController.swift */,
+				15FFCEDF1EA7BADD001ACBFE /* AddPayViewController.swift */,
+				15FFCEB81EA7B2DF001ACBFE /* MeViewController.swift */,
+				15FFCEB41EA7B2C5001ACBFE /* IncomeViewController.swift */,
+				15FFCEBA1EA7B2ED001ACBFE /* ConfViewController.swift */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		15FFCEBC1EA7B3DC001ACBFE /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				15FFCEDA1EA7BA6F001ACBFE /* HUD.swift */,
+				15FFCEBD1EA7B3F0001ACBFE /* ZYKeyboard.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		15FFCEBF1EA7B420001ACBFE /* Libs */ = {
+			isa = PBXGroup;
+			children = (
+				15FFCED41EA7BA55001ACBFE /* Init.sqlite */,
+				15FFCED51EA7BA55001ACBFE /* Db.swift */,
+				15FFCED61EA7BA55001ACBFE /* Rsync.swift */,
+				15FFCEC01EA7B434001ACBFE /* tools.swift */,
+				15FFCEC21EA7B450001ACBFE /* Date.swift */,
+			);
+			path = Libs;
+			sourceTree = "<group>";
+		};
+		15FFCEC41EA7B4CA001ACBFE /* General */ = {
+			isa = PBXGroup;
+			children = (
+				15FFCEC51EA7B4CA001ACBFE /* TabbarViewController.swift */,
+			);
+			path = General;
+			sourceTree = "<group>";
+		};
+		15FFCEC81EA7B66D001ACBFE /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				15FFCECD1EA7B6D7001ACBFE /* MeCell.swift */,
+				15FFCECF1EA7B6E4001ACBFE /* ListCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		15FFCEDC1EA7BA90001ACBFE /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				15FFCEDD1EA7BA9B001ACBFE /* FMDB-Extras.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		88002736E9F39AAEF85759A8 /* Pods */ = {
@@ -253,6 +354,7 @@
 					150D23651EA714170055CE68 = {
 						CreatedOnToolsVersion = 8.3.1;
 						DevelopmentTeam = 6C4NVVWZ6V;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
 					150D23791EA714180055CE68 = {
@@ -297,6 +399,7 @@
 				150D23741EA714170055CE68 /* LaunchScreen.storyboard in Resources */,
 				150D23711EA714170055CE68 /* Assets.xcassets in Resources */,
 				150D236F1EA714170055CE68 /* Main.storyboard in Resources */,
+				15FFCED71EA7BA55001ACBFE /* Init.sqlite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -369,8 +472,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15FFCED91EA7BA55001ACBFE /* Rsync.swift in Sources */,
+				15FFCEBB1EA7B2ED001ACBFE /* ConfViewController.swift in Sources */,
 				150D236C1EA714170055CE68 /* ViewController.swift in Sources */,
+				15FFCEC61EA7B4CA001ACBFE /* TabbarViewController.swift in Sources */,
+				15FFCEB91EA7B2DF001ACBFE /* MeViewController.swift in Sources */,
+				15FFCEDB1EA7BA6F001ACBFE /* HUD.swift in Sources */,
+				15FFCEC11EA7B434001ACBFE /* tools.swift in Sources */,
+				15FFCED01EA7B6E4001ACBFE /* ListCell.swift in Sources */,
+				15FFCEB51EA7B2C5001ACBFE /* IncomeViewController.swift in Sources */,
+				15FFCEE01EA7BADD001ACBFE /* AddPayViewController.swift in Sources */,
+				15FFCED81EA7BA55001ACBFE /* Db.swift in Sources */,
 				150D236A1EA714170055CE68 /* AppDelegate.swift in Sources */,
+				15FFCEBE1EA7B3F0001ACBFE /* ZYKeyboard.swift in Sources */,
+				15FFCEC31EA7B450001ACBFE /* Date.swift in Sources */,
+				15FFCECE1EA7B6D7001ACBFE /* MeCell.swift in Sources */,
+				15FFCEDE1EA7BA9B001ACBFE /* FMDB-Extras.swift in Sources */,
+				15FFCEB71EA7B2D5001ACBFE /* TransfViewController.swift in Sources */,
+				15FFCEB31EA7B2B6001ACBFE /* PayViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -526,6 +645,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 6C4NVVWZ6V;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -535,7 +655,10 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = zhiyuan.QianBao;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "QianBao/QianBao-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -545,6 +668,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 6C4NVVWZ6V;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -554,7 +678,9 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = zhiyuan.QianBao;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "QianBao/QianBao-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
