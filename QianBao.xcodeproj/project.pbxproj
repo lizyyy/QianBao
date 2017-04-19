@@ -14,6 +14,12 @@
 		150D23741EA714170055CE68 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 150D23721EA714170055CE68 /* LaunchScreen.storyboard */; };
 		150D237F1EA714180055CE68 /* QianBaoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150D237E1EA714180055CE68 /* QianBaoTests.swift */; };
 		150D238A1EA714180055CE68 /* QianBaoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150D23891EA714180055CE68 /* QianBaoUITests.swift */; };
+		1567272E1EA747B700AE472C /* MBProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 156727211EA746A500AE472C /* MBProgressHUD.framework */; };
+		1567272F1EA747B700AE472C /* MBProgressHUD.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 156727211EA746A500AE472C /* MBProgressHUD.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		156727301EA747B900AE472C /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1567271F1EA7438100AE472C /* SwiftyJSON.framework */; };
+		156727311EA747B900AE472C /* SwiftyJSON.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1567271F1EA7438100AE472C /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		156727321EA747BC00AE472C /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1567271D1EA7437D00AE472C /* Alamofire.framework */; };
+		156727331EA747BC00AE472C /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1567271D1EA7437D00AE472C /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,6 +39,22 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		1567272A1EA7479400AE472C /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				156727311EA747B900AE472C /* SwiftyJSON.framework in Embed Frameworks */,
+				156727331EA747BC00AE472C /* Alamofire.framework in Embed Frameworks */,
+				1567272F1EA747B700AE472C /* MBProgressHUD.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		150D23661EA714170055CE68 /* QianBao.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QianBao.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		150D23691EA714170055CE68 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -47,6 +69,9 @@
 		150D23851EA714180055CE68 /* QianBaoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QianBaoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		150D23891EA714180055CE68 /* QianBaoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QianBaoUITests.swift; sourceTree = "<group>"; };
 		150D238B1EA714180055CE68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1567271D1EA7437D00AE472C /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
+		1567271F1EA7438100AE472C /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
+		156727211EA746A500AE472C /* MBProgressHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MBProgressHUD.framework; path = Carthage/Build/iOS/MBProgressHUD.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +79,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				156727301EA747B900AE472C /* SwiftyJSON.framework in Frameworks */,
+				156727321EA747BC00AE472C /* Alamofire.framework in Frameworks */,
+				1567272E1EA747B700AE472C /* MBProgressHUD.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +109,7 @@
 				150D237D1EA714180055CE68 /* QianBaoTests */,
 				150D23881EA714180055CE68 /* QianBaoUITests */,
 				150D23671EA714170055CE68 /* Products */,
+				1567271C1EA7437D00AE472C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -125,6 +154,16 @@
 			path = QianBaoUITests;
 			sourceTree = "<group>";
 		};
+		1567271C1EA7437D00AE472C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				156727211EA746A500AE472C /* MBProgressHUD.framework */,
+				1567271F1EA7438100AE472C /* SwiftyJSON.framework */,
+				1567271D1EA7437D00AE472C /* Alamofire.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -135,6 +174,7 @@
 				150D23621EA714170055CE68 /* Sources */,
 				150D23631EA714170055CE68 /* Frameworks */,
 				150D23641EA714170055CE68 /* Resources */,
+				1567272A1EA7479400AE472C /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -418,6 +458,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 6C4NVVWZ6V;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = QianBao/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = zhiyuan.QianBao;
@@ -431,6 +475,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 6C4NVVWZ6V;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = QianBao/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = zhiyuan.QianBao;
@@ -516,6 +564,7 @@
 				150D23901EA714180055CE68 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		150D23911EA714180055CE68 /* Build configuration list for PBXNativeTarget "QianBaoTests" */ = {
 			isa = XCConfigurationList;
@@ -524,6 +573,7 @@
 				150D23931EA714180055CE68 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		150D23941EA714180055CE68 /* Build configuration list for PBXNativeTarget "QianBaoUITests" */ = {
 			isa = XCConfigurationList;
@@ -532,6 +582,7 @@
 				150D23961EA714180055CE68 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

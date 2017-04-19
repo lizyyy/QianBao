@@ -1,0 +1,6 @@
+github "Alamofire/Alamofire" ~> 4.0
+
+github "SwiftyJSON/SwiftyJSON"
+
+
+github "jdg/MBProgressHUD" ~> 1.0.0 
