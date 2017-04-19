@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "150D232B1EA7136A0055CE68"
+               BlueprintIdentifier = "150D23651EA714170055CE68"
                BuildableName = "QianBao.app"
                BlueprintName = "QianBao"
                ReferencedContainer = "container:QianBao.xcodeproj">
@@ -32,7 +32,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "150D233F1EA7136A0055CE68"
+               BlueprintIdentifier = "150D23791EA714180055CE68"
                BuildableName = "QianBaoTests.xctest"
                BlueprintName = "QianBaoTests"
                ReferencedContainer = "container:QianBao.xcodeproj">
@@ -42,7 +42,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "150D234A1EA7136A0055CE68"
+               BlueprintIdentifier = "150D23841EA714180055CE68"
                BuildableName = "QianBaoUITests.xctest"
                BlueprintName = "QianBaoUITests"
                ReferencedContainer = "container:QianBao.xcodeproj">
@@ -52,7 +52,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "150D232B1EA7136A0055CE68"
+            BlueprintIdentifier = "150D23651EA714170055CE68"
             BuildableName = "QianBao.app"
             BlueprintName = "QianBao"
             ReferencedContainer = "container:QianBao.xcodeproj">
@@ -75,7 +75,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "150D232B1EA7136A0055CE68"
+            BlueprintIdentifier = "150D23651EA714170055CE68"
             BuildableName = "QianBao.app"
             BlueprintName = "QianBao"
             ReferencedContainer = "container:QianBao.xcodeproj">
@@ -94,7 +94,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "150D232B1EA7136A0055CE68"
+            BlueprintIdentifier = "150D23651EA714170055CE68"
             BuildableName = "QianBao.app"
             BlueprintName = "QianBao"
             ReferencedContainer = "container:QianBao.xcodeproj">
