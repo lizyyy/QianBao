@@ -17,7 +17,7 @@ class IncomeViewController:UITableViewController {
     }
     
     func inittitle()->IncomeViewController{
-        
+        self.title = "Income"
         return self
     }
     
@@ -31,7 +31,12 @@ class IncomeViewController:UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        let alertController = UIAlertController(title: "输入接口地址：", message: "", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "确认", style: .default, handler: {(action) in
+            UserDefaults.standard.setValue(alertController.textFields?[0].text, forKey: "apiUrl")
+        }))
+        alertController.addTextField(configurationHandler: {(text:UITextField) in text.text = UserDefaults.standard.string(forKey: "apiUrl")})
+        present(alertController, animated: false, completion: nil)
     }
     
     //MARK: - UITableViewDataSource

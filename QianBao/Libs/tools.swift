@@ -48,6 +48,9 @@ func today()->String{
 }
 
 
+
+
+
 func toJSONString2(_ dict:NSDictionary!)->NSString{
     var data: Data?
     do {

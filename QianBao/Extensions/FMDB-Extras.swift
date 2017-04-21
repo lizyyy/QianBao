@@ -23,7 +23,6 @@ extension FMDatabase {
             }
             rs.close()
         }
-        
         return result
     }
     

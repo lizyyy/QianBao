@@ -13,9 +13,9 @@ import MBProgressHUD
 class ConfViewController : UITableViewController{
     var progress:Float = 0
     fileprivate let itemDataSouce: [ [(name:String,iconImage:UIImage?)]] = [
-        [("导入",nil),("导出",nil)],
+        [("导入",nil),("-导出",nil)],
         [("设备ID",nil),("接口地址",nil)],
-        [("建议",nil),("关于",nil)]]
+        [("-建议",nil),("-关于",nil)]]
     
     
     let tableName = ["qian8_bank","qian8_bank_list","qian8_income_category",
@@ -33,6 +33,12 @@ class ConfViewController : UITableViewController{
     func inittitle()->ConfViewController{
         self.title = "Config"
         return self
+    }
+    
+    override func viewWillAppear(_ animated: Bool)
+    {
+        super.viewWillAppear(animated)
+        self.tableView.reloadData()
     }
     
     //MARK: - UITableViewDelegate
@@ -95,7 +101,10 @@ class ConfViewController : UITableViewController{
                     UserDefaults.standard.setValue(alertController.textFields?[0].text, forKey: "apiUrl")
                 }))
                 alertController.addTextField(configurationHandler: {(text:UITextField) in text.text = UserDefaults.standard.string(forKey: "apiUrl")})
-                present(alertController, animated: true, completion: nil)
+                //DispatchQueue.main.async { //奇怪，这里竟然要在主线程弹出。官方文档并没有说呀
+                self.present(alertController, animated: false, completion: nil)
+                //}
+                CFRunLoopWakeUp(CFRunLoopGetCurrent()); //这个也能解决双击才能弹出的问题
             default:break
             }
         default:break
@@ -177,6 +186,13 @@ class ConfViewController : UITableViewController{
         cell.selectionStyle = UITableViewCellSelectionStyle.none
         let item = self.itemDataSouce[indexPath.section][indexPath.row]
         cell.textLabel?.text = item.name
+        if (indexPath.row == 0 && indexPath.section == 1){
+             
+            cell.selectionStyle = UITableViewCellSelectionStyle.none
+            cell.accessoryType = .disclosureIndicator
+            cell.detailTextLabel?.text = DBRecord.userAgent()[ UserDefaults.standard.integer(forKey: "DeviceID")]
+       
+        }
         return cell
     }
 }

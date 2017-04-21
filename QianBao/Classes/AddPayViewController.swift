@@ -26,7 +26,7 @@ class AddPayViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDeleg
     var datePicker  = UIDatePicker(frame: CGRect(x: 0, y: ScreenH-220, width: ScreenW, height: 252))
     var timebtn     = UIButton(type: UIButtonType.system)
     var button      = UIButton(type: UIButtonType.system)
-    var userdata    = [bankItem]()
+    var userdata    = [userItem]()
     var ctgdata     = [expenseItem]()
     var bankdata    = [bankItem]()
     override func viewDidLoad() {
@@ -41,7 +41,7 @@ class AddPayViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDeleg
         datePicker.locale =  Locale(identifier: "zh_CN")
         datePicker.timeZone = TimeZone.current
         //pickerview 定义
-        userdata = DBRecord().getBankUser()
+        userdata = DBRecord().getUserName()
         ctgdata = DBRecord().getExpenses()
         bankdata = DBRecord().getBank()
         pickerView.delegate = self;
@@ -77,6 +77,7 @@ class AddPayViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDeleg
         button.backgroundColor =  UIColor.white
         button.setTitleColor(UIColor.gray, for: UIControlState())
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+    
         if(UserDefaults.standard.integer(forKey: "DeviceID")  == 1 ){
             button.setTitle("lzy-食品-LZY【现金】", for: UIControlState())
         }else{
@@ -195,7 +196,7 @@ class AddPayViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDeleg
         myView.backgroundColor = UIColor.clear
         if(component == 0){
             myView.frame = CGRect(x: 10, y: 0, width: 40, height: 40)
-            myView.text =  userdata[row].name
+            myView.text =  userdata[row].user
         }else if(component == 1) {
             myView.frame = CGRect(x: 10, y: 0.0, width: 60, height: 40)
             myView.text =  ctgdata[row].name
@@ -207,7 +208,8 @@ class AddPayViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDeleg
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        let user =  userdata[pickerView.selectedRow(inComponent: 0)].name
+
+        let user =  userdata[pickerView.selectedRow(inComponent: 0)].user
         let ctg = ctgdata[pickerView.selectedRow(inComponent: 1)].name
         let bank = bankdata[pickerView.selectedRow(inComponent: 2)].name
         button.setTitle("\(user)-\(ctg)-\(bank)", for: UIControlState())
@@ -220,7 +222,7 @@ class AddPayViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDeleg
     func done(){
         if(!checkForm()){return}
         //获取所有数据：
-        let userid:Int  = userdata[pickerView.selectedRow(inComponent: 0)].user_id
+        let userid:Int  = userdata[pickerView.selectedRow(inComponent: 0)].id
         let ctgid:Int   = ctgdata[pickerView.selectedRow(inComponent: 1)].id
         let bankid:Int  = bankdata[pickerView.selectedRow(inComponent: 2)].id
         let date:String = self.timebtn.title(for: UIControlState())!

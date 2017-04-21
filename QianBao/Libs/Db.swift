@@ -16,7 +16,15 @@ protocol Foo {
 class DBRecord {
     let db = DBUserManager.sharedInstance.openUserDB()!
     func execute(sql:String){
+        print("[debug_sql_execute] " + sql)
         self.db.executeStatements(sql)
+    }
+    
+    func query(_ sql: String!, values: [Any]!) -> FMResultSet {
+        print("[debug_sql_query] " + sql)
+        do{
+            return  try self.db.executeQuery(sql, values: values)
+        }catch{ return FMResultSet()}
     }
     
     func lastid()-> Int {
@@ -27,58 +35,51 @@ class DBRecord {
         return [1:"lzy's iphone",2:"jyy's iphone",3:"macbook",4:"初始化设备数据"]
     }
     
-    //MARK: 获取用户
+    
+    //MARK: 获取用户组
     func getBankUser()-> [bankItem]{
-        do{
-            let data = try self.db.executeQuery("select * from qian8_bank group by user_id", values: nil)
-            return bankSet(data)
-        }catch{ return []}
+        let data = self.query("select * from qian8_bank group by user_id", values: nil)
+        return bankSet(data)
     }
+    
+    func getUserName()-> [userItem]{
+        let data = self.query("select * from qian8_user", values: nil)
+        return userSet(data)
+    }
+    
     
     //MARK: 获取银行账户列表
     func getBank() -> [bankItem] {
-        do{
-            let data = try self.db.executeQuery("select * from qian8_bank", values: nil)
-            return bankSet(data)
-        }catch{ return []}
+        let data =  self.query("select * from qian8_bank", values: nil)
+        return bankSet(data)
     }
     
     //MARK: 获取支出数据
     func getExpensesList() ->[expenseListItem] {
-        do{
-            let data = try self.db.executeQuery("select l.*,c.name as cate_name,u.user as user_name,b.name as bank_name from qian8_expense_category c,qian8_expense_list l,qian8_bank b,qian8_user u where l.cate_id = c.id and l.user_id = u.id and l.bank_id = b.id and l.time like '2016%' order by l.time desc", values: nil)
-            return expenseListSet(data)
-        }catch{ return []}
+        let data =  self.query("select l.*,c.name as cate_name,u.user as user_name,b.name as bank_name from qian8_expense_category c,qian8_expense_list l,qian8_bank b,qian8_user u where l.cate_id = c.id and l.user_id = u.id and l.bank_id = b.id and l.time like '2016%' order by l.time desc", values: nil)
+        return expenseListSet(data)
     }
     
     func getExpenses() ->[expenseItem] {
-        do{
-            let data = try self.db.executeQuery("select * from qian8_expense_category", values: nil)
-            return expenseSet(data)
-        }catch{ return []}
+        let data =  self.query("select * from qian8_expense_category", values: nil)
+        return expenseSet(data)
     }
     
     //MARK: 获取收入数据
     func getIncomeList() ->[incomeListItem] {
-        do{
-            let data = try self.db.executeQuery("select * from qian8_income_list where time like '2016-11%'", values: nil)
-            return incomeListSet(data)
-        }catch{ return []}
+        let data =  self.query("select * from qian8_income_list where time like '2016-11%'", values: nil)
+        return incomeListSet(data)
     }
     
     func getIncome() ->[incomeItem] {
-        do{
-            let data = try self.db.executeQuery("select * from qian8_income_category", values: nil)
-            return incomeSet(data)
-        }catch{ return []}
+        let data =  self.query("select * from qian8_income_category", values: nil)
+        return incomeSet(data)
     }
     
     //MARK: 获取转账数据
     func getBankList() ->[bankListItem] {
-        do{
-            let data = try self.db.executeQuery("select * from qian8_bank_list where time like '2016-11%'", values: nil)
-            return bankListSet(data)
-        }catch{ return []}
+        let data =  self.query("select * from qian8_bank_list where time like '2016-11%'", values: nil)
+        return bankListSet(data)
     }
     
     
@@ -109,6 +110,17 @@ class DBRecord {
     }
     
     //MARK:- 设置数据集
+    func userSet(_ data:FMResultSet) ->[userItem] {
+        var rs = [userItem]()
+        while (data.next() != false){
+            var item = userItem()
+            item.id = Int(data.int(forColumn: "id"))
+            item.user = data.string(forColumn:"user")
+            rs.append(item)
+        }
+        return rs
+    }
+    
     func bankSet(_ data:FMResultSet) ->[bankItem] {
         var rs = [bankItem]()
         while (data.next() != false){
@@ -203,6 +215,11 @@ class DBRecord {
         }
         return rs
     }
+}
+
+struct userItem { //用户基本信息
+    var id  = 0
+    var user = ""
 }
 
 struct bankItem { //银行账户信息

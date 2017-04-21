@@ -13,13 +13,9 @@ class PayViewController:UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
+        self.title = "Pay"
     }
-    
-    func inittitle()->PayViewController{
-        
-        return self
-    }
-    
+ 
     // MARK: - 按钮
     func 添加页(){
         let addpayview = AddPayViewController()

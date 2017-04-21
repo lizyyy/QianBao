@@ -77,9 +77,9 @@
 		150D23661EA714170055CE68 /* QianBao.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QianBao.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		150D23691EA714170055CE68 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		150D236E1EA714170055CE68 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		150D23701EA714170055CE68 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		150D23701EA714170055CE68 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../Assets.xcassets; sourceTree = "<group>"; };
 		150D23731EA714170055CE68 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		150D23751EA714170055CE68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		150D23751EA714170055CE68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../Info.plist; sourceTree = "<group>"; };
 		150D237A1EA714180055CE68 /* QianBaoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QianBaoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		150D237E1EA714180055CE68 /* QianBaoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QianBaoTests.swift; sourceTree = "<group>"; };
 		150D23801EA714180055CE68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -100,7 +100,7 @@
 		15FFCEC51EA7B4CA001ACBFE /* TabbarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabbarViewController.swift; sourceTree = "<group>"; };
 		15FFCECD1EA7B6D7001ACBFE /* MeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeCell.swift; sourceTree = "<group>"; };
 		15FFCECF1EA7B6E4001ACBFE /* ListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
-		15FFCED11EA7BA12001ACBFE /* QianBao-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "QianBao-Bridging-Header.h"; sourceTree = "<group>"; };
+		15FFCED11EA7BA12001ACBFE /* QianBao-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "QianBao-Bridging-Header.h"; path = "../QianBao-Bridging-Header.h"; sourceTree = "<group>"; };
 		15FFCED41EA7BA55001ACBFE /* Init.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = Init.sqlite; sourceTree = "<group>"; };
 		15FFCED51EA7BA55001ACBFE /* Db.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Db.swift; sourceTree = "<group>"; };
 		15FFCED61EA7BA55001ACBFE /* Rsync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rsync.swift; sourceTree = "<group>"; };
@@ -173,11 +173,6 @@
 				15FFCEC41EA7B4CA001ACBFE /* General */,
 				15FFCEBF1EA7B420001ACBFE /* Libs */,
 				150D23691EA714170055CE68 /* AppDelegate.swift */,
-				150D23701EA714170055CE68 /* Assets.xcassets */,
-				150D23721EA714170055CE68 /* LaunchScreen.storyboard */,
-				150D236D1EA714170055CE68 /* Main.storyboard */,
-				150D23751EA714170055CE68 /* Info.plist */,
-				15FFCED11EA7BA12001ACBFE /* QianBao-Bridging-Header.h */,
 			);
 			path = QianBao;
 			sourceTree = "<group>";
@@ -216,8 +211,8 @@
 			children = (
 				15FFCEC81EA7B66D001ACBFE /* Cells */,
 				15FFCEB21EA7B2B6001ACBFE /* PayViewController.swift */,
-				15FFCEB61EA7B2D5001ACBFE /* TransfViewController.swift */,
 				15FFCEDF1EA7BADD001ACBFE /* AddPayViewController.swift */,
+				15FFCEB61EA7B2D5001ACBFE /* TransfViewController.swift */,
 				15FFCEB81EA7B2DF001ACBFE /* MeViewController.swift */,
 				15FFCEB41EA7B2C5001ACBFE /* IncomeViewController.swift */,
 				15FFCEBA1EA7B2ED001ACBFE /* ConfViewController.swift */,
@@ -250,6 +245,11 @@
 		15FFCEC41EA7B4CA001ACBFE /* General */ = {
 			isa = PBXGroup;
 			children = (
+				150D236D1EA714170055CE68 /* Main.storyboard */,
+				150D23751EA714170055CE68 /* Info.plist */,
+				15FFCED11EA7BA12001ACBFE /* QianBao-Bridging-Header.h */,
+				150D23701EA714170055CE68 /* Assets.xcassets */,
+				150D23721EA714170055CE68 /* LaunchScreen.storyboard */,
 				15FFCEC51EA7B4CA001ACBFE /* TabbarViewController.swift */,
 			);
 			path = General;
@@ -531,6 +531,7 @@
 				150D236E1EA714170055CE68 /* Base */,
 			);
 			name = Main.storyboard;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		150D23721EA714170055CE68 /* LaunchScreen.storyboard */ = {
@@ -539,6 +540,7 @@
 				150D23731EA714170055CE68 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			path = ..;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
