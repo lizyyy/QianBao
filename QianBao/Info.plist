@@ -33,6 +33,10 @@
 	<string>允许此权限才能录音</string>
 	<key>Privacy - Photo Library Usage Description</key>
 	<string>允许此权限才能保存图片</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>FontAwesome.ttf</string>
+	</array>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

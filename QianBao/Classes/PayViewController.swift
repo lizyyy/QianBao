@@ -10,13 +10,33 @@ import UIKit
 
 class PayViewController:UITableViewController {
     let dataList = DBRecord().getExpensesList()
+    let navView = NavView()
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
-        self.title = "Pay"
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add,target: self,action:#selector(PayViewController.添加页))
+        
+        //生成一个navView
+        let view = navView.view(title:"{当前年月}->all->全部")
+        navView.btnLeft.addTarget(self, action: #selector(self.previousM), for: .touchUpInside)
+        navView.btnMid.addTarget(self, action: #selector(self.midAction), for: .touchUpInside)
+        navView.btnRight.addTarget(self, action: #selector(self.nextM), for: .touchUpInside)
+        self.navigationController?.navigationBar.addSubview(view)
     }
- 
-    // MARK: - 按钮
+
+    // MARK: - 一些方法
+    func previousM(sender: UIButton!) {
+        navView.btnMid.setTitle("aaaa", for: UIControlState())
+    }
+    
+    func midAction(sender: UIButton!){
+        navView.btnMid.setTitle("ccc", for: UIControlState())
+    }
+    
+    func nextM(sender: UIButton!){
+        navView.btnMid.setTitle("bbb", for: UIControlState())
+    }
+    
     func 添加页(){
         let addpayview = AddPayViewController()
         //addpayview.delegate = self

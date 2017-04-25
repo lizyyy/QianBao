@@ -96,3 +96,4 @@ func createImageWithColor(color:UIColor, size rect:CGRect =  CGRect(x:0, y:0, wi
     return theImage!
 }
 
+

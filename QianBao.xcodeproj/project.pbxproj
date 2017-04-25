@@ -13,12 +13,17 @@
 		150D23741EA714170055CE68 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 150D23721EA714170055CE68 /* LaunchScreen.storyboard */; };
 		150D237F1EA714180055CE68 /* QianBaoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150D237E1EA714180055CE68 /* QianBaoTests.swift */; };
 		150D238A1EA714180055CE68 /* QianBaoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150D23891EA714180055CE68 /* QianBaoUITests.swift */; };
+		151394A11EAF53C2006CC3D2 /* Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151394A01EAF53C2006CC3D2 /* Views.swift */; };
 		1567272E1EA747B700AE472C /* MBProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 156727211EA746A500AE472C /* MBProgressHUD.framework */; };
 		1567272F1EA747B700AE472C /* MBProgressHUD.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 156727211EA746A500AE472C /* MBProgressHUD.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		156727301EA747B900AE472C /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1567271F1EA7438100AE472C /* SwiftyJSON.framework */; };
 		156727311EA747B900AE472C /* SwiftyJSON.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1567271F1EA7438100AE472C /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		156727321EA747BC00AE472C /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1567271D1EA7437D00AE472C /* Alamofire.framework */; };
 		156727331EA747BC00AE472C /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1567271D1EA7437D00AE472C /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		15912C5B1EAD9BF400A95D9C /* BButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 15912C541EAD9BF400A95D9C /* BButton.m */; };
+		15912C5C1EAD9BF400A95D9C /* NSString+FontAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 15912C561EAD9BF400A95D9C /* NSString+FontAwesome.m */; };
+		15912C5E1EAD9BF400A95D9C /* UIColor+BButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 15912C5A1EAD9BF400A95D9C /* UIColor+BButton.m */; };
+		15912C691EAD9FEF00A95D9C /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 15912C581EAD9BF400A95D9C /* FontAwesome.ttf */; };
 		15FFCEB31EA7B2B6001ACBFE /* PayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFCEB21EA7B2B6001ACBFE /* PayViewController.swift */; };
 		15FFCEB51EA7B2C5001ACBFE /* IncomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFCEB41EA7B2C5001ACBFE /* IncomeViewController.swift */; };
 		15FFCEB71EA7B2D5001ACBFE /* TransfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFCEB61EA7B2D5001ACBFE /* TransfViewController.swift */; };
@@ -86,9 +91,17 @@
 		150D23851EA714180055CE68 /* QianBaoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QianBaoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		150D23891EA714180055CE68 /* QianBaoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QianBaoUITests.swift; sourceTree = "<group>"; };
 		150D238B1EA714180055CE68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		151394A01EAF53C2006CC3D2 /* Views.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Views.swift; sourceTree = "<group>"; };
 		1567271D1EA7437D00AE472C /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		1567271F1EA7438100AE472C /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
 		156727211EA746A500AE472C /* MBProgressHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MBProgressHUD.framework; path = Carthage/Build/iOS/MBProgressHUD.framework; sourceTree = "<group>"; };
+		15912C531EAD9BF400A95D9C /* BButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BButton.h; sourceTree = "<group>"; };
+		15912C541EAD9BF400A95D9C /* BButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BButton.m; sourceTree = "<group>"; };
+		15912C551EAD9BF400A95D9C /* NSString+FontAwesome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+FontAwesome.h"; sourceTree = "<group>"; };
+		15912C561EAD9BF400A95D9C /* NSString+FontAwesome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+FontAwesome.m"; sourceTree = "<group>"; };
+		15912C581EAD9BF400A95D9C /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
+		15912C591EAD9BF400A95D9C /* UIColor+BButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+BButton.h"; sourceTree = "<group>"; };
+		15912C5A1EAD9BF400A95D9C /* UIColor+BButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+BButton.m"; sourceTree = "<group>"; };
 		15FFCEB21EA7B2B6001ACBFE /* PayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PayViewController.swift; sourceTree = "<group>"; };
 		15FFCEB41EA7B2C5001ACBFE /* IncomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncomeViewController.swift; sourceTree = "<group>"; };
 		15FFCEB61EA7B2D5001ACBFE /* TransfViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransfViewController.swift; sourceTree = "<group>"; };
@@ -206,6 +219,28 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		15912C521EAD9BF400A95D9C /* BButton */ = {
+			isa = PBXGroup;
+			children = (
+				15912C531EAD9BF400A95D9C /* BButton.h */,
+				15912C541EAD9BF400A95D9C /* BButton.m */,
+				15912C551EAD9BF400A95D9C /* NSString+FontAwesome.h */,
+				15912C561EAD9BF400A95D9C /* NSString+FontAwesome.m */,
+				15912C571EAD9BF400A95D9C /* resources */,
+				15912C591EAD9BF400A95D9C /* UIColor+BButton.h */,
+				15912C5A1EAD9BF400A95D9C /* UIColor+BButton.m */,
+			);
+			path = BButton;
+			sourceTree = "<group>";
+		};
+		15912C571EAD9BF400A95D9C /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				15912C581EAD9BF400A95D9C /* FontAwesome.ttf */,
+			);
+			path = resources;
+			sourceTree = "<group>";
+		};
 		15FFCEAE1EA7B249001ACBFE /* Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -224,6 +259,7 @@
 		15FFCEBC1EA7B3DC001ACBFE /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				15912C521EAD9BF400A95D9C /* BButton */,
 				15FFCEDA1EA7BA6F001ACBFE /* HUD.swift */,
 				15FFCEBD1EA7B3F0001ACBFE /* ZYKeyboard.swift */,
 			);
@@ -238,6 +274,7 @@
 				15FFCED61EA7BA55001ACBFE /* Rsync.swift */,
 				15FFCEC01EA7B434001ACBFE /* tools.swift */,
 				15FFCEC21EA7B450001ACBFE /* Date.swift */,
+				151394A01EAF53C2006CC3D2 /* Views.swift */,
 			);
 			path = Libs;
 			sourceTree = "<group>";
@@ -400,6 +437,7 @@
 				150D23711EA714170055CE68 /* Assets.xcassets in Resources */,
 				150D236F1EA714170055CE68 /* Main.storyboard in Resources */,
 				15FFCED71EA7BA55001ACBFE /* Init.sqlite in Resources */,
+				15912C691EAD9FEF00A95D9C /* FontAwesome.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -472,6 +510,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15912C5C1EAD9BF400A95D9C /* NSString+FontAwesome.m in Sources */,
 				15FFCED91EA7BA55001ACBFE /* Rsync.swift in Sources */,
 				15FFCEBB1EA7B2ED001ACBFE /* ConfViewController.swift in Sources */,
 				15FFCEC61EA7B4CA001ACBFE /* TabbarViewController.swift in Sources */,
@@ -480,8 +519,10 @@
 				15FFCEC11EA7B434001ACBFE /* tools.swift in Sources */,
 				15FFCED01EA7B6E4001ACBFE /* ListCell.swift in Sources */,
 				15FFCEB51EA7B2C5001ACBFE /* IncomeViewController.swift in Sources */,
+				15912C5E1EAD9BF400A95D9C /* UIColor+BButton.m in Sources */,
 				15FFCEE01EA7BADD001ACBFE /* AddPayViewController.swift in Sources */,
 				15FFCED81EA7BA55001ACBFE /* Db.swift in Sources */,
+				151394A11EAF53C2006CC3D2 /* Views.swift in Sources */,
 				150D236A1EA714170055CE68 /* AppDelegate.swift in Sources */,
 				15FFCEBE1EA7B3F0001ACBFE /* ZYKeyboard.swift in Sources */,
 				15FFCEC31EA7B450001ACBFE /* Date.swift in Sources */,
@@ -489,6 +530,7 @@
 				15FFCEDE1EA7BA9B001ACBFE /* FMDB-Extras.swift in Sources */,
 				15FFCEB71EA7B2D5001ACBFE /* TransfViewController.swift in Sources */,
 				15FFCEE21EA7BD4A001ACBFE /* TerminalTableViewController.swift in Sources */,
+				15912C5B1EAD9BF400A95D9C /* BButton.m in Sources */,
 				15FFCEB31EA7B2B6001ACBFE /* PayViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
