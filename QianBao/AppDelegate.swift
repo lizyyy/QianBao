@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //FLEXManager.sharedManager().showExplorer()
         UserDefaults.standard.set(0, forKey: "seluser")
         if(UserDefaults.standard.string(forKey: "apiUrl") == nil){
-            UserDefaults.standard.setValue("http://qian8.sinaapptest.com/apitest/", forKey: "apiUrl")
+            UserDefaults.standard.setValue("http://qian8.sinaapptt.com/apit/", forKey: "apiUrl")
         }
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
