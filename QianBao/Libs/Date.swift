@@ -6,6 +6,12 @@ func toWeek(date:NSDate)->String{
     return dateFormatter.string(from: date as Date)
 }
 
+func toMonth(date:NSDate)->String{
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM"
+    return dateFormatter.string(from: date as Date)
+}
+
 
 func toDate(_ s:String)->Date {
     let fmt = DateFormatter()
@@ -13,7 +19,27 @@ func toDate(_ s:String)->Date {
     return  fmt.date(from: s)!
 }
 
+
+
+
+
+
+
+//func today()->String {
+//    let dformatter = DateFormatter()
+//    dformatter.dateFormat = "yyyy年MM月dd日 HH:mm:ss"
+//    
+//    
+//    //return dformatter.stringFromDate(Int(NSDate().timeIntervalSince1970))
+//    return dformatter.string(from: NSDate(timeIntervalSince1970: TimeInterval(NSDate().timeIntervalSince1970)) as Date)
+//
+// }
+
 extension NSDate {
+    
+    
+    
+    
     func plusSeconds(s: UInt) -> NSDate {
         return self.addComponentsToDate(seconds: Int(s), minutes: 0, hours: 0, days: 0, weeks: 0, months: 0, years: 0)
     }

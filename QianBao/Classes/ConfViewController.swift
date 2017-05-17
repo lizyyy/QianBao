@@ -150,7 +150,9 @@ class ConfViewController : UITableViewController{
             break
         default: break
         }
-        DBRecord().execute(sql: sql)
+        if(!DBRecord().execute(sql: sql)){
+            print("importDB error")
+        }
     }
     
     func showprogress(){

@@ -29,6 +29,9 @@ class AddPayViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDeleg
     var userdata    = [userItem]()
     var ctgdata     = [expenseItem]()
     var bankdata    = [bankItem]()
+    
+    dynamic var newadd : NSNumber!; //监听属性，发生变化时刷新列表页
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
@@ -249,7 +252,14 @@ class AddPayViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDeleg
                 self.delegate?.addfinish()
             })
         }
+        newadd = 1 //刷新列表页
     }
+    
+    
+  
+    
+   
+    
     
     func cancel(){
         收起所有输入面板()
@@ -276,8 +286,8 @@ class AddPayViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDeleg
         }
         let money:String = self.money.text!
         let desc:String = self.desctext.text!
-        if Int(money) == 0 {
-            alertController = UIAlertController(title: "",message: "金额不能为0", preferredStyle: .alert)
+        if Int(money) == nil {
+            alertController = UIAlertController(title: "",message: "金额不正确", preferredStyle: .alert)
             alertController.addAction(okAction)
             self.present(alertController, animated: true, completion: nil)
             return false

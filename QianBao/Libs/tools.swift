@@ -47,6 +47,15 @@ func today()->String{
     return time
 }
 
+func month()->String{
+    let date = Date()
+    let timeFormatter = DateFormatter()
+    timeFormatter.dateFormat = "yyyy-MM"
+    let time = timeFormatter.string(from: date) as String
+    return time
+}
+
+
 
 
 

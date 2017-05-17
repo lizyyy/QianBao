@@ -15,9 +15,9 @@ protocol Foo {
 
 class DBRecord {
     let db = DBUserManager.sharedInstance.openUserDB()!
-    func execute(sql:String){
+    func execute(sql:String) -> Bool {
         print("[debug_sql_execute] " + sql)
-        self.db.executeStatements(sql)
+        return self.db.executeStatements(sql)
     }
     
     func query(_ sql: String!, values: [Any]!) -> FMResultSet {
@@ -55,8 +55,9 @@ class DBRecord {
     }
     
     //MARK: 获取支出数据
-    func getExpensesList() ->[expenseListItem] {
-        let data =  self.query("select l.*,c.name as cate_name,u.user as user_name,b.name as bank_name from qian8_expense_category c,qian8_expense_list l,qian8_bank b,qian8_user u where l.cate_id = c.id and l.user_id = u.id and l.bank_id = b.id and l.time like '2016%' order by l.time desc", values: nil)
+    func getExpensesList(_ month:String = "") ->[expenseListItem] {
+        let sqlmonth = month == "" ?   toMonth(date:NSDate()) : month
+        let data =  self.query("select l.*,c.name as cate_name,u.user as user_name,b.name as bank_name from qian8_expense_category c,qian8_expense_list l,qian8_bank b,qian8_user u where l.cate_id = c.id and l.user_id = u.id and l.bank_id = b.id and l.time like '\(sqlmonth)%' order by l.time desc", values: nil)
         return expenseListSet(data)
     }
     
