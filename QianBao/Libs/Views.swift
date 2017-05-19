@@ -15,14 +15,16 @@ class NavView{
     var btnLeft:UIButton
     var btnMid:UIButton
     var btnRight:UIButton
+    var lableSum:UILabel
     
     init(){
         viewW = ScreenW-65*2
         midW = (viewW-185)/2
         view     = UIView(frame: CGRect(x: 65, y: 0, width: viewW, height: 44))
         btnLeft  = UIButton(frame: CGRect(x: 0 , y: 1, width: midW, height: 44))
-        btnMid   = UIButton(frame: CGRect(x: midW , y: 1, width: 185, height: 44))
+        btnMid   = UIButton(frame: CGRect(x: midW , y: 1, width: 185, height: 29))
         btnRight = UIButton(frame: CGRect(x: midW + 185 , y: 1, width: midW, height: 44))
+        lableSum   = UILabel(frame: CGRect(x: midW , y: 27, width: 185, height: 16))
     }
     
     func view(title:String)->UIView { //导航条上的按钮
@@ -36,11 +38,15 @@ class NavView{
         btnMid.setTitleColor(UIColor(hex:0x1499d7,alpha:1), for: UIControlState())
         btnMid.titleLabel?.font = UIFont.systemFont(ofSize: 18)
         btnMid.setTitle(title,for:UIControlState())
+        
+        lableSum.textAlignment = .center
+        lableSum.textColor = UIColor.gray
+        lableSum.font = UIFont.systemFont(ofSize:12)
+        
+        view.addSubview(lableSum)
         view.addSubview(btnLeft)
         view.addSubview(btnMid)
         view.addSubview(btnRight)
         return view
     }
-    
- 
 }

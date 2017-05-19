@@ -5,55 +5,62 @@
 //  Created by zhiyuan on 2016/10/13.
 //  Copyright © 2016年 leeey. All rights reserved.
 //
-
 import UIKit
-
-class PayViewController:UITableViewController {
+class PayViewController:UITableViewController{
     var dataList = [expenseListItem]()
     let navView = NavView()
-    var selDate = NSDate()
     var taptime = CGFloat()
-        var hud: MBProgressHUD!
-    
+    var hud: MBProgressHUD!
+    var selDate = NSDate()
+    var selUser = 1
+    var selCtg  = 0
+    var userKV    = Dictionary<Int,userItem>()
+    var expensesKV    = Dictionary<Int,expenseItem>()
+ 
     override func viewDidLoad() {
         super.viewDidLoad()
+        userKV    = DBRecord().userKV()
+        expensesKV     = DBRecord().expensesKV()
         self.view.backgroundColor = UIColor.white
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add,target: self,action:#selector(PayViewController.添加页))
         //生成一个navView
-        let view = navView.view(title:"\(toMonth(date:selDate)) -> all -> 全部")
+        let view = navView.view(title:"\(toMonth(date:selDate)) -> \(userKV[selUser]!.user) -> \(expensesKV[selCtg]!.name)")
         navView.btnLeft.addTarget(self, action: #selector(self.previousM), for: .touchUpInside)
         navView.btnMid.addTarget(self, action: #selector(self.midAction), for: .touchUpInside)
         navView.btnRight.addTarget(self, action: #selector(self.nextM), for: .touchUpInside)
         self.navigationController?.navigationBar.addSubview(view)
-    
         self.reload()
     }
 
     // MARK: - 一些方法
     func previousM(sender: UIButton!) {
         selDate = selDate.minusMonths(m: 1)
-        dataList = DBRecord().getExpensesList(toMonth(date:selDate))
-        self.tableView.reloadData()
-        navView.btnMid.setTitle(toMonth(date:selDate) + " -> all -> 全部", for: UIControlState())
+        self.reload()
+        navView.btnMid.setTitle(toMonth(date:selDate) + " -> \(userKV[selUser]!.user) -> \(expensesKV[selCtg]!.name)", for: UIControlState())
     }
     
     func nextM(sender: UIButton!){
         //@todo 超出的月份不让翻页
         selDate = selDate.plusMonths(m: 1)
-        dataList = DBRecord().getExpensesList(toMonth(date:selDate))
-        self.tableView.reloadData()
-        navView.btnMid.setTitle(toMonth(date:selDate) + " -> all -> 全部", for: UIControlState())
+        self.reload()
+        navView.btnMid.setTitle(toMonth(date:selDate) + " -> \(userKV[selUser]!.user) -> \(expensesKV[selCtg]!.name)", for: UIControlState())
     }
     
     func midAction(sender: UIButton!){
+        let selectview = SelectViewController()
+        selectview.selCtg = self.selCtg
+        selectview.selUser = self.selUser
+        selectview.selDate = self.selDate
+        self.navigationController?.present( UINavigationController(rootViewController: selectview), animated: true, completion:nil)
     }
     
     func reload(){
-        dataList = DBRecord().getExpensesList(toMonth(date:selDate))
+        let db = DBRecord()
+        dataList = db.getExpensesList(toMonth(date:selDate))
         self.tableView.reloadData()
+        navView.lableSum.text = "总计：" + db.expenseSum.format(".2") + " 元"
     }
  
-    //
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if(keyPath == "newadd"){ //监听添加页面的newadd属性，当发生变化时，刷新页面
             self.reload()
@@ -90,7 +97,6 @@ class PayViewController:UITableViewController {
         }else{ taptime = CGFloat(curr) }
         return false
     }
-    
     
     //MARK: - UITableViewDataSource
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -189,10 +195,8 @@ class PayViewController:UITableViewController {
         return [deleteAction, moreAction]
     }
     
-    
     deinit {
         self.removeObserver(self, forKeyPath: "newadd", context: nil);
     }
-    
     
 }

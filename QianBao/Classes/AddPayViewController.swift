@@ -9,12 +9,7 @@
 import Foundation
 import UIKit
 
-protocol AddPayDelegate {
-    func addfinish()
-}
-
 class AddPayViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDelegate,UIPickerViewDelegate,UIPickerViewDataSource{
-    var delegate : AddPayDelegate?
     var line        = UIView(frame: CGRect(x: 20, y: 110, width: ScreenW-40, height: 1))
     var money       = UITextField(frame: CGRect(x: 20, y: 174, width: ScreenW-40, height: 40))
     var view1       = UIView(frame: CGRect(x: 0, y: 200, width: 320, height: 49))
@@ -26,9 +21,11 @@ class AddPayViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDeleg
     var datePicker  = UIDatePicker(frame: CGRect(x: 0, y: ScreenH-220, width: ScreenW, height: 252))
     var timebtn     = UIButton(type: UIButtonType.system)
     var button      = UIButton(type: UIButtonType.system)
-    var userdata    = [userItem]()
-    var ctgdata     = [expenseItem]()
-    var bankdata    = [bankItem]()
+    
+    var userKV      = Dictionary<Int,userItem>()
+    var expensesKV  = Dictionary<Int,expenseItem>()
+    var bankKV      = Dictionary<Int,bankItem>()
+    
     
     dynamic var newadd : NSNumber!; //监听属性，发生变化时刷新列表页
     
@@ -44,9 +41,9 @@ class AddPayViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDeleg
         datePicker.locale =  Locale(identifier: "zh_CN")
         datePicker.timeZone = TimeZone.current
         //pickerview 定义
-        userdata = DBRecord().getUserName()
-        ctgdata = DBRecord().getExpenses()
-        bankdata = DBRecord().getBank()
+        userKV = DBRecord().userKV()
+        expensesKV = DBRecord().expensesKV()
+        bankKV = DBRecord().bankKV()
         pickerView.delegate = self;
         pickerView.dataSource = self;
         pickerView.selectRow(UserDefaults.standard.integer(forKey: "DeviceID"), inComponent: 0, animated: false)
@@ -171,12 +168,12 @@ class AddPayViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDeleg
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if(component == 0){
-            return userdata.count
+            return userKV.count
         }else if(component == 1) {
-            return ctgdata.count
+            return expensesKV.count
         }
         else if(component == 2) {
-            return bankdata.count
+            return bankKV.count
         }
         return 0;
     }
@@ -199,22 +196,22 @@ class AddPayViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDeleg
         myView.backgroundColor = UIColor.clear
         if(component == 0){
             myView.frame = CGRect(x: 10, y: 0, width: 40, height: 40)
-            myView.text =  userdata[row].user
+            myView.text =  userKV[row+1]!.user
         }else if(component == 1) {
             myView.frame = CGRect(x: 10, y: 0.0, width: 60, height: 40)
-            myView.text =  ctgdata[row].name
+            myView.text =  expensesKV[row+1]!.name
         }else if(component == 2) {
             myView.frame = CGRect(x: 0, y: 0.0, width: 190, height: 40)
-            myView.text =  bankdata[row].name
+            myView.text =  bankKV[row+1]!.name
         }
         return myView;
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
 
-        let user =  userdata[pickerView.selectedRow(inComponent: 0)].user
-        let ctg = ctgdata[pickerView.selectedRow(inComponent: 1)].name
-        let bank = bankdata[pickerView.selectedRow(inComponent: 2)].name
+        let user =  userKV[pickerView.selectedRow(inComponent: 0)]!.user
+        let ctg = expensesKV[pickerView.selectedRow(inComponent: 1)]!.name
+        let bank = bankKV[pickerView.selectedRow(inComponent: 2)]!.name
         button.setTitle("\(user)-\(ctg)-\(bank)", for: UIControlState())
     }
     
@@ -225,41 +222,41 @@ class AddPayViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDeleg
     func done(){
         if(!checkForm()){return}
         //获取所有数据：
-        let userid:Int  = userdata[pickerView.selectedRow(inComponent: 0)].id
-        let ctgid:Int   = ctgdata[pickerView.selectedRow(inComponent: 1)].id
-        let bankid:Int  = bankdata[pickerView.selectedRow(inComponent: 2)].id
+        let userid:Int  = userKV[pickerView.selectedRow(inComponent: 0)]!.id
+        let ctgid:Int   = expensesKV[pickerView.selectedRow(inComponent: 1)]!.id
+        let bankid:Int  = bankKV[pickerView.selectedRow(inComponent: 2)]!.id
         let date:String = self.timebtn.title(for: UIControlState())!
         let desc:String = self.desctext.text!
         let money:String = self.money.text!
         let uid:String = String(UserDefaults.standard.integer(forKey: "DeviceID"))
         //保存记录
-        DBRecord().execute(sql:"insert into `qian8_expense_list` (`cate_id`,`user_id`,`time`,`price`,`demo`,`bank_id`,`sn`) values ('\(ctgid)','\(userid)','\(date)','\(money)','\(desc)','\(bankid)','0')")
+        if(!DBRecord().execute(sql:"insert into `qian8_expense_list` (`cate_id`,`user_id`,`time`,`price`,`demo`,`bank_id`,`sn`) values ('\(ctgid)','\(userid)','\(date)','\(money)','\(desc)','\(bankid)','0')")){
+            print("add error")
+        }
         let lastid = DBRecord().lastid()
         //保存同步记录
-        DBRecord().execute(sql:"insert into `qian8_sync_list` (`master_id`,`action_id`,`table_id`,`user_id`,`rsync_status`,`rsync_rs`,`data`,`local_id`) values ('0','1','6','\(uid)','0','0','|\(ctgid)|\(userid)|\(date)|\(money)|\(desc)|\(bankid)|0','\(lastid)')")
+        if(!DBRecord().execute(sql:"insert into `qian8_sync_list` (`master_id`,`action_id`,`table_id`,`user_id`,`rsync_status`,`rsync_rs`,`data`,`local_id`) values ('0','1','6','\(uid)','0','0','|\(ctgid)|\(userid)|\(date)|\(money)|\(desc)|\(bankid)|0','\(lastid)')")){
+            print("add error")
+        }
         //银行扣款
-        DBRecord().execute(sql:"update `qian8_bank` set `current_deposit` = `current_deposit`-'\(money)' where `id`='\(bankid)'")
+        if(!DBRecord().execute(sql:"update `qian8_bank` set `current_deposit` = `current_deposit`-'\(money)' where `id`='\(bankid)'")){
+            print("add error")
+        }
         //保存扣款记录
         let update = ["current_deposit":"`current_deposit`-\(money)"]
-        DBRecord().execute(sql:"insert into `qian8_sync_list` (`master_id`,`action_id`,`table_id`,`user_id`,`rsync_status`,`rsync_rs`,`data`,`local_id`) values ('\(bankid)','2','1','\(uid)','0','0','\(toJSONString2(update as NSDictionary))','\(bankid)')")
+        if(!DBRecord().execute(sql:"insert into `qian8_sync_list` (`master_id`,`action_id`,`table_id`,`user_id`,`rsync_status`,`rsync_rs`,`data`,`local_id`) values ('\(bankid)','2','1','\(uid)','0','0','\(toJSONString2(update as NSDictionary))','\(bankid)')")){
+            print("add error")
+        }
         HUD.alert(self.view,text: "录入中..")
         收起所有输入面板()
-        //DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
         DispatchQueue.main.async {
             self.close()
             DispatchQueue.main.async(execute: {
-                HUD.close(self.view)
-                self.delegate?.addfinish()
+                HUD.close(self.view) 
             })
         }
         newadd = 1 //刷新列表页
     }
-    
-    
-  
-    
-   
-    
     
     func cancel(){
         收起所有输入面板()

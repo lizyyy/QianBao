@@ -15,6 +15,8 @@ protocol Foo {
 
 class DBRecord {
     let db = DBUserManager.sharedInstance.openUserDB()!
+    var expenseSum:Double = 0.0
+    
     func execute(sql:String) -> Bool {
         print("[debug_sql_execute] " + sql)
         return self.db.executeStatements(sql)
@@ -30,11 +32,10 @@ class DBRecord {
     func lastid()-> Int {
         return Int(db.lastInsertRowId());
     }
-    
+ 
     class func userAgent()->Dictionary<Int,String>{
         return [1:"lzy's iphone",2:"jyy's iphone",3:"macbook",4:"初始化设备数据"]
     }
-    
     
     //MARK: 获取用户组
     func getBankUser()-> [bankItem]{
@@ -47,11 +48,26 @@ class DBRecord {
         return userSet(data)
     }
     
-    
+    func userKV()->Dictionary<Int,userItem>{
+        var list = Dictionary<Int,userItem>()
+        for (_,value) in getUserName().enumerated(){
+            list[ Int(value.id) ] = value
+        }
+        return list
+    }
+ 
     //MARK: 获取银行账户列表
     func getBank() -> [bankItem] {
         let data =  self.query("select * from qian8_bank", values: nil)
         return bankSet(data)
+    }
+    
+    func bankKV()->Dictionary<Int,bankItem>{
+        var list = Dictionary<Int,bankItem>()
+        for (_,value) in getBank().enumerated(){
+            list[ Int(value.id) ] = value
+        }
+        return list
     }
     
     //MARK: 获取支出数据
@@ -66,6 +82,15 @@ class DBRecord {
         return expenseSet(data)
     }
     
+    func expensesKV()->Dictionary<Int,expenseItem>{
+        var list = Dictionary<Int,expenseItem>()
+        list[0] = expenseItem()
+        for (_,value) in getExpenses().enumerated(){
+            list[ Int(value.id) ] = value
+        }
+        return list
+    }
+    
     //MARK: 获取收入数据
     func getIncomeList() ->[incomeListItem] {
         let data =  self.query("select * from qian8_income_list where time like '2016-11%'", values: nil)
@@ -77,6 +102,14 @@ class DBRecord {
         return incomeSet(data)
     }
     
+    func incomeKV()->Dictionary<Int,incomeItem>{
+        var list = Dictionary<Int,incomeItem>()
+        for (_,value) in getIncome().enumerated(){
+            list[ Int(value.id) ] = value
+        }
+        return list
+    }
+    
     //MARK: 获取转账数据
     func getBankList() ->[bankListItem] {
         let data =  self.query("select * from qian8_bank_list where time like '2016-11%'", values: nil)
@@ -84,32 +117,32 @@ class DBRecord {
     }
     
     
-    //这里用any的方式实现
-    func groupAny(data:[Any])->Dictionary<String,[Any]>{
-        var groupList =  Dictionary<String,[Any]>()
-        data.forEach({obj in
-            if (obj is Foo) {
-                let key = ((obj as! Foo).time as NSString).substring(to: 7)
-                if (groupList[key] == nil) {
-                    groupList[key] =  []
-                }else{
-                    groupList[key]?.append(obj)
-                }
-            }
-        })
-        return groupList
-    }
-    
-    //泛型方式实现
-    func group<T:Foo>(data:[T])->Dictionary<String,[T]>{
-        var groupList =  Dictionary<String,[T]>()
-        data.forEach({obj in
-            let key = (obj.time as NSString).substring(to: 7)
-            groupList[key] == nil ? groupList[key] =  [] : groupList[key]?.append(obj)
-        })
-        return groupList
-    }
-    
+//    //这里用any的方式实现
+//    func groupAny(data:[Any])->Dictionary<String,[Any]>{
+//        var groupList =  Dictionary<String,[Any]>()
+//        data.forEach({obj in
+//            if (obj is Foo) {
+//                let key = ((obj as! Foo).time as NSString).substring(to: 7)
+//                if (groupList[key] == nil) {
+//                    groupList[key] =  []
+//                }else{
+//                    groupList[key]?.append(obj)
+//                }
+//            }
+//        })
+//        return groupList
+//    }
+//    
+//    //泛型方式实现
+//    func group<T:Foo>(data:[T])->Dictionary<String,[T]>{
+//        var groupList =  Dictionary<String,[T]>()
+//        data.forEach({obj in
+//            let key = (obj.time as NSString).substring(to: 7)
+//            groupList[key] == nil ? groupList[key] =  [] : groupList[key]?.append(obj)
+//        })
+//        return groupList
+//    }
+   
     //MARK:- 设置数据集
     func userSet(_ data:FMResultSet) ->[userItem] {
         var rs = [userItem]()
@@ -183,6 +216,7 @@ class DBRecord {
             item.user_name = data.string(forColumn: "user_name")
             item.cate_name = data.string(forColumn: "cate_name")
             item.bank_name = data.string(forColumn: "bank_name")
+            self.expenseSum += data.double(forColumn: "price")
             rs.append(item)
         }
         return rs
@@ -246,7 +280,7 @@ struct bankListItem { //转账记录
 
 struct expenseItem { //支出分类
     var id  = 0
-    var name = ""
+    var name = "全部"
     var description = ""
 }
 

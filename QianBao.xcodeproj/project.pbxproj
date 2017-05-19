@@ -20,6 +20,9 @@
 		156727311EA747B900AE472C /* SwiftyJSON.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1567271F1EA7438100AE472C /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		156727321EA747BC00AE472C /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1567271D1EA7437D00AE472C /* Alamofire.framework */; };
 		156727331EA747BC00AE472C /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1567271D1EA7437D00AE472C /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		15781F681ECD995700001CBF /* HooDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 15781F651ECD995700001CBF /* HooDatePicker.m */; };
+		15781F691ECD995700001CBF /* NSDate+HooDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 15781F671ECD995700001CBF /* NSDate+HooDatePicker.m */; };
+		15781F6B1ECDA1E600001CBF /* SelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15781F6A1ECDA1E600001CBF /* SelectViewController.swift */; };
 		15912C5B1EAD9BF400A95D9C /* BButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 15912C541EAD9BF400A95D9C /* BButton.m */; };
 		15912C5C1EAD9BF400A95D9C /* NSString+FontAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 15912C561EAD9BF400A95D9C /* NSString+FontAwesome.m */; };
 		15912C5E1EAD9BF400A95D9C /* UIColor+BButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 15912C5A1EAD9BF400A95D9C /* UIColor+BButton.m */; };
@@ -95,6 +98,11 @@
 		1567271D1EA7437D00AE472C /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		1567271F1EA7438100AE472C /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
 		156727211EA746A500AE472C /* MBProgressHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MBProgressHUD.framework; path = Carthage/Build/iOS/MBProgressHUD.framework; sourceTree = "<group>"; };
+		15781F641ECD995700001CBF /* HooDatePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HooDatePicker.h; sourceTree = "<group>"; };
+		15781F651ECD995700001CBF /* HooDatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HooDatePicker.m; sourceTree = "<group>"; };
+		15781F661ECD995700001CBF /* NSDate+HooDatePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+HooDatePicker.h"; sourceTree = "<group>"; };
+		15781F671ECD995700001CBF /* NSDate+HooDatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+HooDatePicker.m"; sourceTree = "<group>"; };
+		15781F6A1ECDA1E600001CBF /* SelectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectViewController.swift; sourceTree = "<group>"; };
 		15912C531EAD9BF400A95D9C /* BButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BButton.h; sourceTree = "<group>"; };
 		15912C541EAD9BF400A95D9C /* BButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BButton.m; sourceTree = "<group>"; };
 		15912C551EAD9BF400A95D9C /* NSString+FontAwesome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+FontAwesome.h"; sourceTree = "<group>"; };
@@ -219,6 +227,17 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		15781F631ECD995700001CBF /* HooDatePicker */ = {
+			isa = PBXGroup;
+			children = (
+				15781F641ECD995700001CBF /* HooDatePicker.h */,
+				15781F651ECD995700001CBF /* HooDatePicker.m */,
+				15781F661ECD995700001CBF /* NSDate+HooDatePicker.h */,
+				15781F671ECD995700001CBF /* NSDate+HooDatePicker.m */,
+			);
+			path = HooDatePicker;
+			sourceTree = "<group>";
+		};
 		15912C521EAD9BF400A95D9C /* BButton */ = {
 			isa = PBXGroup;
 			children = (
@@ -246,6 +265,7 @@
 			children = (
 				15FFCEC81EA7B66D001ACBFE /* Cells */,
 				15FFCEB21EA7B2B6001ACBFE /* PayViewController.swift */,
+				15781F6A1ECDA1E600001CBF /* SelectViewController.swift */,
 				15FFCEDF1EA7BADD001ACBFE /* AddPayViewController.swift */,
 				15FFCEB61EA7B2D5001ACBFE /* TransfViewController.swift */,
 				15FFCEB81EA7B2DF001ACBFE /* MeViewController.swift */,
@@ -259,6 +279,7 @@
 		15FFCEBC1EA7B3DC001ACBFE /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				15781F631ECD995700001CBF /* HooDatePicker */,
 				15912C521EAD9BF400A95D9C /* BButton */,
 				15FFCEDA1EA7BA6F001ACBFE /* HUD.swift */,
 				15FFCEBD1EA7B3F0001ACBFE /* ZYKeyboard.swift */,
@@ -515,10 +536,12 @@
 				15FFCEBB1EA7B2ED001ACBFE /* ConfViewController.swift in Sources */,
 				15FFCEC61EA7B4CA001ACBFE /* TabbarViewController.swift in Sources */,
 				15FFCEB91EA7B2DF001ACBFE /* MeViewController.swift in Sources */,
+				15781F691ECD995700001CBF /* NSDate+HooDatePicker.m in Sources */,
 				15FFCEDB1EA7BA6F001ACBFE /* HUD.swift in Sources */,
 				15FFCEC11EA7B434001ACBFE /* tools.swift in Sources */,
 				15FFCED01EA7B6E4001ACBFE /* ListCell.swift in Sources */,
 				15FFCEB51EA7B2C5001ACBFE /* IncomeViewController.swift in Sources */,
+				15781F6B1ECDA1E600001CBF /* SelectViewController.swift in Sources */,
 				15912C5E1EAD9BF400A95D9C /* UIColor+BButton.m in Sources */,
 				15FFCEE01EA7BADD001ACBFE /* AddPayViewController.swift in Sources */,
 				15FFCED81EA7BA55001ACBFE /* Db.swift in Sources */,
@@ -532,6 +555,7 @@
 				15FFCEE21EA7BD4A001ACBFE /* TerminalTableViewController.swift in Sources */,
 				15912C5B1EAD9BF400A95D9C /* BButton.m in Sources */,
 				15FFCEB31EA7B2B6001ACBFE /* PayViewController.swift in Sources */,
+				15781F681ECD995700001CBF /* HooDatePicker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
