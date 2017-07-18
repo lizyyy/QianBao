@@ -12,11 +12,11 @@ class PayViewController:UITableViewController{
     var taptime = CGFloat()
     var hud: MBProgressHUD!
     var selDate = NSDate()
-    var selUser = 1
+    var selUser = 0
     var selCtg  = 0
     var userKV    = Dictionary<Int,userItem>()
     var expensesKV    = Dictionary<Int,expenseItem>()
- 
+    let db = DBRecord()
     override func viewDidLoad() {
         super.viewDidLoad()
         userKV    = DBRecord().userKV()
@@ -24,12 +24,14 @@ class PayViewController:UITableViewController{
         self.view.backgroundColor = UIColor.white
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add,target: self,action:#selector(PayViewController.添加页))
         //生成一个navView
-        let view = navView.view(title:"\(toMonth(date:selDate)) -> \(userKV[selUser]!.user) -> \(expensesKV[selCtg]!.name)")
-        navView.btnLeft.addTarget(self, action: #selector(self.previousM), for: .touchUpInside)
-        navView.btnMid.addTarget(self, action: #selector(self.midAction), for: .touchUpInside)
-        navView.btnRight.addTarget(self, action: #selector(self.nextM), for: .touchUpInside)
-        self.navigationController?.navigationBar.addSubview(view)
-        self.reload()
+        if( userKV.count > 0 ) {//必须有数据再添加
+            let view = navView.view(title:"\(toMonth(date:selDate)) -> \(userKV[selUser]!.user) -> \(expensesKV[selCtg]!.name)")
+            navView.btnLeft.addTarget(self, action: #selector(self.previousM), for: .touchUpInside)
+            navView.btnMid.addTarget(self, action: #selector(self.midAction), for: .touchUpInside)
+            navView.btnRight.addTarget(self, action: #selector(self.nextM), for: .touchUpInside)
+            self.navigationController?.navigationBar.addSubview(view)
+            self.reload()
+        }
     }
 
     // MARK: - 一些方法
@@ -52,13 +54,24 @@ class PayViewController:UITableViewController{
         selectview.selUser = self.selUser
         selectview.selDate = self.selDate
         self.navigationController?.present( UINavigationController(rootViewController: selectview), animated: true, completion:nil)
+        NotificationCenter.default.addObserver(self, selector:#selector(PayViewController.newsel(_:)), name: NSNotification.Name(rawValue: "newsel"), object: nil)
     }
     
     func reload(){
-        let db = DBRecord()
-        dataList = db.getExpensesList(toMonth(date:selDate))
-        self.tableView.reloadData()
+        dataList = db.getExpensesList(toMonth(date:selDate),userid: selUser,ctgid: selCtg)
         navView.lableSum.text = "总计：" + db.expenseSum.format(".2") + " 元"
+        self.tableView.reloadData()
+    }
+    
+    //筛选条件更新
+    func newsel(_ notification: Notification){
+        selUser = notification.userInfo!["userid"]! as! Int
+        selCtg =  notification.userInfo!["ctgid"]! as! Int
+        selDate = notification.userInfo!["date"] as! NSDate
+        //print(toMonth(date:selDate) + " -> \(userKV[selUser]!.user) -> \(expensesKV[selCtg]!.name)")
+        navView.btnMid.setTitle(toMonth(date:selDate) + " -> \(userKV[selUser]!.user) -> \(expensesKV[selCtg]!.name)", for: UIControlState())
+        
+        self.reload()
     }
  
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -194,9 +207,4 @@ class PayViewController:UITableViewController{
         let moreAction = UITableViewRowAction(style:UITableViewRowActionStyle.normal, title: "复制到今天", handler: moreClosure)
         return [deleteAction, moreAction]
     }
-    
-    deinit {
-        self.removeObserver(self, forKeyPath: "newadd", context: nil);
-    }
-    
 }

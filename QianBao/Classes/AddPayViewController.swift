@@ -297,4 +297,8 @@ class AddPayViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDeleg
         }
         return true
     }
+    
+    deinit {
+        self.removeObserver(self, forKeyPath: "newadd", context: nil);
+    }
 }

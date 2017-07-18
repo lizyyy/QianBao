@@ -8,19 +8,21 @@
 
 import Foundation
 import UIKit
-class SelectViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource{
+class SelectViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource,HooDatePickerDelegate{
     var savebutton  = UIButton(frame: CGRect(x: (ScreenW-50)/2 - 30, y: 265, width: 50, height: 47))
-    var cancelbutton = UIButton(frame: CGRect(x: (ScreenW-50)/2 + 35, y: 265, width: 50, height: 47))
-    var pickerView  = UIPickerView(frame: CGRect(x: 0, y: ScreenH-220, width: ScreenW, height: 252))
+    var pickerView  = UIPickerView(frame: CGRect(x: 0, y: ScreenH-200, width: ScreenW, height: 200))
     var timebtn     = UIButton(type: UIButtonType.system)
     var button      = UIButton(type: UIButtonType.system)
     
     var userKV      = Dictionary<Int,userItem>()
     var expensesKV  = Dictionary<Int,expenseItem>()
-    var selUser = 1
+    var selUser = 0
     var selCtg  = 0
     var selDate = NSDate()
-    dynamic var newadd : NSNumber!; //监听属性，发生变化时刷新列表页
+    
+    var pickerDate = NSDate()
+    
+    var datepicker:HooDatePicker?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,8 +36,17 @@ class SelectViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDa
         expensesKV = DBRecord().expensesKV()
         pickerView.delegate = self;
         pickerView.dataSource = self;
-        pickerView.selectRow(UserDefaults.standard.integer(forKey: "DeviceID"), inComponent: 0, animated: false)
-        pickerView.selectRow(1, inComponent: 1, animated: false)
+        pickerView.selectRow(selUser, inComponent: 0, animated: false)
+        pickerView.selectRow(selCtg, inComponent: 1, animated: false)
+        
+        datepicker = HooDatePicker(superView: self.view)
+        datepicker?.setTintColor(UIColor.lightGray)
+        datepicker?.setHighlight(UIColor.black)
+        datepicker?.delegate = self
+        datepicker?.datePickerMode = .yearAndMonth
+        
+        datepicker?.setDate(self.selDate as Date!, animated: true)
+        datepicker?.show()
         payView()
     }
     
@@ -54,13 +65,6 @@ class SelectViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDa
         savebutton.setTitleColor(UIColor(hex:0x1499d7,alpha:1), for: UIControlState())
         savebutton.setTitleColor(UIColor(hex:0x1499d7,alpha:1), for: UIControlState.highlighted)
         savebutton.addTarget(self, action: #selector(self.done), for: UIControlEvents.touchUpInside)
-        //取消
-        cancelbutton.backgroundColor = UIColor.clear
-        cancelbutton.titleLabel?.font = UIFont.systemFont(ofSize: 18)
-        cancelbutton.setTitle("全部",for:UIControlState());
-        cancelbutton.setTitleColor(UIColor(hex:0x1499d7,alpha:1), for: UIControlState())
-        cancelbutton.setTitleColor(UIColor(hex:0x1499d7,alpha:1), for: UIControlState.highlighted)
-        cancelbutton.addTarget(self, action: #selector(self.cancel), for: UIControlEvents.touchUpInside)
         //时间
         timebtn.backgroundColor =  UIColor.white
         timebtn.setTitleColor(UIColor.gray, for: UIControlState())
@@ -68,7 +72,6 @@ class SelectViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDa
         timebtn.setTitle(toMonth(date: self.selDate), for: UIControlState())
         timebtn.addTarget(self, action: #selector(self.selTime), for: UIControlEvents.touchUpInside)
         //添加
-        self.view.addSubview(cancelbutton)
         self.view.addSubview(savebutton)
         self.view.addSubview(button)
         self.view.addSubview(timebtn)
@@ -76,6 +79,7 @@ class SelectViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDa
     
     func 收起所有输入面板(){
         pickerView.removeFromSuperview()
+        datepicker?.dismiss()
     }
     
     func selCtgAction(){
@@ -85,13 +89,14 @@ class SelectViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDa
     
     func selTime(){
         收起所有输入面板()
+        datepicker?.show()
     }
     
-    func datePickerDateChanged(_ sender:UIDatePicker){
-        let fmt = DateFormatter()
-        fmt.dateFormat = "yyyy-MM-dd"
-        timebtn.setTitle(fmt.string(from: sender.date), for: UIControlState())
+    func datePicker(_ datePicker: HooDatePicker!, dateDidChange date: Date!) {
+        timebtn.setTitle(toMonth(date: date as NSDate), for: UIControlState())
+        pickerDate = date! as NSDate
     }
+
     
     // MARK: - UIPickerDelegate
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -104,7 +109,7 @@ class SelectViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDa
         }else if(component == 1) {
             return expensesKV.count
         }
-        return 0;
+        return 0
     }
     
     func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
@@ -122,16 +127,17 @@ class SelectViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDa
         myView.backgroundColor = UIColor.clear
         if(component == 0){
             myView.frame = CGRect(x: 10, y: 0, width: 40, height: 40)
-            myView.text =  userKV[row+1]!.user
+            myView.text =  userKV[row]!.user
         }else if(component == 1) {
             myView.frame = CGRect(x: 10, y: 0.0, width: 60, height: 40)
-            myView.text =  expensesKV[row+1]!.name
+            myView.text =  expensesKV[row]!.name
         }
         return myView;
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        
+        print(pickerView.selectedRow(inComponent: 0))
+        print(pickerView.selectedRow(inComponent: 1))
         let user =  userKV[pickerView.selectedRow(inComponent: 0)]!.user
         let ctg = expensesKV[pickerView.selectedRow(inComponent: 1)]!.name
         button.setTitle("\(user)-\(ctg)", for: UIControlState())
@@ -145,9 +151,8 @@ class SelectViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDa
         //获取所有数据：
         let userid:Int  = userKV[pickerView.selectedRow(inComponent: 0)]!.id
         let ctgid:Int   = expensesKV[pickerView.selectedRow(inComponent: 1)]!.id
-        let date:String = self.timebtn.title(for: UIControlState())!
-        print(userid,ctgid,date)
-        HUD.alert(self.view,text: "录入中..")
+        let date:NSDate = self.pickerDate
+        HUD.alert(self.view,text: "查询中..")
         收起所有输入面板()
         DispatchQueue.main.async {
             self.close()
@@ -155,7 +160,7 @@ class SelectViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDa
                 HUD.close(self.view) 
             })
         }
-        newadd = 1 //刷新列表页
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "newsel"), object: nil, userInfo: ["userid":userid,"ctgid":ctgid,"date":date])
     }
     
     func cancel(){
@@ -170,4 +175,6 @@ class SelectViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDa
     func closekeyboard(){
         收起所有输入面板()
     }
+    
+    
 }

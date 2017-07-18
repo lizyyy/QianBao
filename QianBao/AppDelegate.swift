@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window!.rootViewController = self.tabbarController
         tabbarController?.selectedIndex = 0
         self.window!.makeKeyAndVisible()
-        if( UserDefaults.standard.integer(forKey: "Devi[ceID") == 0 ){
+        if( UserDefaults.standard.integer(forKey: "DeviceID") == 0 ){
             UserDefaults.standard.set(4, forKey: "DeviceID")
         }
         return true

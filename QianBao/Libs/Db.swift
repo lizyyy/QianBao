@@ -50,6 +50,7 @@ class DBRecord {
     
     func userKV()->Dictionary<Int,userItem>{
         var list = Dictionary<Int,userItem>()
+        list[0] = userItem()
         for (_,value) in getUserName().enumerated(){
             list[ Int(value.id) ] = value
         }
@@ -71,9 +72,11 @@ class DBRecord {
     }
     
     //MARK: 获取支出数据
-    func getExpensesList(_ month:String = "") ->[expenseListItem] {
+    func getExpensesList(_ month:String = "",userid uid:Int = 0,ctgid cid:Int = 0) ->[expenseListItem] {
         let sqlmonth = month == "" ?   toMonth(date:NSDate()) : month
-        let data =  self.query("select l.*,c.name as cate_name,u.user as user_name,b.name as bank_name from qian8_expense_category c,qian8_expense_list l,qian8_bank b,qian8_user u where l.cate_id = c.id and l.user_id = u.id and l.bank_id = b.id and l.time like '\(sqlmonth)%' order by l.time desc", values: nil)
+        let sqluid = uid == 0 ? "" : " l.user_id = '\(uid)' and  "
+        let sqlcid = cid == 0 ? "" : " l.cate_id  = '\(cid)' and  "
+        let data =  self.query("select l.*,c.name as cate_name,u.user as user_name,b.name as bank_name from qian8_expense_category c,qian8_expense_list l,qian8_bank b,qian8_user u where l.cate_id = c.id and l.user_id = u.id and l.bank_id = b.id  and \(sqluid)  \(sqlcid) l.time like '\(sqlmonth)%' order by l.time desc", values: nil)
         return expenseListSet(data)
     }
     
@@ -202,6 +205,7 @@ class DBRecord {
     
     func expenseListSet(_ data:FMResultSet) ->[expenseListItem] {
         var rs = [expenseListItem]()
+        self.expenseSum = 0
         while (data.next() != false){
             var item = expenseListItem()
             item.id = Int(data.int(forColumn: "id"))
@@ -219,6 +223,7 @@ class DBRecord {
             self.expenseSum += data.double(forColumn: "price")
             rs.append(item)
         }
+        if (rs.count == 0)  {self.expenseSum = 0}
         return rs
     }
     
@@ -254,7 +259,7 @@ class DBRecord {
 
 struct userItem { //用户基本信息
     var id  = 0
-    var user = ""
+    var user = "全部"
 }
 
 struct bankItem { //银行账户信息

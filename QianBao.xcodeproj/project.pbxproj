@@ -27,6 +27,7 @@
 		15912C5C1EAD9BF400A95D9C /* NSString+FontAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 15912C561EAD9BF400A95D9C /* NSString+FontAwesome.m */; };
 		15912C5E1EAD9BF400A95D9C /* UIColor+BButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 15912C5A1EAD9BF400A95D9C /* UIColor+BButton.m */; };
 		15912C691EAD9FEF00A95D9C /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 15912C581EAD9BF400A95D9C /* FontAwesome.ttf */; };
+		15E37B661ED2C80100E6F081 /* GT.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 15E37B641ED2C80100E6F081 /* GT.bundle */; };
 		15FFCEB31EA7B2B6001ACBFE /* PayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFCEB21EA7B2B6001ACBFE /* PayViewController.swift */; };
 		15FFCEB51EA7B2C5001ACBFE /* IncomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFCEB41EA7B2C5001ACBFE /* IncomeViewController.swift */; };
 		15FFCEB71EA7B2D5001ACBFE /* TransfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFCEB61EA7B2D5001ACBFE /* TransfViewController.swift */; };
@@ -110,6 +111,18 @@
 		15912C581EAD9BF400A95D9C /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
 		15912C591EAD9BF400A95D9C /* UIColor+BButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+BButton.h"; sourceTree = "<group>"; };
 		15912C5A1EAD9BF400A95D9C /* UIColor+BButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+BButton.m"; sourceTree = "<group>"; };
+		15E37B621ED2C80100E6F081 /* GT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GT.framework; sourceTree = "<group>"; };
+		15E37B641ED2C80100E6F081 /* GT.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GT.bundle; sourceTree = "<group>"; };
+		15E37B671ED2C8A200E6F081 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		15E37B691ED2C8AD00E6F081 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		15E37B6B1ED2C8BB00E6F081 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		15E37B6D1ED2C8D100E6F081 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		15E37B6F1ED2C8E300E6F081 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		15E37B711ED2C90D00E6F081 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		15E37B731ED2C91700E6F081 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		15E37B751ED2C95300E6F081 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		15E37B771ED2C96600E6F081 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		15E37B791ED2C96B00E6F081 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		15FFCEB21EA7B2B6001ACBFE /* PayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PayViewController.swift; sourceTree = "<group>"; };
 		15FFCEB41EA7B2C5001ACBFE /* IncomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncomeViewController.swift; sourceTree = "<group>"; };
 		15FFCEB61EA7B2D5001ACBFE /* TransfViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransfViewController.swift; sourceTree = "<group>"; };
@@ -139,8 +152,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				156727301EA747B900AE472C /* SwiftyJSON.framework in Frameworks */,
 				156727321EA747BC00AE472C /* Alamofire.framework in Frameworks */,
+				156727301EA747B900AE472C /* SwiftyJSON.framework in Frameworks */,
 				1567272E1EA747B700AE472C /* MBProgressHUD.framework in Frameworks */,
 				AC19E200E9438E979E027156 /* Pods_QianBao.framework in Frameworks */,
 			);
@@ -219,6 +232,17 @@
 		1567271C1EA7437D00AE472C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				15E37B791ED2C96B00E6F081 /* UIKit.framework */,
+				15E37B771ED2C96600E6F081 /* CoreGraphics.framework */,
+				15E37B751ED2C95300E6F081 /* QuartzCore.framework */,
+				15E37B731ED2C91700E6F081 /* SystemConfiguration.framework */,
+				15E37B711ED2C90D00E6F081 /* AdSupport.framework */,
+				15E37B6F1ED2C8E300E6F081 /* AudioToolbox.framework */,
+				15E37B6D1ED2C8D100E6F081 /* CoreTelephony.framework */,
+				15E37B6B1ED2C8BB00E6F081 /* Security.framework */,
+				15E37B691ED2C8AD00E6F081 /* libz.tbd */,
+				15E37B671ED2C8A200E6F081 /* libsqlite3.tbd */,
+				15E37B601ED2C80100E6F081 /* GT.embeddedframework_v2.2.3 */,
 				156727211EA746A500AE472C /* MBProgressHUD.framework */,
 				1567271F1EA7438100AE472C /* SwiftyJSON.framework */,
 				1567271D1EA7437D00AE472C /* Alamofire.framework */,
@@ -258,6 +282,31 @@
 				15912C581EAD9BF400A95D9C /* FontAwesome.ttf */,
 			);
 			path = resources;
+			sourceTree = "<group>";
+		};
+		15E37B601ED2C80100E6F081 /* GT.embeddedframework_v2.2.3 */ = {
+			isa = PBXGroup;
+			children = (
+				15E37B611ED2C80100E6F081 /* GT.embeddedframework */,
+			);
+			path = GT.embeddedframework_v2.2.3;
+			sourceTree = "<group>";
+		};
+		15E37B611ED2C80100E6F081 /* GT.embeddedframework */ = {
+			isa = PBXGroup;
+			children = (
+				15E37B621ED2C80100E6F081 /* GT.framework */,
+				15E37B631ED2C80100E6F081 /* Resources */,
+			);
+			path = GT.embeddedframework;
+			sourceTree = "<group>";
+		};
+		15E37B631ED2C80100E6F081 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				15E37B641ED2C80100E6F081 /* GT.bundle */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		15FFCEAE1EA7B249001ACBFE /* Classes */ = {
@@ -406,24 +455,26 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = zhiyuan;
 				TargetAttributes = {
 					150D23651EA714170055CE68 = {
 						CreatedOnToolsVersion = 8.3.1;
 						DevelopmentTeam = 6C4NVVWZ6V;
-						LastSwiftMigration = 0830;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
 					150D23791EA714180055CE68 = {
 						CreatedOnToolsVersion = 8.3.1;
 						DevelopmentTeam = 2KAHXVA7D5;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 150D23651EA714170055CE68;
 					};
 					150D23841EA714180055CE68 = {
 						CreatedOnToolsVersion = 8.3.1;
 						DevelopmentTeam = 2KAHXVA7D5;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 150D23651EA714170055CE68;
 					};
@@ -456,6 +507,7 @@
 			files = (
 				150D23741EA714170055CE68 /* LaunchScreen.storyboard in Resources */,
 				150D23711EA714170055CE68 /* Assets.xcassets in Resources */,
+				15E37B661ED2C80100E6F081 /* GT.bundle in Resources */,
 				150D236F1EA714170055CE68 /* Main.storyboard in Resources */,
 				15FFCED71EA7BA55001ACBFE /* Init.sqlite in Resources */,
 				15912C691EAD9FEF00A95D9C /* FontAwesome.ttf in Resources */,
@@ -534,6 +586,7 @@
 				15912C5C1EAD9BF400A95D9C /* NSString+FontAwesome.m in Sources */,
 				15FFCED91EA7BA55001ACBFE /* Rsync.swift in Sources */,
 				15FFCEBB1EA7B2ED001ACBFE /* ConfViewController.swift in Sources */,
+				15FFCEB31EA7B2B6001ACBFE /* PayViewController.swift in Sources */,
 				15FFCEC61EA7B4CA001ACBFE /* TabbarViewController.swift in Sources */,
 				15FFCEB91EA7B2DF001ACBFE /* MeViewController.swift in Sources */,
 				15781F691ECD995700001CBF /* NSDate+HooDatePicker.m in Sources */,
@@ -554,7 +607,6 @@
 				15FFCEB71EA7B2D5001ACBFE /* TransfViewController.swift in Sources */,
 				15FFCEE21EA7BD4A001ACBFE /* TerminalTableViewController.swift in Sources */,
 				15912C5B1EAD9BF400A95D9C /* BButton.m in Sources */,
-				15FFCEB31EA7B2B6001ACBFE /* PayViewController.swift in Sources */,
 				15781F681ECD995700001CBF /* HooDatePicker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -622,7 +674,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -630,7 +684,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -656,9 +714,11 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-all_load";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -673,7 +733,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -681,7 +743,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -700,8 +766,10 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "-all_load";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -718,10 +786,13 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/GT.embeddedframework_v2.2.3/GT.embeddedframework",
 				);
 				INFOPLIST_FILE = QianBao/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = zhiyuan.QianBao;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "QianBao/QianBao-Bridging-Header.h";
@@ -742,10 +813,13 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/GT.embeddedframework_v2.2.3/GT.embeddedframework",
 				);
 				INFOPLIST_FILE = QianBao/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = zhiyuan.QianBao;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "QianBao/QianBao-Bridging-Header.h";
