@@ -6,7 +6,7 @@
 //  Copyright © 2016年 leeey. All rights reserved.
 //
 import UIKit
-class PayViewController:UITableViewController{
+class PayViewController:UITableViewController,RsyncDelegate{
     var dataList = [expenseListItem]()
     let navView = NavView()
     var taptime = CGFloat()
@@ -32,9 +32,24 @@ class PayViewController:UITableViewController{
             self.navigationController?.navigationBar.addSubview(view)
             self.reload()
         }
+        //下拉刷新
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(PayViewController.刷新和同步), for: UIControlEvents.valueChanged)
+        refreshControl.attributedTitle = NSAttributedString(string: "同步数据...")
+        self.refreshControl = refreshControl
     }
 
     // MARK: - 一些方法
+    func 刷新和同步(){
+        if 更新锁 == false {
+            更新锁 = true
+            self.refreshControl?.beginRefreshing()
+            let rsync  = Rsync()
+            rsync.delegate = self
+            rsync.同步()
+        }
+    }
+    
     func previousM(sender: UIButton!) {
         selDate = selDate.minusMonths(m: 1)
         self.reload()
@@ -59,8 +74,12 @@ class PayViewController:UITableViewController{
     
     func reload(){
         dataList = db.getExpensesList(toMonth(date:selDate),userid: selUser,ctgid: selCtg)
-        navView.lableSum.text = "总计：" + db.expenseSum.format(".2") + " 元"
-        self.tableView.reloadData()
+        DispatchQueue.main.async {
+            self.navView.lableSum.text = "总计：" + self.db.expenseSum.format(".2") + " 元"
+            self.refreshControl?.endRefreshing()
+            self.tableView.reloadData()
+        }
+        更新锁 = false
     }
     
     //筛选条件更新
@@ -70,7 +89,6 @@ class PayViewController:UITableViewController{
         selDate = notification.userInfo!["date"] as! NSDate
         //print(toMonth(date:selDate) + " -> \(userKV[selUser]!.user) -> \(expensesKV[selCtg]!.name)")
         navView.btnMid.setTitle(toMonth(date:selDate) + " -> \(userKV[selUser]!.user) -> \(expensesKV[selCtg]!.name)", for: UIControlState())
-        
         self.reload()
     }
  
@@ -86,6 +104,27 @@ class PayViewController:UITableViewController{
         addpayview.addObserver(self, forKeyPath: "newadd", options: NSKeyValueObservingOptions.new, context: nil);
         let addPay = UINavigationController(rootViewController: addpayview)
         self.navigationController?.present(addPay, animated: true, completion:nil)
+    }
+    
+    // MARK: - RsyncDelegate
+    var noticeview = UIView()
+    func rsyncFinish(a:Int,b:Int,c:Int){
+        renew  = true
+        self.reload()
+        if(a > 0 || b > 0 || c > 0){
+            noticeview = NavView().shownotice(msg: "新增：\(a)     修改：\(b)     删除：\(c)")
+            self.navigationController?.view.addSubview(noticeview)
+            UIView.beginAnimations(nil, context: nil)
+            UIView.setAnimationDidStop(Selector(("removeNotie")))
+            UIView.setAnimationDelay(1.5)
+            UIView.setAnimationDuration(1.0)
+            noticeview.alpha = 0
+            UIView.commitAnimations()
+        }
+    }
+    
+    func removeNotice(){
+        noticeview.removeFromSuperview()
     }
     
     //MARK: - UITableViewDelegate

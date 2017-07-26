@@ -14,6 +14,7 @@
 		150D237F1EA714180055CE68 /* QianBaoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150D237E1EA714180055CE68 /* QianBaoTests.swift */; };
 		150D238A1EA714180055CE68 /* QianBaoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150D23891EA714180055CE68 /* QianBaoUITests.swift */; };
 		151394A11EAF53C2006CC3D2 /* Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151394A01EAF53C2006CC3D2 /* Views.swift */; };
+		15253E411F272D1000057456 /* config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15253E401F272D1000057456 /* config.swift */; };
 		1567272E1EA747B700AE472C /* MBProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 156727211EA746A500AE472C /* MBProgressHUD.framework */; };
 		1567272F1EA747B700AE472C /* MBProgressHUD.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 156727211EA746A500AE472C /* MBProgressHUD.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		156727301EA747B900AE472C /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1567271F1EA7438100AE472C /* SwiftyJSON.framework */; };
@@ -96,6 +97,7 @@
 		150D23891EA714180055CE68 /* QianBaoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QianBaoUITests.swift; sourceTree = "<group>"; };
 		150D238B1EA714180055CE68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		151394A01EAF53C2006CC3D2 /* Views.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Views.swift; sourceTree = "<group>"; };
+		15253E401F272D1000057456 /* config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = config.swift; sourceTree = "<group>"; };
 		1567271D1EA7437D00AE472C /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		1567271F1EA7438100AE472C /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
 		156727211EA746A500AE472C /* MBProgressHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MBProgressHUD.framework; path = Carthage/Build/iOS/MBProgressHUD.framework; sourceTree = "<group>"; };
@@ -358,6 +360,7 @@
 				150D23701EA714170055CE68 /* Assets.xcassets */,
 				150D23721EA714170055CE68 /* LaunchScreen.storyboard */,
 				15FFCEC51EA7B4CA001ACBFE /* TabbarViewController.swift */,
+				15253E401F272D1000057456 /* config.swift */,
 			);
 			path = General;
 			sourceTree = "<group>";
@@ -602,6 +605,7 @@
 				150D236A1EA714170055CE68 /* AppDelegate.swift in Sources */,
 				15FFCEBE1EA7B3F0001ACBFE /* ZYKeyboard.swift in Sources */,
 				15FFCEC31EA7B450001ACBFE /* Date.swift in Sources */,
+				15253E411F272D1000057456 /* config.swift in Sources */,
 				15FFCECE1EA7B6D7001ACBFE /* MeCell.swift in Sources */,
 				15FFCEDE1EA7BA9B001ACBFE /* FMDB-Extras.swift in Sources */,
 				15FFCEB71EA7B2D5001ACBFE /* TransfViewController.swift in Sources */,
@@ -788,6 +792,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 					"$(PROJECT_DIR)/GT.embeddedframework_v2.2.3/GT.embeddedframework",
 				);
+				GCC_OPTIMIZATION_LEVEL = s;
 				INFOPLIST_FILE = QianBao/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

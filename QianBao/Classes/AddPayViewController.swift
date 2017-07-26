@@ -227,7 +227,7 @@ class AddPayViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDeleg
         let bankid:Int  = bankKV[pickerView.selectedRow(inComponent: 2)]!.id
         let date:String = self.timebtn.title(for: UIControlState())!
         let desc:String = self.desctext.text!
-        let money:String = self.money.text!
+        let money:String =  self.money.text!.replacingOccurrences(of: "￥", with: "")
         let uid:String = String(UserDefaults.standard.integer(forKey: "DeviceID"))
         //保存记录
         if(!DBRecord().execute(sql:"insert into `qian8_expense_list` (`cate_id`,`user_id`,`time`,`price`,`demo`,`bank_id`,`sn`) values ('\(ctgid)','\(userid)','\(date)','\(money)','\(desc)','\(bankid)','0')")){
@@ -281,7 +281,7 @@ class AddPayViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDeleg
             self.present(alertController, animated: true, completion: nil)
             return false
         }
-        let money:String = self.money.text!
+        var money:String =  self.money.text!.replacingOccurrences(of: "￥", with: "")
         let desc:String = self.desctext.text!
         if Int(money) == nil {
             alertController = UIAlertController(title: "",message: "金额不正确", preferredStyle: .alert)

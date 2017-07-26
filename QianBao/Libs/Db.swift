@@ -119,7 +119,11 @@ class DBRecord {
         return bankListSet(data)
     }
     
-    
+    //MARK: 获取同步数据
+    func getRsyncList( actionid:String )->[rsyncItem] {
+        let data = self.query("select * from qian8_sync_list where rsync_status='0' and action_id='\(actionid)'",values: nil)
+        return rsyncSet(data)
+    }
 //    //这里用any的方式实现
 //    func groupAny(data:[Any])->Dictionary<String,[Any]>{
 //        var groupList =  Dictionary<String,[Any]>()
@@ -255,6 +259,24 @@ class DBRecord {
         }
         return rs
     }
+    
+    func rsyncSet(_ data:FMResultSet) ->[rsyncItem] {
+        var rs = [rsyncItem]()
+        while (data.next() != false){
+            var item = rsyncItem()
+            item.id              = Int(data.int(forColumn: "id"))
+            item.master_id       = Int(data.int(forColumn: "master_id"))
+            item.action_id       = Int(data.int(forColumn: "action_id"))
+            item.table_id        = Int(data.int(forColumn: "table_id"))
+            item.user_id         = Int(data.int(forColumn: "user_id"))
+            item.rsync_status    = Int(data.int(forColumn: "rsync_status"))
+            item.rsync_rs        = Int(data.int(forColumn: "rsync_rs"))
+            item.data            = data.string(forColumn: "data")
+            item.local_id        = Int(data.int(forColumn: "local_id"))
+            rs.append(item)
+        }
+        return rs
+    }
 }
 
 struct userItem { //用户基本信息
@@ -311,7 +333,6 @@ struct incomeItem { //收入分类
     var description = ""
 }
 
-
 struct incomeListItem {//收入记录
     var id  = 0
     var time = ""
@@ -323,6 +344,18 @@ struct incomeListItem {//收入记录
     var money = ""
 }
 
+struct rsyncItem { //同步记录表
+    var id              = 0
+    var master_id       = 0
+    var action_id       = 0
+    var table_id        = 0
+    var user_id         = 0
+    var rsync_status    = 0
+    var rsync_rs        = 0
+    var data            = ""
+    var local_id        = 0
+}
+
 //MARK:- DBManager类
 class DBUserManager: NSObject {
     var database: FMDatabase?
@@ -332,7 +365,7 @@ class DBUserManager: NSObject {
     static let sharedInstance = DBUserManager()
     fileprivate override init() {} // 这就阻止其他对象使用这个类的默认的'()'初始化方法
     func openUserDB() -> FMDatabase? {
-        let db = "data3.0.5.zip"
+        let db = "data3.0.7.zip"
         let docPath = URL( fileURLWithPath: (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] )).appendingPathComponent(db).path
         //print(docPath)
         database = FMDatabase(path:docPath)
@@ -347,6 +380,10 @@ class DBUserManager: NSObject {
             database!.open()
             let tableSql = "                                                                                                                                                                CREATE TABLE qian8_bank (id integer PRIMARY KEY NOT NULL,name varchar(20) NOT NULL,user_id integer(11) NOT NULL,card_no varchar(30) NOT NULL,bank_name varchar(30) NOT NULL,current_deposit varchar(15) NOT NULL DEFAULT(null),fixed_deposit varchar(15) NOT NULL DEFAULT(null));                       CREATE TABLE qian8_bank_list (id integer PRIMARY KEY AUTOINCREMENT NOT NULL,from_bank_id integer NOT NULL,to_bank_id integer NOT NULL,time date NOT NULL,money double(15,2) NOT NULL,type integer NOT NULL,demo varchar(30) NOT NULL,sn integer NOT NULL);                                                                              CREATE TABLE qian8_expense_category (id integer PRIMARY KEY AUTOINCREMENT NOT NULL,name varchar(10) NOT NULL,description varchar(30) NOT NULL);                 CREATE TABLE qian8_expense_list (id integer PRIMARY KEY AUTOINCREMENT NOT NULL,cate_id integer NOT NULL,user_id integer NOT NULL,time date NOT NULL,price double(15,2) NOT NULL,demo text NOT NULL,bank_id integer NOT NULL,sn varchar(15) NOT NULL DEFAULT(0));                                      CREATE TABLE qian8_income_category (id integer PRIMARY KEY  AUTOINCREMENT NOT NULL,name varchar(10) NOT NULL,description varchar(30) NOT NULL);      CREATE TABLE qian8_income_list (id integer PRIMARY KEY AUTOINCREMENT NOT NULL,time date NOT NULL,user_id varchar(3) NOT NULL,money double(15,2) NOT NULL,demo text NOT NULL,cate_id integer NOT NULL,bank_id integer NOT NULL,sn varchar(15) NOT NULL DEFAULT(0));                                             CREATE TABLE qian8_sync_list (id integer PRIMARY KEY AUTOINCREMENT NOT NULL,master_id integer NOT NULL,action_id integer(1) NOT NULL,table_id integer(1) NOT NULL,user_id integer(1) NOT NULL,rsync_status integer(1) NOT NULL,rsync_rs integer(1) NOT NULL,data varchar(300) NOT NULL,local_id integer(1) NOT NULL);                                                                                                                                                             CREATE TABLE qian8_user (id integer PRIMARY KEY AUTOINCREMENT NOT NULL,user varchar(20) NOT NULL,pass varchar(40) NOT NULL,level integer NOT NULL,f_id integer NOT NULL,role varchar NOT NULL,time date NOT NULL);"
             database?.executeStatements(tableSql)
+            
+            UserDefaults.standard.set(0, forKey: "maxid")
+            
+            
             return database!
         }
         return database

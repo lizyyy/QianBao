@@ -67,7 +67,7 @@ class ConfViewController : UITableViewController{
                 self.hud = MBProgressHUD.showAdded(to: (self.navigationController?.view)!, animated: true)
                 self.hud.label.text = "连接服务"
                 let queue = DispatchQueue(label: "background", qos: .default, attributes: .concurrent)
-                Alamofire.request("http://qian8.sinaapp.com/api/get.php?id=0&user=4").responseJSON(queue: queue) { response in
+                Alamofire.request(apiUrl + "get.php?id=0&user=4").responseJSON(queue: queue) { response in
                     let value = response.result.value
                     let json = JSON(value!)
                     self.rsycnCountString = json["ct"].stringValue
@@ -153,6 +153,7 @@ class ConfViewController : UITableViewController{
         if(!DBRecord().execute(sql: sql)){
             print("importDB error")
         }
+        UserDefaults.standard.set(item["id"].intValue,  forKey: "maxid")
     }
     
     func showprogress(){

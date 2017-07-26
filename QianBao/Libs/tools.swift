@@ -16,8 +16,6 @@ extension Double {
 }
 
 
-let user = ["","all","lzy","jyy"]
-
 
 
 extension NSObject {
@@ -31,13 +29,8 @@ extension NSObject {
     }
 }
 
-var ScreenW:CGFloat{
-    return UIScreen.main.bounds.width
-}
 
-var ScreenH:CGFloat{
-    return UIScreen.main.bounds.height
-}
+
 
 func today()->String{
     let date = Date()
@@ -87,11 +80,7 @@ func RGBA (r:CGFloat, g:CGFloat, b:CGFloat, a:CGFloat)->UIColor {
     return UIColor(red: r/255.0, green: g/255.0, blue: b/255.0, alpha: a)
 }
 
-let BtnColor = UIColor(hex:0x1499d7,alpha:1)
-//默认色板
-let themeColor = RGBA(r: 10,g: 184,b: 146,a: 1)
-let darkThemeColor = RGBA(r: 10,g: 200,b: 146,a: 1)
-let lightlightColor = RGBA(r: 225, g: 225, b: 225, a: 1)
+
 
 
 func createImageWithColor(color:UIColor, size rect:CGRect =  CGRect(x:0, y:0, width:1, height:1) ) ->UIImage {

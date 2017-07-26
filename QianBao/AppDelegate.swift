@@ -8,13 +8,10 @@
 
 import UIKit
 
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var tabbarController: TabbarViewController?
-    
-    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         //调试工具
         //FLEXManager.sharedManager().showExplorer()
@@ -22,7 +19,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if(UserDefaults.standard.string(forKey: "apiUrl") == nil){
             UserDefaults.standard.setValue("http://qian8.sinaapptt.com/apit/", forKey: "apiUrl")
         }
-        
         self.window = UIWindow(frame: UIScreen.main.bounds)
         self.window!.backgroundColor = UIColor.white
         self.tabbarController = TabbarViewController()

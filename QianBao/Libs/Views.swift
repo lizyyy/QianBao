@@ -49,4 +49,17 @@ class NavView{
         view.addSubview(btnRight)
         return view
     }
+    
+    func shownotice(msg:String) ->UIView{
+        let view = UIView(frame: CGRect(x:0, y:64, width: ScreenW, height: 30))
+        view.backgroundColor = UIColor(hex:0xf18f32,alpha:1)
+        let lable = UILabel(frame: CGRect(x:0, y:5, width: ScreenW, height: 20))
+        lable.text = msg
+        lable.textColor = UIColor.white
+        lable.font = UIFont.systemFont(ofSize: 14)
+        lable.textAlignment = NSTextAlignment.center
+        view.addSubview(lable)
+        return view
+    }
+    
 }
