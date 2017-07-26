@@ -25,7 +25,7 @@ class AddPayViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDeleg
     var userKV      = Dictionary<Int,userItem>()
     var expensesKV  = Dictionary<Int,expenseItem>()
     var bankKV      = Dictionary<Int,bankItem>()
-    
+    let db = DBRecord()
     
     dynamic var newadd : NSNumber!; //监听属性，发生变化时刷新列表页
     
@@ -196,22 +196,22 @@ class AddPayViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDeleg
         myView.backgroundColor = UIColor.clear
         if(component == 0){
             myView.frame = CGRect(x: 10, y: 0, width: 40, height: 40)
-            myView.text =  userKV[row+1]!.user
+            myView.text =  userKV[row+1]?.user
         }else if(component == 1) {
             myView.frame = CGRect(x: 10, y: 0.0, width: 60, height: 40)
-            myView.text =  expensesKV[row+1]!.name
+            myView.text =  expensesKV[row+1]?.name
         }else if(component == 2) {
             myView.frame = CGRect(x: 0, y: 0.0, width: 190, height: 40)
-            myView.text =  bankKV[row+1]!.name
+            myView.text =  bankKV[row+1]?.name
         }
         return myView;
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
 
-        let user =  userKV[pickerView.selectedRow(inComponent: 0)]!.user
-        let ctg = expensesKV[pickerView.selectedRow(inComponent: 1)]!.name
-        let bank = bankKV[pickerView.selectedRow(inComponent: 2)]!.name
+        let user =  userKV[pickerView.selectedRow(inComponent: 0)+1]!.user
+        let ctg = expensesKV[pickerView.selectedRow(inComponent: 1)+1]!.name
+        let bank = bankKV[pickerView.selectedRow(inComponent: 2)+1]!.name
         button.setTitle("\(user)-\(ctg)-\(bank)", for: UIControlState())
     }
     
@@ -222,18 +222,18 @@ class AddPayViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDeleg
     func done(){
         if(!checkForm()){return}
         //获取所有数据：
-        let userid:Int  = userKV[pickerView.selectedRow(inComponent: 0)]!.id
-        let ctgid:Int   = expensesKV[pickerView.selectedRow(inComponent: 1)]!.id
-        let bankid:Int  = bankKV[pickerView.selectedRow(inComponent: 2)]!.id
+        let userid:Int  = userKV[pickerView.selectedRow(inComponent: 0)+1]!.id
+        let ctgid:Int   = expensesKV[pickerView.selectedRow(inComponent: 1)+1]!.id
+        let bankid:Int  = bankKV[pickerView.selectedRow(inComponent: 2)+1]!.id
         let date:String = self.timebtn.title(for: UIControlState())!
         let desc:String = self.desctext.text!
         let money:String =  self.money.text!.replacingOccurrences(of: "￥", with: "")
         let uid:String = String(UserDefaults.standard.integer(forKey: "DeviceID"))
         //保存记录
-        if(!DBRecord().execute(sql:"insert into `qian8_expense_list` (`cate_id`,`user_id`,`time`,`price`,`demo`,`bank_id`,`sn`) values ('\(ctgid)','\(userid)','\(date)','\(money)','\(desc)','\(bankid)','0')")){
+        if(!db.execute(sql:"insert into `qian8_expense_list` (`cate_id`,`user_id`,`time`,`price`,`demo`,`bank_id`,`sn`) values ('\(ctgid)','\(userid)','\(date)','\(money)','\(desc)','\(bankid)','0')")){
             print("add error")
         }
-        let lastid = DBRecord().lastid()
+        let lastid = db.lastid()
         //保存同步记录
         if(!DBRecord().execute(sql:"insert into `qian8_sync_list` (`master_id`,`action_id`,`table_id`,`user_id`,`rsync_status`,`rsync_rs`,`data`,`local_id`) values ('0','1','6','\(uid)','0','0','|\(ctgid)|\(userid)|\(date)|\(money)|\(desc)|\(bankid)|0','\(lastid)')")){
             print("add error")
@@ -281,7 +281,7 @@ class AddPayViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDeleg
             self.present(alertController, animated: true, completion: nil)
             return false
         }
-        var money:String =  self.money.text!.replacingOccurrences(of: "￥", with: "")
+        let money:String =  self.money.text!.replacingOccurrences(of: "￥", with: "")
         let desc:String = self.desctext.text!
         if Int(money) == nil {
             alertController = UIAlertController(title: "",message: "金额不正确", preferredStyle: .alert)

@@ -81,8 +81,7 @@ class Rsync {
                 "table_id":String(item.table_id),
                 "local_id":String(item.local_id),
                 "id":String(item.id)]
-            let queue = DispatchQueue(label: "background", qos: .default, attributes: .concurrent)
-            Alamofire.request(apiUrl + "set2.php", method: .post, parameters: parameters, encoding: URLEncoding.default).responseJSON(queue: queue) { response in
+            Alamofire.request(apiUrl + "set2.php", method: .post, parameters: parameters, encoding: URLEncoding.default).responseJSON{ response in  //同步
                 let value = response.result.value
                 let tablename = self.tableName(tableid:item.table_id)
                 let json = JSON(value!)
@@ -111,7 +110,7 @@ class Rsync {
     func getData(){
         var progressid = 1
         let url = apiUrl + "get.php" + "?id=" + String(describing: UserDefaults.standard.string(forKey: "maxid")!) + "&user=" + String(describing: UserDefaults.standard.string(forKey: "DeviceID")!)
-        let queue = DispatchQueue(label: "background", qos: .default, attributes: .concurrent)
+        let queue = DispatchQueue(label: "backgroundget", qos: .default, attributes: .concurrent)
         var sql = ""
         Alamofire.request(url).responseJSON(queue: queue) { response in
             let value = response.result.value

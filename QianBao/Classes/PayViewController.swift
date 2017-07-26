@@ -111,16 +111,16 @@ class PayViewController:UITableViewController,RsyncDelegate{
     func rsyncFinish(a:Int,b:Int,c:Int){
         renew  = true
         self.reload()
-        if(a > 0 || b > 0 || c > 0){
-            noticeview = NavView().shownotice(msg: "新增：\(a)     修改：\(b)     删除：\(c)")
-            self.navigationController?.view.addSubview(noticeview)
-            UIView.beginAnimations(nil, context: nil)
-            UIView.setAnimationDidStop(Selector(("removeNotie")))
-            UIView.setAnimationDelay(1.5)
-            UIView.setAnimationDuration(1.0)
-            noticeview.alpha = 0
-            UIView.commitAnimations()
-        }
+//        if(a > 0 || b > 0 || c > 0){
+//            noticeview = NavView().shownotice(msg: "新增：\(a)     修改：\(b)     删除：\(c)")
+//            self.navigationController?.view.addSubview(noticeview)
+//            UIView.beginAnimations(nil, context: nil)
+//            UIView.setAnimationDidStop(Selector(("removeNotie")))
+//            UIView.setAnimationDelay(1.5)
+//            UIView.setAnimationDuration(1.0)
+//            noticeview.alpha = 0
+//            UIView.commitAnimations()
+//        }
     }
     
     func removeNotice(){
@@ -218,8 +218,8 @@ class PayViewController:UITableViewController,RsyncDelegate{
             let desc = recordlist.demo
             var lastid = 0
             //保存记录
-            if(DBRecord().execute(sql:"insert into `qian8_expense_list` (`cate_id`,`user_id`,`time`,`price`,`demo`,`bank_id`,`sn`) values ('\(ctgid)','\(userid)','\(date)','\(money)','\(desc)','\(bankid)','0')")){
-                lastid = DBRecord().lastid()
+            if(self.db.execute(sql:"insert into `qian8_expense_list` (`cate_id`,`user_id`,`time`,`price`,`demo`,`bank_id`,`sn`) values ('\(ctgid)','\(userid)','\(date)','\(money)','\(desc)','\(bankid)','0')")){
+                lastid = self.db.lastid()
             }
             //保存同步记录
             if (!DBRecord().execute(sql:"insert into `qian8_sync_list` (`master_id`,`action_id`,`table_id`,`user_id`,`rsync_status`,`rsync_rs`,`data`,`local_id`) values ('0','1','6','\(agentid)','0','0','|\(ctgid)|\(userid)|\(date)|\(money)|\(desc)|\(bankid)|0','\(lastid)')")){
