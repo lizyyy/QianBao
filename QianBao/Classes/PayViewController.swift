@@ -68,6 +68,7 @@ class PayViewController:UITableViewController,RsyncDelegate{
         selectview.selCtg = self.selCtg
         selectview.selUser = self.selUser
         selectview.selDate = self.selDate
+        selectview.selpage = "pay"
         self.navigationController?.present( UINavigationController(rootViewController: selectview), animated: true, completion:nil)
         NotificationCenter.default.addObserver(self, selector:#selector(PayViewController.newsel(_:)), name: NSNotification.Name(rawValue: "newsel"), object: nil)
     }

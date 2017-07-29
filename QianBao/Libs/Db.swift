@@ -16,6 +16,8 @@ protocol Foo {
 class DBRecord {
     let db = DBUserManager.sharedInstance.openUserDB()!
     var expenseSum:Double = 0.0
+    var incomeSum:Double = 0.0
+    
     
     func execute(sql:String) -> Bool {
         print("[debug_sql_execute] " + sql)
@@ -65,6 +67,7 @@ class DBRecord {
     
     func bankKV()->Dictionary<Int,bankItem>{
         var list = Dictionary<Int,bankItem>()
+        list[0] = bankItem()
         for (_,value) in getBank().enumerated(){
             list[ Int(value.id) ] = value
         }
@@ -95,10 +98,14 @@ class DBRecord {
     }
     
     //MARK: 获取收入数据
-    func getIncomeList() ->[incomeListItem] {
-        let data =  self.query("select * from qian8_income_list where time like '2016-11%'", values: nil)
+    func getIncomeList(_ month:String = "",userid uid:Int = 0,ctgid cid:Int = 0) ->[incomeListItem] {
+        let sqlmonth = month == "" ?   toMonth(date:NSDate()) : month
+        let sqluid = uid == 0 ? "" : " l.user_id = '\(uid)' and  "
+        let sqlcid = cid == 0 ? "" : " l.cate_id  = '\(cid)' and  "
+        let data =  self.query("select l.*,c.name as cate_name,u.user as user_name,b.name as bank_name from qian8_income_category c,qian8_income_list l,qian8_bank b,qian8_user u where l.cate_id = c.id and l.user_id = u.id and l.bank_id = b.id  and \(sqluid)  \(sqlcid) l.time like '\(sqlmonth)%' order by l.time desc", values: nil)
         return incomeListSet(data)
     }
+    
     
     func getIncome() ->[incomeItem] {
         let data =  self.query("select * from qian8_income_category", values: nil)
@@ -107,6 +114,7 @@ class DBRecord {
     
     func incomeKV()->Dictionary<Int,incomeItem>{
         var list = Dictionary<Int,incomeItem>()
+        list[0] = incomeItem()
         for (_,value) in getIncome().enumerated(){
             list[ Int(value.id) ] = value
         }
@@ -245,6 +253,7 @@ class DBRecord {
     
     func incomeListSet(_ data:FMResultSet) ->[incomeListItem] {
         var rs = [incomeListItem]()
+        self.incomeSum = 0
         while (data.next() != false){
             var item = incomeListItem()
             item.id = Int(data.int(forColumn: "id"))
@@ -255,8 +264,14 @@ class DBRecord {
             item.sn = Int(data.int(forColumn: "sn"))
             item.bank_id = Int(data.int(forColumn: "bank_id"))
             item.money = data.double(forColumn: "money").format(".2")
+            item.week = toWeek(date: toDate(item.time) as NSDate)
+            item.user_name = data.string(forColumn: "user_name")
+            item.cate_name = data.string(forColumn: "cate_name")
+            item.bank_name = data.string(forColumn: "bank_name")
+            self.incomeSum += data.double(forColumn: "money")
             rs.append(item)
         }
+        if (rs.count == 0)  {self.expenseSum = 0}
         return rs
     }
     
@@ -286,7 +301,7 @@ struct userItem { //用户基本信息
 
 struct bankItem { //银行账户信息
     var id  = 0
-    var name = ""
+    var name = "全部"
     var user_id = 0
     var card_no = ""
     var bank_name = ""
@@ -329,7 +344,7 @@ struct expenseListItem:Foo {
 
 struct incomeItem { //收入分类
     var id  = 0
-    var name = ""
+    var name = "全部"
     var description = ""
 }
 
@@ -342,6 +357,10 @@ struct incomeListItem {//收入记录
     var sn = 0
     var bank_id = 0
     var money = ""
+    var week = ""
+    var user_name = ""
+    var bank_name = ""
+    var cate_name = ""
 }
 
 struct rsyncItem { //同步记录表

@@ -13,9 +13,11 @@ class SelectViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDa
     var pickerView  = UIPickerView(frame: CGRect(x: 0, y: ScreenH-200, width: ScreenW, height: 200))
     var timebtn     = UIButton(type: UIButtonType.system)
     var button      = UIButton(type: UIButtonType.system)
-    
+    var selpage  = ""
     var userKV      = Dictionary<Int,userItem>()
     var expensesKV  = Dictionary<Int,expenseItem>()
+    var incomeKV =  Dictionary<Int,incomeItem>()
+    var ctgKV = Dictionary<Int,Any>()
     var selUser = 0
     var selCtg  = 0
     var selDate = NSDate()
@@ -33,7 +35,7 @@ class SelectViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDa
         button.frame = CGRect( x: 0, y: 80, width: ScreenW, height: 44 )
         //pickerview 定义
         userKV = DBRecord().userKV()
-        expensesKV = DBRecord().expensesKV()
+        ctgKV = selpage == "income" ? DBRecord().incomeKV() : DBRecord().expensesKV()
         pickerView.delegate = self;
         pickerView.dataSource = self;
         pickerView.selectRow(selUser, inComponent: 0, animated: false)
@@ -56,7 +58,11 @@ class SelectViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDa
         button.backgroundColor =  UIColor.white
         button.setTitleColor(UIColor.gray, for: UIControlState())
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        button.setTitle("\(userKV[selUser]!.user) - \(expensesKV[selCtg]!.name)", for: UIControlState())
+        if(selpage == "income"){
+            button.setTitle("\(userKV[selUser]!.user) - \((ctgKV[selCtg]! as! incomeItem).name)", for: UIControlState())
+        }else{
+            button.setTitle("\(userKV[selUser]!.user) - \((ctgKV[selCtg]! as! expenseItem).name)", for: UIControlState())
+        }
         button.addTarget(self, action: #selector(self.selCtgAction), for: UIControlEvents.touchUpInside)
         //保存
         savebutton.backgroundColor = UIColor.clear
@@ -107,7 +113,7 @@ class SelectViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDa
         if(component == 0){
             return userKV.count
         }else if(component == 1) {
-            return expensesKV.count
+            return ctgKV.count
         }
         return 0
     }
@@ -130,7 +136,8 @@ class SelectViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDa
             myView.text =  userKV[row]!.user
         }else if(component == 1) {
             myView.frame = CGRect(x: 10, y: 0.0, width: 60, height: 40)
-            myView.text =  expensesKV[row]!.name
+            
+            myView.text =  selpage == "income" ? (ctgKV[row]! as! incomeItem).name : (ctgKV[row]! as! expenseItem).name
         }
         return myView;
     }
@@ -139,7 +146,7 @@ class SelectViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDa
         print(pickerView.selectedRow(inComponent: 0))
         print(pickerView.selectedRow(inComponent: 1))
         let user =  userKV[pickerView.selectedRow(inComponent: 0)]!.user
-        let ctg = expensesKV[pickerView.selectedRow(inComponent: 1)]!.name
+        let ctg = selpage == "income" ? (ctgKV[pickerView.selectedRow(inComponent: 1)]! as! incomeItem).name : (ctgKV[pickerView.selectedRow(inComponent: 1)]! as! expenseItem).name
         button.setTitle("\(user)-\(ctg)", for: UIControlState())
     }
     
@@ -150,7 +157,7 @@ class SelectViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDa
     func done(){
         //获取所有数据：
         let userid:Int  = userKV[pickerView.selectedRow(inComponent: 0)]!.id
-        let ctgid:Int   = expensesKV[pickerView.selectedRow(inComponent: 1)]!.id
+        let ctgid:Int   = selpage == "income" ? (ctgKV[pickerView.selectedRow(inComponent: 1)]! as! incomeItem).id : (ctgKV[pickerView.selectedRow(inComponent: 1)]! as! expenseItem).id
         let date:NSDate = self.pickerDate
         HUD.alert(self.view,text: "查询中..")
         收起所有输入面板()
