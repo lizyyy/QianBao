@@ -28,3 +28,7 @@ var renew:Bool = false
 
 
 let apiUrl = UserDefaults.standard.string(forKey: "apiUrl")!
+
+enum frompage{ //来源页面
+    case pay,income,transf
+}

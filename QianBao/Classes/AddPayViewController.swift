@@ -25,6 +25,7 @@ class AddPayViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDeleg
     var userKV      = Dictionary<Int,userItem>()
     var expensesKV  = Dictionary<Int,expenseItem>()
     var bankKV      = Dictionary<Int,bankItem>()
+    
     let db = DBRecord()
     
     dynamic var newadd : NSNumber!; //监听属性，发生变化时刷新列表页
@@ -42,7 +43,9 @@ class AddPayViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDeleg
         datePicker.timeZone = TimeZone.current
         //pickerview 定义
         userKV = DBRecord().userKV()
+        userKV.removeValue(forKey: 0)
         expensesKV = DBRecord().expensesKV()
+        expensesKV.removeValue(forKey: 0)
         bankKV = DBRecord().bankKV()
         pickerView.delegate = self;
         pickerView.dataSource = self;
@@ -120,7 +123,6 @@ class AddPayViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDeleg
         self.view.addSubview(button)
         self.view.addSubview(line)
         self.view.addSubview(timebtn)
-        
     }
     
     func 收起所有输入面板(){

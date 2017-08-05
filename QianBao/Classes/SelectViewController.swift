@@ -13,19 +13,14 @@ class SelectViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDa
     var pickerView  = UIPickerView(frame: CGRect(x: 0, y: ScreenH-200, width: ScreenW, height: 200))
     var timebtn     = UIButton(type: UIButtonType.system)
     var button      = UIButton(type: UIButtonType.system)
-    var selpage  = ""
-    var userKV      = Dictionary<Int,userItem>()
-    var expensesKV  = Dictionary<Int,expenseItem>()
-    var incomeKV =  Dictionary<Int,incomeItem>()
+    var selpage:frompage!
+    var userKV      = Dictionary<Int,userItem>() 
     var ctgKV = Dictionary<Int,Any>()
     var selUser = 0
     var selCtg  = 0
     var selDate = NSDate()
-    
     var pickerDate = NSDate()
-    
     var datepicker:HooDatePicker?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
@@ -35,7 +30,16 @@ class SelectViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDa
         button.frame = CGRect( x: 0, y: 80, width: ScreenW, height: 44 )
         //pickerview 定义
         userKV = DBRecord().userKV()
-        ctgKV = selpage == "income" ? DBRecord().incomeKV() : DBRecord().expensesKV()
+        switch selpage {
+            case .income:
+                ctgKV = DBRecord().incomeKV()
+                break;
+            case .pay:
+                ctgKV = DBRecord().expensesKV()
+            case .transf:
+                ctgKV = DBRecord.changeType()
+            default:break;
+        }
         pickerView.delegate = self;
         pickerView.dataSource = self;
         pickerView.selectRow(selUser, inComponent: 0, animated: false)
@@ -58,10 +62,16 @@ class SelectViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDa
         button.backgroundColor =  UIColor.white
         button.setTitleColor(UIColor.gray, for: UIControlState())
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        if(selpage == "income"){
+        
+        switch selpage {
+        case .income:
             button.setTitle("\(userKV[selUser]!.user) - \((ctgKV[selCtg]! as! incomeItem).name)", for: UIControlState())
-        }else{
+            break;
+        case .pay:
             button.setTitle("\(userKV[selUser]!.user) - \((ctgKV[selCtg]! as! expenseItem).name)", for: UIControlState())
+        case .transf:
+            button.setTitle("\(String(describing: DBRecord.changeType()[selCtg]))", for: UIControlState())
+        default:break;
         }
         button.addTarget(self, action: #selector(self.selCtgAction), for: UIControlEvents.touchUpInside)
         //保存
@@ -136,8 +146,16 @@ class SelectViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDa
             myView.text =  userKV[row]!.user
         }else if(component == 1) {
             myView.frame = CGRect(x: 10, y: 0.0, width: 60, height: 40)
-            
-            myView.text =  selpage == "income" ? (ctgKV[row]! as! incomeItem).name : (ctgKV[row]! as! expenseItem).name
+            switch selpage {
+            case .income:
+                myView.text = (ctgKV[row]! as! incomeItem).name
+                break;
+            case .pay:
+                myView.text = (ctgKV[row]! as! expenseItem).name
+            case .transf:
+                myView.text =  DBRecord.changeType()[selCtg]
+            default:break;
+            }
         }
         return myView;
     }
@@ -146,7 +164,17 @@ class SelectViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDa
         print(pickerView.selectedRow(inComponent: 0))
         print(pickerView.selectedRow(inComponent: 1))
         let user =  userKV[pickerView.selectedRow(inComponent: 0)]!.user
-        let ctg = selpage == "income" ? (ctgKV[pickerView.selectedRow(inComponent: 1)]! as! incomeItem).name : (ctgKV[pickerView.selectedRow(inComponent: 1)]! as! expenseItem).name
+        var ctg = ""
+        switch selpage {
+        case .income:
+            ctg = (ctgKV[pickerView.selectedRow(inComponent: 1)]! as! incomeItem).name
+            break;
+        case .pay:
+            ctg = (ctgKV[pickerView.selectedRow(inComponent: 1)]! as! expenseItem).name
+        case .transf:
+            ctg =  DBRecord.changeType()[selCtg]!
+        default:break;
+        }
         button.setTitle("\(user)-\(ctg)", for: UIControlState())
     }
     
@@ -157,8 +185,18 @@ class SelectViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDa
     func done(){
         //获取所有数据：
         let userid:Int  = userKV[pickerView.selectedRow(inComponent: 0)]!.id
-        let ctgid:Int   = selpage == "income" ? (ctgKV[pickerView.selectedRow(inComponent: 1)]! as! incomeItem).id : (ctgKV[pickerView.selectedRow(inComponent: 1)]! as! expenseItem).id
+        var ctgid:Int   = 0
         let date:NSDate = self.pickerDate
+        switch selpage {
+        case .income:
+            ctgid = (ctgKV[pickerView.selectedRow(inComponent: 1)]! as! incomeItem).id
+            break;
+        case .pay:
+            ctgid = (ctgKV[pickerView.selectedRow(inComponent: 1)]! as! expenseItem).id
+        case .transf:
+            ctgid =  selCtg
+        default:break;
+        }
         HUD.alert(self.view,text: "查询中..")
         收起所有输入面板()
         DispatchQueue.main.async {
@@ -182,6 +220,4 @@ class SelectViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDa
     func closekeyboard(){
         收起所有输入面板()
     }
-    
-    
 }

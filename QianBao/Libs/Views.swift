@@ -19,12 +19,12 @@ class NavView{
     
     init(){
         viewW = ScreenW-65*2
-        midW = (viewW-200)/2
+        midW = (viewW-185)/2
         view     = UIView(frame: CGRect(x: 65, y: 0, width: viewW, height: 44))
         btnLeft  = UIButton(frame: CGRect(x: 0 , y: 1, width: midW, height: 44))
-        btnMid   = UIButton(frame: CGRect(x: midW , y: 1, width: 200, height: 29))
-        btnRight = UIButton(frame: CGRect(x: midW + 200 , y: 1, width: midW, height: 44))
-        lableSum   = UILabel(frame: CGRect(x: midW , y: 27, width: 200, height: 16))
+        btnMid   = UIButton(frame: CGRect(x: midW , y: 1, width: 185, height: 29))
+        btnRight = UIButton(frame: CGRect(x: midW + 185 , y: 1, width: midW, height: 44))
+        lableSum   = UILabel(frame: CGRect(x: midW , y: 27, width: 185, height: 16))
     }
     
     func view(title:String)->UIView { //导航条上的按钮

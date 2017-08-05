@@ -25,7 +25,7 @@ class PayViewController:UITableViewController,RsyncDelegate{
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add,target: self,action:#selector(PayViewController.添加页))
         //生成一个navView
         if( userKV.count > 0 ) {//必须有数据再添加
-            let view = navView.view(title:"\(toMonth(date:selDate)) -> \(userKV[selUser]!.user) -> \(expensesKV[selCtg]!.name)")
+            let view = navView.view(title:"\(toMonth(date:selDate)) → \(userKV[selUser]!.user) → \(expensesKV[selCtg]!.name)")
             navView.btnLeft.addTarget(self, action: #selector(self.previousM), for: .touchUpInside)
             navView.btnMid.addTarget(self, action: #selector(self.midAction), for: .touchUpInside)
             navView.btnRight.addTarget(self, action: #selector(self.nextM), for: .touchUpInside)
@@ -53,14 +53,14 @@ class PayViewController:UITableViewController,RsyncDelegate{
     func previousM(sender: UIButton!) {
         selDate = selDate.minusMonths(m: 1)
         self.reload()
-        navView.btnMid.setTitle(toMonth(date:selDate) + " -> \(userKV[selUser]!.user) -> \(expensesKV[selCtg]!.name)", for: UIControlState())
+        navView.btnMid.setTitle(toMonth(date:selDate) + " → \(userKV[selUser]!.user) → \(expensesKV[selCtg]!.name)", for: UIControlState())
     }
     
     func nextM(sender: UIButton!){
         //@todo 超出的月份不让翻页
         selDate = selDate.plusMonths(m: 1)
         self.reload()
-        navView.btnMid.setTitle(toMonth(date:selDate) + " -> \(userKV[selUser]!.user) -> \(expensesKV[selCtg]!.name)", for: UIControlState())
+        navView.btnMid.setTitle(toMonth(date:selDate) + " → \(userKV[selUser]!.user) → \(expensesKV[selCtg]!.name)", for: UIControlState())
     }
     
     func midAction(sender: UIButton!){
@@ -68,7 +68,7 @@ class PayViewController:UITableViewController,RsyncDelegate{
         selectview.selCtg = self.selCtg
         selectview.selUser = self.selUser
         selectview.selDate = self.selDate
-        selectview.selpage = "pay"
+        selectview.selpage = frompage.pay
         self.navigationController?.present( UINavigationController(rootViewController: selectview), animated: true, completion:nil)
         NotificationCenter.default.addObserver(self, selector:#selector(PayViewController.newsel(_:)), name: NSNotification.Name(rawValue: "newsel"), object: nil)
     }
@@ -89,7 +89,7 @@ class PayViewController:UITableViewController,RsyncDelegate{
         selCtg =  notification.userInfo!["ctgid"]! as! Int
         selDate = notification.userInfo!["date"] as! NSDate
         //print(toMonth(date:selDate) + " -> \(userKV[selUser]!.user) -> \(expensesKV[selCtg]!.name)")
-        navView.btnMid.setTitle(toMonth(date:selDate) + " -> \(userKV[selUser]!.user) -> \(expensesKV[selCtg]!.name)", for: UIControlState())
+        navView.btnMid.setTitle(toMonth(date:selDate) + " → \(userKV[selUser]!.user) → \(expensesKV[selCtg]!.name)", for: UIControlState())
         self.reload()
     }
  
@@ -176,6 +176,14 @@ class PayViewController:UITableViewController,RsyncDelegate{
         cell.user.text     = item.user_name
         cell.type.text     = item.cate_name
         cell.icon.contents = UIImage(named:"p\(item.cate_id)")?.cgImage
+        var backColor = UIColor()
+        switch item.user_id {
+        case 2: backColor =  UIColor(hex:0x64aef7,alpha:1) //lzy
+        case 3: backColor = UIColor(hex:0xe74941,alpha:1) //jyy
+        case 4: backColor = UIColor(hex:0xfdbf3e,alpha:1) //l&j
+        default:backColor = UIColor.gray; break;//all
+        }
+        cell.user.textColor = backColor
         return cell
     }
     

@@ -1,5 +1,5 @@
 //
-//  AddIncomeViewController.swift
+//  AddPayViewController.swift
 //  qian8
 //
 //  Created by leeey on 14/7/26.
@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class AddIncomeViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDelegate,UIPickerViewDelegate,UIPickerViewDataSource{
+class AddTransfViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDelegate,UIPickerViewDelegate,UIPickerViewDataSource{
     var line        = UIView(frame: CGRect(x: 20, y: 110, width: ScreenW-40, height: 1))
     var money       = UITextField(frame: CGRect(x: 20, y: 174, width: ScreenW-40, height: 40))
     var view1       = UIView(frame: CGRect(x: 0, y: 200, width: 320, height: 49))
@@ -21,9 +21,8 @@ class AddIncomeViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDe
     var datePicker  = UIDatePicker(frame: CGRect(x: 0, y: ScreenH-220, width: ScreenW, height: 252))
     var timebtn     = UIButton(type: UIButtonType.system)
     var button      = UIButton(type: UIButtonType.system)
-    
     var userKV      = Dictionary<Int,userItem>()
-    var incomeKV  = Dictionary<Int,incomeItem>()
+    var typeKV      = Dictionary<Int,String>()
     var bankKV      = Dictionary<Int,bankItem>()
     let db = DBRecord()
     
@@ -32,33 +31,35 @@ class AddIncomeViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDe
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
-        self.navigationItem.title = "添加收入"
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "取消", style: UIBarButtonItemStyle.plain, target: self, action:#selector(AddIncomeViewController.cancel))
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "完成", style: UIBarButtonItemStyle.plain, target: self, action:#selector(AddIncomeViewController.done))
+        self.navigationItem.title = "添加转账"
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "取消", style: UIBarButtonItemStyle.plain, target: self, action:#selector(AddPayViewController.cancel))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "完成", style: UIBarButtonItemStyle.plain, target: self, action:#selector(AddPayViewController.done))
+        
         timebtn.frame = CGRect( x: 25, y: 120, width: 120, height: 40 )
         button.frame = CGRect( x: 0, y: 64, width: ScreenW, height: 44 )
         datePicker.locale =  Locale(identifier: "zh_CN")
         datePicker.timeZone = TimeZone.current
         //pickerview 定义
         userKV = DBRecord().userKV()
-        userKV.removeValue(forKey: 0)
-        incomeKV = DBRecord().incomeKV()
+        typeKV = DBRecord.changeType()
         bankKV = DBRecord().bankKV()
         pickerView.delegate = self;
         pickerView.dataSource = self;
         pickerView.selectRow(UserDefaults.standard.integer(forKey: "DeviceID"), inComponent: 0, animated: false)
-        pickerView.selectRow(0, inComponent: 1, animated: false)
+        pickerView.selectRow(2, inComponent: 1, animated: false)
         if(UserDefaults.standard.integer(forKey: "DeviceID") == 1)
         {
-            pickerView.selectRow(2, inComponent: 2, animated: false)
-        }else{
+            pickerView.selectRow(3, inComponent: 0, animated: false)
             pickerView.selectRow(0, inComponent: 2, animated: false)
+        }else{
+            pickerView.selectRow(9, inComponent: 0, animated: false)
+            pickerView.selectRow(10, inComponent: 2, animated: false)
         }
-        incomeView()
+        payView()
     }
     
-    // MARK: - IncomeView
-    func incomeView() {
+    // MARK: - payView
+    func payView() {
         //金额
         money.attributedPlaceholder = NSAttributedString(
             string: "￥0.00",
@@ -79,11 +80,11 @@ class AddIncomeViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDe
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         
         if(UserDefaults.standard.integer(forKey: "DeviceID")  == 1 ){
-            button.setTitle("lzy-工资-LZY【BJ招行】工资卡", for: UIControlState())
+            button.setTitle("LZY【BJ招行】工资卡→转取钱→LZY【现金】", for: UIControlState())
         }else{
-            button.setTitle("jyy-工资-JYY【XF招行】", for: UIControlState())
+            button.setTitle("JYY【XF招行】信用卡→转取钱→JYY【现金】`", for: UIControlState())
         }
-        button.addTarget(self, action: #selector(AddIncomeViewController.selCtg), for: UIControlEvents.touchUpInside)
+        button.addTarget(self, action: #selector(AddPayViewController.selCtg), for: UIControlEvents.touchUpInside)
         line.backgroundColor = UIColor(hex:0xD1D5Db,alpha:1)
         //保存
         savebutton.backgroundColor = UIColor.clear
@@ -91,14 +92,14 @@ class AddIncomeViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDe
         savebutton.setTitle("完成",for:UIControlState());
         savebutton.setTitleColor(UIColor(hex:0x1499d7,alpha:1), for: UIControlState())
         savebutton.setTitleColor(UIColor(hex:0x1499d7,alpha:1), for: UIControlState.highlighted)
-        savebutton.addTarget(self, action: #selector(AddIncomeViewController.done), for: UIControlEvents.touchUpInside)
+        savebutton.addTarget(self, action: #selector(AddPayViewController.done), for: UIControlEvents.touchUpInside)
         //取消
         cancelbutton.backgroundColor = UIColor.clear
         cancelbutton.titleLabel?.font = UIFont.systemFont(ofSize: 18)
         cancelbutton.setTitle("取消",for:UIControlState());
         cancelbutton.setTitleColor(UIColor(hex:0x1499d7,alpha:1), for: UIControlState())
         cancelbutton.setTitleColor(UIColor(hex:0x1499d7,alpha:1), for: UIControlState.highlighted)
-        cancelbutton.addTarget(self, action: #selector(AddIncomeViewController.cancel), for: UIControlEvents.touchUpInside)
+        cancelbutton.addTarget(self, action: #selector(AddPayViewController.cancel), for: UIControlEvents.touchUpInside)
         //备注
         desctext.delegate = self
         desctext.tag = 2
@@ -112,7 +113,7 @@ class AddIncomeViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDe
         timebtn.setTitleColor(UIColor.gray, for: UIControlState())
         timebtn.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         timebtn.setTitle(today(), for: UIControlState())
-        timebtn.addTarget(self, action: #selector(AddIncomeViewController.selTime), for: UIControlEvents.touchUpInside)
+        timebtn.addTarget(self, action: #selector(AddPayViewController.selTime), for: UIControlEvents.touchUpInside)
         //添加
         self.view.addSubview(cancelbutton)
         self.view.addSubview(savebutton)
@@ -120,6 +121,7 @@ class AddIncomeViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDe
         self.view.addSubview(button)
         self.view.addSubview(line)
         self.view.addSubview(timebtn)
+        
     }
     
     func 收起所有输入面板(){
@@ -138,7 +140,7 @@ class AddIncomeViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDe
         收起所有输入面板()
         datePicker.datePickerMode = UIDatePickerMode.date
         datePicker.date = datePicker.date
-        datePicker.addTarget(nil, action: #selector(AddIncomeViewController.datePickerDateChanged(_:)), for: UIControlEvents.valueChanged)
+        datePicker.addTarget(nil, action: #selector(AddPayViewController.datePickerDateChanged(_:)), for: UIControlEvents.valueChanged)
         self.view.addSubview(datePicker)
     }
     
@@ -169,7 +171,7 @@ class AddIncomeViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDe
         if(component == 0){
             return userKV.count
         }else if(component == 1) {
-            return incomeKV.count
+            return typeKV.count
         }
         else if(component == 2) {
             return bankKV.count
@@ -179,12 +181,12 @@ class AddIncomeViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDe
     
     func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
         if(component == 0){
-            return 40;
+            return 130;
         }else if(component == 1) {
-            return 60;
+            return 40;
         }
         else if(component == 2) {
-            return 180;
+            return 130;
         }
         return 0;
     }
@@ -195,10 +197,10 @@ class AddIncomeViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDe
         myView.backgroundColor = UIColor.clear
         if(component == 0){
             myView.frame = CGRect(x: 10, y: 0, width: 40, height: 40)
-            myView.text =  userKV[row+1]?.user
+            myView.text =  bankKV[row+1]?.name
         }else if(component == 1) {
             myView.frame = CGRect(x: 10, y: 0.0, width: 60, height: 40)
-            myView.text =  incomeKV[row+1]?.name
+            myView.text =  typeKV[row]!
         }else if(component == 2) {
             myView.frame = CGRect(x: 0, y: 0.0, width: 190, height: 40)
             myView.text =  bankKV[row+1]?.name
@@ -208,10 +210,10 @@ class AddIncomeViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDe
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
-        let user =  userKV[pickerView.selectedRow(inComponent: 0)+1]!.user
-        let ctg = incomeKV[pickerView.selectedRow(inComponent: 1)+1]!.name
-        let bank = bankKV[pickerView.selectedRow(inComponent: 2)+1]!.name
-        button.setTitle("\(user)-\(ctg)-\(bank)", for: UIControlState())
+        let bankfrom =  bankKV[pickerView.selectedRow(inComponent: 0)+1]!.name
+        let type = typeKV[pickerView.selectedRow(inComponent: 1)+1]!
+        let bankto = bankKV[pickerView.selectedRow(inComponent: 2)+1]!.name
+        button.setTitle("\(bankfrom)-\(type)-\(bankto)", for: UIControlState())
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -222,19 +224,19 @@ class AddIncomeViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDe
         if(!checkForm()){return}
         //获取所有数据：
         let userid:Int  = userKV[pickerView.selectedRow(inComponent: 0)+1]!.id
-        let ctgid:Int   = incomeKV[pickerView.selectedRow(inComponent: 1)+1]!.id
+        let typeid:Int   = pickerView.selectedRow(inComponent: 1)+1
         let bankid:Int  = bankKV[pickerView.selectedRow(inComponent: 2)+1]!.id
         let date:String = self.timebtn.title(for: UIControlState())!
         let desc:String = self.desctext.text!
         let money:String =  self.money.text!.replacingOccurrences(of: "￥", with: "")
         let uid:String = String(UserDefaults.standard.integer(forKey: "DeviceID"))
         //保存记录
-        if(!db.execute(sql:"insert into `qian8_income_list` (`cate_id`,`user_id`,`time`,`money`,`demo`,`bank_id`,`sn`) values ('\(ctgid)','\(userid)','\(date)','\(money)','\(desc)','\(bankid)','0')")){
+        if(!db.execute(sql:"insert into `qian8_expense_list` (`cate_id`,`user_id`,`time`,`price`,`demo`,`bank_id`,`sn`) values ('\(typeid)','\(userid)','\(date)','\(money)','\(desc)','\(bankid)','0')")){
             print("add error")
         }
         let lastid = db.lastid()
         //保存同步记录
-        if(!DBRecord().execute(sql:"insert into `qian8_sync_list` (`master_id`,`action_id`,`table_id`,`user_id`,`rsync_status`,`rsync_rs`,`data`,`local_id`) values ('0','1','4','\(uid)','0','0','|\(date)|\(userid)|\(money)|\(desc)|\(ctgid)|\(bankid)|0','\(lastid)')")){
+        if(!DBRecord().execute(sql:"insert into `qian8_sync_list` (`master_id`,`action_id`,`table_id`,`user_id`,`rsync_status`,`rsync_rs`,`data`,`local_id`) values ('0','1','6','\(uid)','0','0','|\(typeid)|\(userid)|\(date)|\(money)|\(desc)|\(bankid)|0','\(lastid)')")){
             print("add error")
         }
         //银行扣款
@@ -296,6 +298,7 @@ class AddIncomeViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDe
         }
         return true
     }
+    
     deinit {
         self.removeObserver(self, forKeyPath: "newadd", context: nil);
     }

@@ -2,22 +2,114 @@
 //  TransfViewController.swift
 //  qian8new
 //
-//  Created by zhiyuan on 2016/10/18.
+//  Created by zhiyuan on 2016/10/13.
 //  Copyright © 2016年 leeey. All rights reserved.
 //
 import UIKit
-
-class TransfViewController:UITableViewController {
-    //TODO: 这样写会效率低的
-    let dataList = DBRecord().getExpensesList()
+class TransfViewController:UITableViewController,RsyncDelegate{
+    var dataList = [bankListItem]()
+    let navView = NavView()
+    var taptime = CGFloat()
+    var hud: MBProgressHUD!
+    var selDate = NSDate()
+    var selCtg  = 0
+    var userKV    = Dictionary<Int,userItem>()
+    var transfKV    = Dictionary<Int,bankItem>()
+    let db = DBRecord()
+    func inittitle()->TransfViewController{ return self }
     override func viewDidLoad() {
         super.viewDidLoad()
+        userKV    = DBRecord().userKV()
+        transfKV     = DBRecord().bankKV()
         self.view.backgroundColor = UIColor.white
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add,target: self,action:#selector(self.添加页))
+        //生成一个navView
+        if( userKV.count > 0 ) {//必须有数据再添加
+            let view = navView.view(title:"\(toMonth(date:selDate)) → \(DBRecord.changeType()[selCtg]!)")
+            navView.btnLeft.addTarget(self, action: #selector(self.previousM), for: .touchUpInside)
+            navView.btnMid.addTarget(self, action: #selector(self.midAction), for: .touchUpInside)
+            navView.btnRight.addTarget(self, action: #selector(self.nextM), for: .touchUpInside)
+            self.navigationController?.navigationBar.addSubview(view)
+            self.reload()
+        }
+        //下拉刷新
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(self.刷新和同步), for: UIControlEvents.valueChanged)
+        refreshControl.attributedTitle = NSAttributedString(string: "同步数据...")
+        self.refreshControl = refreshControl
     }
     
-    func inittitle()->TransfViewController{
-        self.title = "Transfer"
-        return self
+    // MARK: - 一些方法
+    func 刷新和同步(){
+        if 更新锁 == false {
+            更新锁 = true
+            self.refreshControl?.beginRefreshing()
+            let rsync  = Rsync()
+            rsync.delegate = self
+            rsync.同步()
+        }
+    }
+    
+    func previousM(sender: UIButton!) {
+        selDate = selDate.minusMonths(m: 1)
+        self.reload()
+        navView.btnMid.setTitle(toMonth(date:selDate) + " → \(DBRecord.changeType()[selCtg]!)", for: UIControlState())
+    }
+    
+    func nextM(sender: UIButton!){
+        //@todo 超出的月份不让翻页
+        selDate = selDate.plusMonths(m: 1)
+        self.reload()
+        navView.btnMid.setTitle(toMonth(date:selDate) + " → \(DBRecord.changeType()[selCtg]!)", for: UIControlState())
+    }
+    
+    func midAction(sender: UIButton!){
+        let selectview = SelectViewController()
+        selectview.selCtg = self.selCtg
+        selectview.selDate = self.selDate
+        selectview.selpage = frompage.transf
+        self.navigationController?.present( UINavigationController(rootViewController: selectview), animated: true, completion:nil)
+        NotificationCenter.default.addObserver(self, selector:#selector(self.newsel(_:)), name: NSNotification.Name(rawValue: "newsel"), object: nil)
+    }
+    
+    func reload(){
+        dataList = db.getBankList(toMonth(date:selDate))
+        DispatchQueue.main.async {
+            self.navView.lableSum.text = "共：" + String(self.dataList.count) + " 笔"
+            self.refreshControl?.endRefreshing()
+            self.tableView.reloadData()
+        }
+        更新锁 = false
+    }
+    
+    //筛选条件更新
+    func newsel(_ notification: Notification){
+        selDate = notification.userInfo!["date"] as! NSDate
+        self.reload()
+    }
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if(keyPath == "newadd"){ //监听添加页面的newadd属性，当发生变化时，刷新页面
+            self.reload()
+        }
+    }
+    
+    func 添加页(){
+        let addview = AddTransfViewController()
+        //监听添加页面的newadd属性，当发生变化时，刷新页面
+        addview.addObserver(self, forKeyPath: "newadd", options: NSKeyValueObservingOptions.new, context: nil);
+        self.navigationController?.present(UINavigationController(rootViewController: addview), animated: true, completion:nil)
+    }
+    
+    // MARK: - RsyncDelegate
+    var noticeview = UIView()
+    func rsyncFinish(a:Int,b:Int,c:Int){
+        renew  = true
+        self.reload()
+    }
+    
+    func removeNotice(){
+        noticeview.removeFromSuperview()
     }
     
     //MARK: - UITableViewDelegate
@@ -31,6 +123,16 @@ class TransfViewController:UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+    }
+    
+    //双击打开添加页
+    override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        let curr = Date().timeIntervalSince1970
+        if (CGFloat(curr) - CGFloat(taptime) < 0.9) {
+            添加页()
+            taptime = 0
+        }else{ taptime = CGFloat(curr) }
+        return false
     }
     
     //MARK: - UITableViewDataSource
@@ -47,18 +149,94 @@ class TransfViewController:UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = ListCellView(cellStyle:ListCellStyle.Expense, reuseIdentifier:ListCellView.identifier)
+        let cell = ListCellView(cellStyle:ListCellStyle.Transf, reuseIdentifier:ListCellView.identifier)
         cell.selectionStyle = UITableViewCellSelectionStyle.none
         let item = dataList[indexPath.row]
         //公用
-        cell.money.text    = item.price
-        cell.time.text     = item.time
+        cell.money.text    = item.money
+        cell.time.text     = item.week
         cell.note.text     = item.demo
         cell.bankFrom.text = item.bank_name
-        cell.user.text     = item.user_name
-        cell.type.text     = item.cate_name
-        
-        cell.icon.contents = UIImage(named:"p\(item.cate_id)")?.cgImage
+        cell.bankTo.text   = item.bankto_name 
+        cell.type.text     = "→" + item.type_name + "→"
+        var backColor = UIColor()
+        switch item.type {
+        case 1: backColor =  UIColor(hex:0xdd5e31,alpha:1) //定期
+        case 2: backColor = UIColor(hex:0x1666af,alpha:1) //活期
+        case 3: backColor = UIColor(hex:0x239925,alpha:1) //转
+        default:backColor = UIColor.gray; break
+        }
+        cell.type.textColor = backColor
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let recordlist  = self.dataList[indexPath.row]
+        let selid       = recordlist.id
+        let agentid     = String(UserDefaults.standard.integer(forKey: "DeviceID"))
+        let money       = recordlist.money
+        let bankid      = recordlist.from_bank_id
+        let _    = recordlist.to_bank_id
+        //删除一条记录
+        let deleteClosure = { (action: UITableViewRowAction!, indexPath: IndexPath!) -> Void in
+            //获取此条的基本信息
+            let delsn   = recordlist.sn
+            //先修改银行余额
+            let sqlbank = "update qian8_bank set `current_deposit` = `current_deposit`+\(money) where id='\(bankid)'"
+            if (DBRecord().execute(sql: sqlbank) ){
+                //同步日志
+                let upData = toJSONString2( ["current_deposit":"`current_deposit`+\(money)"] )
+                let sqlbankSync = "insert into qian8_sync_list (master_id,action_id,table_id,user_id,rsync_status,rsync_rs,data,local_id) values ('\(bankid)','2','1','\(agentid)','0','0','\(upData)','\(bankid)')"
+                if ( DBRecord().execute(sql:sqlbankSync) ) {
+                    //同步删除日志
+                    let sn = delsn == 0 ? "0" : String(delsn)
+                    let sqldelSync = "insert into qian8_sync_list (master_id,action_id,table_id,user_id,rsync_status,rsync_rs,data,local_id) values ('\(sn)','3','6','\(agentid)','0','0','[]','\(selid)')"
+                    if ( DBRecord().execute(sql:sqldelSync) ) {
+                        //最后再删除记录
+                        let sqlDel = "delete from `qian8_bank_list` where id='\(selid)'"
+                        if (  DBRecord().execute(sql:sqlDel)  ) {
+                            self.dataList.remove(at: indexPath.row)
+                            self.tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.fade)
+                            self.tableView.reloadData()
+                        } else {print(sqlDel)}
+                    } else {print(sqldelSync)}
+                } else {print(sqlbankSync)}
+            } else {print(sqlbank)}
+        }
+        //复制到今天
+        let moreClosure = { (action: UITableViewRowAction!, indexPath: IndexPath!) -> Void in
+            let ctgid = recordlist.cate_id
+            let userid = recordlist.user_id
+            let date = today()
+            let desc = recordlist.demo
+            var lastid = 0
+            //保存记录
+            if(self.db.execute(sql:"insert into `qian8_bank_list` (`cate_id`,`user_id`,`time`,`money`,`demo`,`bank_id`,`sn`) values ('\(ctgid)','\(userid)','\(date)','\(money)','\(desc)','\(bankid)','0')")){
+                lastid = self.db.lastid()
+            }
+            //保存同步记录
+            if (!DBRecord().execute(sql:"insert into `qian8_sync_list` (`master_id`,`action_id`,`table_id`,`user_id`,`rsync_status`,`rsync_rs`,`data`,`local_id`) values ('0','1','6','\(agentid)','0','0','|\(ctgid)|\(userid)|\(date)|\(money)|\(desc)|\(bankid)|0','\(lastid)')")){
+                print("copy error")
+            }
+            //银行扣款
+            if (!DBRecord().execute(sql:"update `qian8_bank` set `current_deposit` = `current_deposit`-'\(money)' where `id`='\(bankid)'")){
+                print("copy error")
+            }
+            //保存扣款记录
+            let update = ["current_deposit":"`current_deposit`-\(money)"]
+            if (!DBRecord().execute(sql:"insert into `qian8_sync_list` (`master_id`,`action_id`,`table_id`,`user_id`,`rsync_status`,`rsync_rs`,`data`,`local_id`) values ('\(bankid)','2','1','\(agentid)','0','0','\(toJSONString2(update as NSDictionary))','\(bankid)')")){
+                print("copy error")
+            }else{
+                self.hud = MBProgressHUD.showAdded(to: (self.navigationController?.view)!, animated: true)
+                self.hud.customView = UIImageView(image: UIImage(named:"Checkmark"))
+                self.hud.mode = MBProgressHUDMode.customView
+                self.hud.label.text = "复制完成";
+                self.hud.hide(animated: true, afterDelay: 1)
+                self.reload()
+            }
+        }
+        let deleteAction = UITableViewRowAction(style: .default, title: "删除", handler: deleteClosure)
+        let moreAction = UITableViewRowAction(style:UITableViewRowActionStyle.normal, title: "复制到今天", handler: moreClosure)
+        return [deleteAction, moreAction]
     }
 }

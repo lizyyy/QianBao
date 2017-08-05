@@ -39,6 +39,10 @@ class DBRecord {
         return [1:"lzy's iphone",2:"jyy's iphone",3:"macbook",4:"初始化设备数据"]
     }
     
+    class func changeType()->Dictionary<Int,String>{
+        return [0:"全部",1:"存定期",2:"转活期",3:"转取钱"]
+    }
+    
     //MARK: 获取用户组
     func getBankUser()-> [bankItem]{
         let data = self.query("select * from qian8_bank group by user_id", values: nil)
@@ -122,8 +126,9 @@ class DBRecord {
     }
     
     //MARK: 获取转账数据
-    func getBankList() ->[bankListItem] {
-        let data =  self.query("select * from qian8_bank_list where time like '2016-11%'", values: nil)
+    func getBankList(_ month:String = "") ->[bankListItem] {
+        let sqlmonth = month == "" ?   toMonth(date:NSDate()) : month
+        let data =  self.query("select l.*, c.name as from_bank_name, b.name as to_bank_name  from qian8_bank c,qian8_bank_list l,qian8_bank b where  (l.to_bank_id = b.id  and l.from_bank_id = c.id) and    l.time like '\(sqlmonth)%' order by l.time desc;", values: nil)
         return bankListSet(data)
     }
     
@@ -132,6 +137,7 @@ class DBRecord {
         let data = self.query("select * from qian8_sync_list where rsync_status='0' and action_id='\(actionid)'",values: nil)
         return rsyncSet(data)
     }
+    
 //    //这里用any的方式实现
 //    func groupAny(data:[Any])->Dictionary<String,[Any]>{
 //        var groupList =  Dictionary<String,[Any]>()
@@ -198,6 +204,10 @@ class DBRecord {
             item.type = Int(data.int(forColumn:"type"))
             item.demo = data.string(forColumn:"demo")
             item.sn = Int(data.int(forColumn:"sn"))
+            item.bank_name = data.string(forColumn:"from_bank_name")
+            item.bankto_name = data.string(forColumn:"to_bank_name")
+            item.week = toWeek(date: toDate(item.time) as NSDate)
+            item.type_name = String(DBRecord.changeType()[item.type]!)
             rs.append(item)
         }
         return rs
@@ -304,7 +314,7 @@ struct bankItem { //银行账户信息
     var name = "全部"
     var user_id = 0
     var card_no = ""
-    var bank_name = ""
+    var bank_name = "全部"
     var current_deposit = ""
     var fixed_deposit = ""
 }
@@ -318,6 +328,13 @@ struct bankListItem { //转账记录
     var type = 0
     var demo = ""
     var sn = 0
+    var bank_name = ""
+    var bankto_name = ""
+    var type_name = ""
+    var week = ""
+    var user_id = 0
+    var cate_id = 0
+    
 }
 
 struct expenseItem { //支出分类

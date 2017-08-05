@@ -16,6 +16,7 @@
 		151394A11EAF53C2006CC3D2 /* Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151394A01EAF53C2006CC3D2 /* Views.swift */; };
 		1523FF0C1F289B840000D882 /* AddIncomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1523FF0B1F289B840000D882 /* AddIncomeViewController.swift */; };
 		15253E411F272D1000057456 /* config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15253E401F272D1000057456 /* config.swift */; };
+		152E21A91F2CF8EE006E58D6 /* AddTransfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152E21A81F2CF8EE006E58D6 /* AddTransfViewController.swift */; };
 		1567272E1EA747B700AE472C /* MBProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 156727211EA746A500AE472C /* MBProgressHUD.framework */; };
 		1567272F1EA747B700AE472C /* MBProgressHUD.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 156727211EA746A500AE472C /* MBProgressHUD.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		156727301EA747B900AE472C /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1567271F1EA7438100AE472C /* SwiftyJSON.framework */; };
@@ -100,6 +101,7 @@
 		151394A01EAF53C2006CC3D2 /* Views.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Views.swift; sourceTree = "<group>"; };
 		1523FF0B1F289B840000D882 /* AddIncomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddIncomeViewController.swift; sourceTree = "<group>"; };
 		15253E401F272D1000057456 /* config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = config.swift; sourceTree = "<group>"; };
+		152E21A81F2CF8EE006E58D6 /* AddTransfViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransfViewController.swift; sourceTree = "<group>"; };
 		1567271D1EA7437D00AE472C /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		1567271F1EA7438100AE472C /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
 		156727211EA746A500AE472C /* MBProgressHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MBProgressHUD.framework; path = Carthage/Build/iOS/MBProgressHUD.framework; sourceTree = "<group>"; };
@@ -323,6 +325,7 @@
 				15FFCEB41EA7B2C5001ACBFE /* IncomeViewController.swift */,
 				1523FF0B1F289B840000D882 /* AddIncomeViewController.swift */,
 				15FFCEB61EA7B2D5001ACBFE /* TransfViewController.swift */,
+				152E21A81F2CF8EE006E58D6 /* AddTransfViewController.swift */,
 				15FFCEB81EA7B2DF001ACBFE /* MeViewController.swift */,
 				15FFCEBA1EA7B2ED001ACBFE /* ConfViewController.swift */,
 				15FFCEE11EA7BD4A001ACBFE /* TerminalTableViewController.swift */,
@@ -607,6 +610,7 @@
 				151394A11EAF53C2006CC3D2 /* Views.swift in Sources */,
 				150D236A1EA714170055CE68 /* AppDelegate.swift in Sources */,
 				15FFCEBE1EA7B3F0001ACBFE /* ZYKeyboard.swift in Sources */,
+				152E21A91F2CF8EE006E58D6 /* AddTransfViewController.swift in Sources */,
 				15FFCEC31EA7B450001ACBFE /* Date.swift in Sources */,
 				15253E411F272D1000057456 /* config.swift in Sources */,
 				15FFCECE1EA7B6D7001ACBFE /* MeCell.swift in Sources */,
