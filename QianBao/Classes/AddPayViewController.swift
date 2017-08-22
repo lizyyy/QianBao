@@ -21,10 +21,9 @@ class AddPayViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDeleg
     var datePicker  = UIDatePicker(frame: CGRect(x: 0, y: ScreenH-220, width: ScreenW, height: 252))
     var timebtn     = UIButton(type: UIButtonType.system)
     var button      = UIButton(type: UIButtonType.system)
-    
     var userKV      = Dictionary<Int,userItem>()
     var expensesKV  = Dictionary<Int,expenseItem>()
-    var bankKV      = Dictionary<Int,bankItem>()
+    var bankKV      = [bankItem]()
     
     let db = DBRecord()
     
@@ -46,7 +45,7 @@ class AddPayViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDeleg
         userKV.removeValue(forKey: 0)
         expensesKV = DBRecord().expensesKV()
         expensesKV.removeValue(forKey: 0)
-        bankKV = DBRecord().bankKV()
+        bankKV = DBRecord().getBank()
         pickerView.delegate = self;
         pickerView.dataSource = self;
         pickerView.selectRow(UserDefaults.standard.integer(forKey: "DeviceID"), inComponent: 0, animated: false)
@@ -204,16 +203,15 @@ class AddPayViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDeleg
             myView.text =  expensesKV[row+1]?.name
         }else if(component == 2) {
             myView.frame = CGRect(x: 0, y: 0.0, width: 190, height: 40)
-            myView.text =  bankKV[row+1]?.name
+            myView.text =  bankKV[row].name
         }
         return myView;
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-
         let user =  userKV[pickerView.selectedRow(inComponent: 0)+1]!.user
         let ctg = expensesKV[pickerView.selectedRow(inComponent: 1)+1]!.name
-        let bank = bankKV[pickerView.selectedRow(inComponent: 2)+1]!.name
+        let bank = bankKV[pickerView.selectedRow(inComponent: 2)].name
         button.setTitle("\(user)-\(ctg)-\(bank)", for: UIControlState())
     }
     
@@ -226,7 +224,7 @@ class AddPayViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDeleg
         //获取所有数据：
         let userid:Int  = userKV[pickerView.selectedRow(inComponent: 0)+1]!.id
         let ctgid:Int   = expensesKV[pickerView.selectedRow(inComponent: 1)+1]!.id
-        let bankid:Int  = bankKV[pickerView.selectedRow(inComponent: 2)+1]!.id
+        let bankid:Int  = bankKV[pickerView.selectedRow(inComponent: 2)].id
         let date:String = self.timebtn.title(for: UIControlState())!
         let desc:String = self.desctext.text!
         let money:String =  self.money.text!.replacingOccurrences(of: "￥", with: "")

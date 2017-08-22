@@ -24,7 +24,7 @@ class AddIncomeViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDe
     
     var userKV      = Dictionary<Int,userItem>()
     var incomeKV  = Dictionary<Int,incomeItem>()
-    var bankKV      = Dictionary<Int,bankItem>()
+    var bankKV      = [bankItem]()
     let db = DBRecord()
     
     dynamic var newadd : NSNumber!; //监听属性，发生变化时刷新列表页
@@ -43,7 +43,7 @@ class AddIncomeViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDe
         userKV = DBRecord().userKV()
         userKV.removeValue(forKey: 0)
         incomeKV = DBRecord().incomeKV()
-        bankKV = DBRecord().bankKV()
+        bankKV = DBRecord().getBank()
         pickerView.delegate = self;
         pickerView.dataSource = self;
         pickerView.selectRow(UserDefaults.standard.integer(forKey: "DeviceID"), inComponent: 0, animated: false)
@@ -201,7 +201,7 @@ class AddIncomeViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDe
             myView.text =  incomeKV[row+1]?.name
         }else if(component == 2) {
             myView.frame = CGRect(x: 0, y: 0.0, width: 190, height: 40)
-            myView.text =  bankKV[row+1]?.name
+            myView.text =  bankKV[row].name
         }
         return myView;
     }
@@ -210,7 +210,7 @@ class AddIncomeViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDe
         
         let user =  userKV[pickerView.selectedRow(inComponent: 0)+1]!.user
         let ctg = incomeKV[pickerView.selectedRow(inComponent: 1)+1]!.name
-        let bank = bankKV[pickerView.selectedRow(inComponent: 2)+1]!.name
+        let bank = bankKV[pickerView.selectedRow(inComponent: 2)].name
         button.setTitle("\(user)-\(ctg)-\(bank)", for: UIControlState())
     }
     
@@ -223,7 +223,7 @@ class AddIncomeViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDe
         //获取所有数据：
         let userid:Int  = userKV[pickerView.selectedRow(inComponent: 0)+1]!.id
         let ctgid:Int   = incomeKV[pickerView.selectedRow(inComponent: 1)+1]!.id
-        let bankid:Int  = bankKV[pickerView.selectedRow(inComponent: 2)+1]!.id
+        let bankid:Int  = bankKV[pickerView.selectedRow(inComponent: 2)].id
         let date:String = self.timebtn.title(for: UIControlState())!
         let desc:String = self.desctext.text!
         let money:String =  self.money.text!.replacingOccurrences(of: "￥", with: "")

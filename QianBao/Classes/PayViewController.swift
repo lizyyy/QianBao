@@ -6,7 +6,7 @@
 //  Copyright © 2016年 leeey. All rights reserved.
 //
 import UIKit
-class PayViewController:UITableViewController,RsyncDelegate{
+class PayViewController:UITableViewController,RsyncDelegate,UITabBarControllerDelegate{
     var dataList = [expenseListItem]()
     let navView = NavView()
     var taptime = CGFloat()
@@ -17,6 +17,7 @@ class PayViewController:UITableViewController,RsyncDelegate{
     var userKV    = Dictionary<Int,userItem>()
     var expensesKV    = Dictionary<Int,expenseItem>()
     let db = DBRecord()
+    var 是否自动刷新 : Bool = false
     override func viewDidLoad() {
         super.viewDidLoad()
         userKV    = DBRecord().userKV()
@@ -38,7 +39,7 @@ class PayViewController:UITableViewController,RsyncDelegate{
         refreshControl.attributedTitle = NSAttributedString(string: "同步数据...")
         self.refreshControl = refreshControl
     }
-
+    
     // MARK: - 一些方法
     func 刷新和同步(){
         if 更新锁 == false {
