@@ -39,8 +39,13 @@ class DBRecord {
         return [1:"lzy's iphone",2:"jyy's iphone",3:"macbook",4:"初始化设备数据"]
     }
     
-    class func changeType()->Dictionary<Int,String>{
+    class func changeTypeAll()->Dictionary<Int,String>{
         return [0:"全部",1:"存定期",2:"转活期",3:"转取钱"]
+    }
+
+    
+    class func changeType()->Dictionary<Int,String>{
+        return [1:"存定期",2:"转活期",3:"转取钱"]
     }
     
     //MARK: 获取用户组
@@ -110,7 +115,6 @@ class DBRecord {
         return incomeListSet(data)
     }
     
-    
     func getIncome() ->[incomeItem] {
         let data =  self.query("select * from qian8_income_category", values: nil)
         return incomeSet(data)
@@ -126,9 +130,10 @@ class DBRecord {
     }
     
     //MARK: 获取转账数据
-    func getBankList(_ month:String = "") ->[bankListItem] {
+    func getBankList(_ month:String = "",ctgid cid:Int = 0) ->[bankListItem] {
         let sqlmonth = month == "" ?   toMonth(date:NSDate()) : month
-        let data =  self.query("select l.*, c.name as from_bank_name, b.name as to_bank_name  from qian8_bank c,qian8_bank_list l,qian8_bank b where  (l.to_bank_id = b.id  and l.from_bank_id = c.id) and    l.time like '\(sqlmonth)%' order by l.time desc;", values: nil)
+        let sqlcid = cid == 0 ? "" : " l.type  = '\(cid)' and  "
+        let data =  self.query("select l.*, c.name as from_bank_name, b.name as to_bank_name  from qian8_bank c,qian8_bank_list l,qian8_bank b where  (l.to_bank_id = b.id  and l.from_bank_id = c.id) and  \(sqlcid)   l.time like '\(sqlmonth)%' order by l.time desc;", values: nil)
         return bankListSet(data)
     }
     

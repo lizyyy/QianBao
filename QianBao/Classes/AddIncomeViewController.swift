@@ -282,7 +282,7 @@ class AddIncomeViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDe
         }
         let money:String =  self.money.text!.replacingOccurrences(of: "￥", with: "")
         let desc:String = self.desctext.text!
-        if Int(money) == nil {
+        if Float(money) == nil {
             alertController = UIAlertController(title: "",message: "金额不正确", preferredStyle: .alert)
             alertController.addAction(okAction)
             self.present(alertController, animated: true, completion: nil)

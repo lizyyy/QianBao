@@ -64,13 +64,14 @@ class ListCellView : UITableViewCell {
             money.textColor  = UIColor(hex:0x816b46,alpha:1)
             bankTo.font      = UIFont.systemFont(ofSize: 10)
             bankTo.textColor = UIColor.gray
-            bankTo.frame     = CGRect(x:ScreenW-110, y:40, width:150, height:14)
+            bankTo.frame     = CGRect(x:ScreenW-155, y:40, width:150, height:14)
             bankFrom.frame   = CGRect(x:8, y:40, width:150, height:14)
             note.frame       = CGRect(x:8, y:8, width:180, height:15)
             time.frame       = CGRect(x:ScreenW-70, y:8, width:90, height:15)
             money.frame      = CGRect(x:ScreenW/2-50, y:7, width:120, height:17)
-            type.frame       = CGRect(x:ScreenW/2-30, y:40, width:150, height:14)
+            type.frame       = CGRect(x:ScreenW/2-30, y:40, width:80, height:14)
             type.font        = UIFont.systemFont(ofSize:11)
+            bankTo.textAlignment = .right
             self.addSubview(bankTo)
         }
         self.addSubview(type)

@@ -25,7 +25,7 @@ class TransfViewController:UITableViewController,RsyncDelegate{
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add,target: self,action:#selector(self.添加页))
         //生成一个navView
         if( userKV.count > 0 ) {//必须有数据再添加
-            let view = navView.view(title:"\(toMonth(date:selDate)) → \(DBRecord.changeType()[selCtg]!)")
+            let view = navView.view(title:"\(toMonth(date:selDate)) → \(DBRecord.changeTypeAll()[selCtg]!)")
             navView.btnLeft.addTarget(self, action: #selector(self.previousM), for: .touchUpInside)
             navView.btnMid.addTarget(self, action: #selector(self.midAction), for: .touchUpInside)
             navView.btnRight.addTarget(self, action: #selector(self.nextM), for: .touchUpInside)
@@ -73,7 +73,7 @@ class TransfViewController:UITableViewController,RsyncDelegate{
     }
     
     func reload(){
-        dataList = db.getBankList(toMonth(date:selDate))
+        dataList = db.getBankList(toMonth(date:selDate),ctgid:selCtg)
         DispatchQueue.main.async {
             self.navView.lableSum.text = "共：" + String(self.dataList.count) + " 笔"
             self.refreshControl?.endRefreshing()
@@ -85,6 +85,8 @@ class TransfViewController:UITableViewController,RsyncDelegate{
     //筛选条件更新
     func newsel(_ notification: Notification){
         selDate = notification.userInfo!["date"] as! NSDate
+        selCtg =  notification.userInfo!["ctgid"] as! Int
+        navView.btnMid.setTitle(toMonth(date:selDate) + " → \(DBRecord.changeTypeAll()[selCtg]!)", for: UIControlState())
         self.reload()
     }
     
@@ -169,74 +171,52 @@ class TransfViewController:UITableViewController,RsyncDelegate{
         cell.type.textColor = backColor
         return cell
     }
+  
     
-    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         let recordlist  = self.dataList[indexPath.row]
-        let selid       = recordlist.id
-        let agentid     = String(UserDefaults.standard.integer(forKey: "DeviceID"))
-        let money       = recordlist.money
-        let bankid      = recordlist.from_bank_id
-        let _    = recordlist.to_bank_id
-        //删除一条记录
-        let deleteClosure = { (action: UITableViewRowAction!, indexPath: IndexPath!) -> Void in
-            //获取此条的基本信息
-            let delsn   = recordlist.sn
-            //先修改银行余额
-            let sqlbank = "update qian8_bank set `current_deposit` = `current_deposit`+\(money) where id='\(bankid)'"
-            if (DBRecord().execute(sql: sqlbank) ){
-                //同步日志
-                let upData = toJSONString2( ["current_deposit":"`current_deposit`+\(money)"] )
-                let sqlbankSync = "insert into qian8_sync_list (master_id,action_id,table_id,user_id,rsync_status,rsync_rs,data,local_id) values ('\(bankid)','2','1','\(agentid)','0','0','\(upData)','\(bankid)')"
-                if ( DBRecord().execute(sql:sqlbankSync) ) {
-                    //同步删除日志
-                    let sn = delsn == 0 ? "0" : String(delsn)
-                    let sqldelSync = "insert into qian8_sync_list (master_id,action_id,table_id,user_id,rsync_status,rsync_rs,data,local_id) values ('\(sn)','3','6','\(agentid)','0','0','[]','\(selid)')"
-                    if ( DBRecord().execute(sql:sqldelSync) ) {
-                        //最后再删除记录
-                        let sqlDel = "delete from `qian8_bank_list` where id='\(selid)'"
-                        if (  DBRecord().execute(sql:sqlDel)  ) {
-                            self.dataList.remove(at: indexPath.row)
-                            self.tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.fade)
-                            self.tableView.reloadData()
-                        } else {print(sqlDel)}
-                    } else {print(sqldelSync)}
-                } else {print(sqlbankSync)}
-            } else {print(sqlbank)}
+        let money  = recordlist.money
+        let delid = recordlist.id
+        let frombankid = recordlist.from_bank_id
+        let tobankid = recordlist.to_bank_id
+        let ctgid = recordlist.type 
+        let sn = recordlist.sn == 0 ? "0" : String(recordlist.sn)
+        let uid = String(UserDefaults.standard.integer(forKey: "DeviceID"))
+        var sqlBank1 = String()
+        //var msg = String()
+        var updateData = Dictionary<String,String>()
+        if (editingStyle == UITableViewCellEditingStyle.delete){
+            if( frombankid == tobankid ){ //银行互转
+                switch (ctgid) {
+                case 1:
+                    sqlBank1 = "update qian8_bank set `current_deposit`=`current_deposit`+\(money),`fixed_deposit`=`fixed_deposit`-\(money) where `id`=\(frombankid)"
+                    updateData = ["current_deposit":"`current_deposit`+\(money)","fixed_deposit":"`fixed_deposit`-\(money)"]
+                case 2:
+                    sqlBank1 = "update qian8_bank set `current_deposit`=`current_deposit`-\(money),`fixed_deposit`=`fixed_deposit`+\(money) where `id`=\(frombankid)"
+                    updateData = ["current_deposit":"`current_deposit`-\(money)","fixed_deposit":"`fixed_deposit`+\(money)"]
+                default:
+                    break
+                }
+                let sqlRsync1 = "insert into qian8_sync_list (master_id,action_id,table_id,user_id,rsync_status,rsync_rs,data,local_id) values  ('\(frombankid)','2','1','\(uid)','0','0','\(toJSONString2(updateData as NSDictionary))','\(frombankid)')"
+                if(!db.execute(sql:sqlBank1) || !db.execute(sql:sqlRsync1)){print("del error")}
+            }else{ //银行间转账
+                let sqlBank2  = "update `qian8_bank` set `current_deposit` =`current_deposit`+\(money) where  `id`='\(frombankid)'"
+                let updateData2 = ["current_deposit":"`current_deposit`+\(money)"]
+                let sqlRsync2 = "insert into qian8_sync_list (master_id,action_id,table_id,user_id,rsync_status,rsync_rs,data,local_id) values  ('\(frombankid)','2','1','\(uid)','0','0','\(toJSONString2(updateData2 as NSDictionary))','\(frombankid)')"
+                let sqlBank3 = "update `qian8_bank` set `current_deposit` =`current_deposit`-\(money) where `id`='\(tobankid)'"
+                let updateData3 = ["current_deposit":"`current_deposit`-\(money)"]
+                let sqlRsync3 = "insert into qian8_sync_list (master_id,action_id,table_id,user_id,rsync_status,rsync_rs,data,local_id) values  ('\(tobankid)','2','1','\(uid)','0','0','\(toJSONString2(updateData3 as NSDictionary))','\(tobankid)')"
+                if(!db.execute(sql:sqlBank2) || !db.execute(sql:sqlRsync2) || !db.execute(sql:sqlBank3) || !db.execute(sql:sqlRsync3) ){print("add error")}
+            }
+            //记录转账记录
+            let syncDel = "insert into qian8_sync_list (master_id,action_id,table_id,user_id,rsync_status,rsync_rs,data,local_id) values ('\(sn)','3','2','\(uid)','0','0','[]','\(delid)')"
+            if (!db.execute(sql:syncDel) ) {print("insert qian8_sync_list error")}
+            //保存同步
+            let sqlDel = "delete from `qian8_bank_list` where id='\(delid)'"
+            if (!db.execute(sql:sqlDel) ) {print("del qian8_bank_list error")}
+            dataList.remove(at: indexPath.row) 
+            self.tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.fade)
+            self.tableView.reloadData()
         }
-        //复制到今天
-        let moreClosure = { (action: UITableViewRowAction!, indexPath: IndexPath!) -> Void in
-            let ctgid = recordlist.cate_id
-            let userid = recordlist.user_id
-            let date = today()
-            let desc = recordlist.demo
-            var lastid = 0
-            //保存记录
-            if(self.db.execute(sql:"insert into `qian8_bank_list` (`cate_id`,`user_id`,`time`,`money`,`demo`,`bank_id`,`sn`) values ('\(ctgid)','\(userid)','\(date)','\(money)','\(desc)','\(bankid)','0')")){
-                lastid = self.db.lastid()
-            }
-            //保存同步记录
-            if (!DBRecord().execute(sql:"insert into `qian8_sync_list` (`master_id`,`action_id`,`table_id`,`user_id`,`rsync_status`,`rsync_rs`,`data`,`local_id`) values ('0','1','6','\(agentid)','0','0','|\(ctgid)|\(userid)|\(date)|\(money)|\(desc)|\(bankid)|0','\(lastid)')")){
-                print("copy error")
-            }
-            //银行扣款
-            if (!DBRecord().execute(sql:"update `qian8_bank` set `current_deposit` = `current_deposit`-'\(money)' where `id`='\(bankid)'")){
-                print("copy error")
-            }
-            //保存扣款记录
-            let update = ["current_deposit":"`current_deposit`-\(money)"]
-            if (!DBRecord().execute(sql:"insert into `qian8_sync_list` (`master_id`,`action_id`,`table_id`,`user_id`,`rsync_status`,`rsync_rs`,`data`,`local_id`) values ('\(bankid)','2','1','\(agentid)','0','0','\(toJSONString2(update as NSDictionary))','\(bankid)')")){
-                print("copy error")
-            }else{
-                self.hud = MBProgressHUD.showAdded(to: (self.navigationController?.view)!, animated: true)
-                self.hud.customView = UIImageView(image: UIImage(named:"Checkmark"))
-                self.hud.mode = MBProgressHUDMode.customView
-                self.hud.label.text = "复制完成";
-                self.hud.hide(animated: true, afterDelay: 1)
-                self.reload()
-            }
-        }
-        let deleteAction = UITableViewRowAction(style: .default, title: "删除", handler: deleteClosure)
-        let moreAction = UITableViewRowAction(style:UITableViewRowActionStyle.normal, title: "复制到今天", handler: moreClosure)
-        return [deleteAction, moreAction]
     }
 }

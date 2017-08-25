@@ -14,8 +14,8 @@ class ConfViewController : UITableViewController{
     var progress:Float = 0
     fileprivate let itemDataSouce: [ [(name:String,iconImage:UIImage?)]] = [
         [("导入",nil),("-导出",nil)],
-        [("设备ID",nil),("接口地址",nil)],
-        [("-建议",nil),("-关于",nil)]]
+        [("设备ID",nil),("接口地址",nil)]]
+        //[("-建议",nil),("-关于",nil)]]
     
     
     let tableName = ["qian8_bank","qian8_bank_list","qian8_income_category",

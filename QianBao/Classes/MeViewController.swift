@@ -32,6 +32,7 @@ class MyViewController : UITableViewController {
                 }
             })
         })
+        self.tableView.reloadData()
     }
     
     func inittitle()->MyViewController{

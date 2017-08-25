@@ -16,7 +16,12 @@ extension Double {
 }
 
 
-
+func simpleAlert(msg:String) -> UIAlertController {
+    let alertController = UIAlertController(title: "提示",message: msg, preferredStyle: .alert)
+    let okAction = UIAlertAction(title: "好的", style: .default, handler: nil)
+    alertController.addAction(okAction)
+    return alertController
+}
 
 extension NSObject {
     class var nameOfClass: String {

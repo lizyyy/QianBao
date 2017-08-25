@@ -70,7 +70,7 @@ class SelectViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDa
         case .pay:
             button.setTitle("\(userKV[selUser]!.user) - \((ctgKV[selCtg]! as! expenseItem).name)", for: UIControlState())
         case .transf:
-            button.setTitle("\(String(describing: DBRecord.changeType()[selCtg]))", for: UIControlState())
+            button.setTitle("\(String(describing: DBRecord.changeTypeAll()[selCtg]!))", for: UIControlState())
         default:break;
         }
         button.addTarget(self, action: #selector(self.selCtgAction), for: UIControlEvents.touchUpInside)
@@ -121,9 +121,9 @@ class SelectViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDa
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if(component == 0){
-            return userKV.count
+            return selpage == .transf ? 1 : userKV.count
         }else if(component == 1) {
-            return ctgKV.count
+            return selpage == .transf ? DBRecord.changeTypeAll().count : ctgKV.count
         }
         return 0
     }
@@ -143,7 +143,8 @@ class SelectViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDa
         myView.backgroundColor = UIColor.clear
         if(component == 0){
             myView.frame = CGRect(x: 10, y: 0, width: 40, height: 40)
-            myView.text =  userKV[row]!.user
+            myView.text = selpage == .transf ? "" : userKV[row]!.user
+            
         }else if(component == 1) {
             myView.frame = CGRect(x: 10, y: 0.0, width: 60, height: 40)
             switch selpage {
@@ -153,7 +154,7 @@ class SelectViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDa
             case .pay:
                 myView.text = (ctgKV[row]! as! expenseItem).name
             case .transf:
-                myView.text =  DBRecord.changeType()[selCtg]
+                myView.text =  DBRecord.changeTypeAll()[row]!
             default:break;
             }
         }
@@ -168,14 +169,17 @@ class SelectViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDa
         switch selpage {
         case .income:
             ctg = (ctgKV[pickerView.selectedRow(inComponent: 1)]! as! incomeItem).name
+            button.setTitle("\(user)-\(ctg)", for: UIControlState())
             break;
         case .pay:
             ctg = (ctgKV[pickerView.selectedRow(inComponent: 1)]! as! expenseItem).name
+            button.setTitle("\(user)-\(ctg)", for: UIControlState())
         case .transf:
-            ctg =  DBRecord.changeType()[selCtg]!
+            ctg =  DBRecord.changeTypeAll()[pickerView.selectedRow(inComponent: 1)]!
+            button.setTitle("\(ctg)", for: UIControlState())
         default:break;
         }
-        button.setTitle("\(user)-\(ctg)", for: UIControlState())
+        
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -194,7 +198,7 @@ class SelectViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDa
         case .pay:
             ctgid = (ctgKV[pickerView.selectedRow(inComponent: 1)]! as! expenseItem).id
         case .transf:
-            ctgid =  selCtg
+            ctgid =  pickerView.selectedRow(inComponent: 1)
         default:break;
         }
         HUD.alert(self.view,text: "查询中..")
