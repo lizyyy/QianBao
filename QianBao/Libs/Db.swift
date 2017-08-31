@@ -412,7 +412,7 @@ class DBUserManager: NSObject {
     static let sharedInstance = DBUserManager()
     fileprivate override init() {} // 这就阻止其他对象使用这个类的默认的'()'初始化方法
     func openUserDB() -> FMDatabase? {
-        let db = "data3.0.7.zip"
+        let db = "data3.1.1.zip"
         let docPath = URL( fileURLWithPath: (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] )).appendingPathComponent(db).path
         //print(docPath)
         database = FMDatabase(path:docPath)
@@ -443,7 +443,7 @@ class DBUserManager: NSObject {
                     (NULL,'通讯','10'),(NULL,'往来','11'),(NULL,'美容','12'),
                     (NULL,'汽车','13'),(NULL,'旅游','14'),(NULL,'运动','15'),
                     (NULL,'维修','16'),(NULL,'投资','17'),(NULL,'宠物','18'),
-                    (NULL,'捐赠','19'),(NULL,'家居','20')(NULL,'其它','99');
+                    (NULL,'捐赠','19'),(NULL,'家居','20'), (NULL,'其它','99');
                 insert into 'qian8_income_category' values
                     (NULL,'工资','1'),(NULL,'奖金','2'),(NULL,'报销','3'),
                     (NULL,'补助','4'),(NULL,'往来','5'),(NULL,'理财','6'),

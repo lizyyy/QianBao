@@ -26,7 +26,6 @@
 		15781F681ECD995700001CBF /* HooDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 15781F651ECD995700001CBF /* HooDatePicker.m */; };
 		15781F691ECD995700001CBF /* NSDate+HooDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 15781F671ECD995700001CBF /* NSDate+HooDatePicker.m */; };
 		15781F6B1ECDA1E600001CBF /* SelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15781F6A1ECDA1E600001CBF /* SelectViewController.swift */; };
-		15E37B661ED2C80100E6F081 /* GT.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 15E37B641ED2C80100E6F081 /* GT.bundle */; };
 		15FFCEB31EA7B2B6001ACBFE /* PayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFCEB21EA7B2B6001ACBFE /* PayViewController.swift */; };
 		15FFCEB51EA7B2C5001ACBFE /* IncomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFCEB41EA7B2C5001ACBFE /* IncomeViewController.swift */; };
 		15FFCEB71EA7B2D5001ACBFE /* TransfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFCEB61EA7B2D5001ACBFE /* TransfViewController.swift */; };
@@ -108,7 +107,6 @@
 		15781F6A1ECDA1E600001CBF /* SelectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectViewController.swift; sourceTree = "<group>"; };
 		157CE0FE1F56BE95001686DF /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
 		15E37B621ED2C80100E6F081 /* GT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GT.framework; sourceTree = "<group>"; };
-		15E37B641ED2C80100E6F081 /* GT.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GT.bundle; sourceTree = "<group>"; };
 		15E37B671ED2C8A200E6F081 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		15E37B691ED2C8AD00E6F081 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		15E37B6B1ED2C8BB00E6F081 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -286,7 +284,6 @@
 		15E37B631ED2C80100E6F081 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				15E37B641ED2C80100E6F081 /* GT.bundle */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -387,6 +384,7 @@
 				1567272A1EA7479400AE472C /* Embed Frameworks */,
 				CA65DFD526D875D300ED74CE /* [CP] Embed Pods Frameworks */,
 				17252BA4F9C783B691FAB6AF /* [CP] Copy Pods Resources */,
+				15F47DDC1F58808400E00A77 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -492,7 +490,6 @@
 			files = (
 				150D23741EA714170055CE68 /* LaunchScreen.storyboard in Resources */,
 				150D23711EA714170055CE68 /* Assets.xcassets in Resources */,
-				15E37B661ED2C80100E6F081 /* GT.bundle in Resources */,
 				150D236F1EA714170055CE68 /* Main.storyboard in Resources */,
 				15FFCED71EA7BA55001ACBFE /* Init.sqlite in Resources */,
 			);
@@ -515,6 +512,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		15F47DDC1F58808400E00A77 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/sh;
+			shellScript = "APP_PATH=\"${TARGET_BUILD_DIR}/${WRAPPER_NAME}\"\n\n# This script loops through the frameworks embedded in the application and\n# removes unused architectures.\nfind \"$APP_PATH\" -name '*.framework' -type d | while read -r FRAMEWORK\ndo\nFRAMEWORK_EXECUTABLE_NAME=$(defaults read \"$FRAMEWORK/Info.plist\" CFBundleExecutable)\nFRAMEWORK_EXECUTABLE_PATH=\"$FRAMEWORK/$FRAMEWORK_EXECUTABLE_NAME\"\necho \"Executable is $FRAMEWORK_EXECUTABLE_PATH\"\n\nEXTRACTED_ARCHS=()\n\nfor ARCH in $ARCHS\ndo\necho \"Extracting $ARCH from $FRAMEWORK_EXECUTABLE_NAME\"\nlipo -extract \"$ARCH\" \"$FRAMEWORK_EXECUTABLE_PATH\" -o \"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\"\nEXTRACTED_ARCHS+=(\"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\")\ndone\n\necho \"Merging extracted architectures: ${ARCHS}\"\nlipo -o \"$FRAMEWORK_EXECUTABLE_PATH-merged\" -create \"${EXTRACTED_ARCHS[@]}\"\nrm \"${EXTRACTED_ARCHS[@]}\"\n\necho \"Replacing original executable with thinned version\"\nrm \"$FRAMEWORK_EXECUTABLE_PATH\"\nmv \"$FRAMEWORK_EXECUTABLE_PATH-merged\" \"$FRAMEWORK_EXECUTABLE_PATH\"\n\ndone";
+		};
 		17252BA4F9C783B691FAB6AF /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -770,7 +780,9 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6C4NVVWZ6V;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -784,6 +796,8 @@
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = "com-leeey-qian8";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "QianBao/QianBao-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
@@ -801,7 +815,9 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6C4NVVWZ6V;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -814,6 +830,8 @@
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = "com-leeey-qian8";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "QianBao/QianBao-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 3.0;
