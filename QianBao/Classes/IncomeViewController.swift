@@ -169,6 +169,7 @@ class IncomeViewController:UITableViewController,RsyncDelegate{
         let cell = ListCellView(cellStyle:ListCellStyle.Income, reuseIdentifier:ListCellView.identifier)
         cell.selectionStyle = UITableViewCellSelectionStyle.none
         let item = dataList[indexPath.row]
+        if (Int(item.day)!)%2 == 1 {cell.backgroundColor =  UIColor(hex:0xf9f9f9,alpha:0.9)}  //隔天显颜色
         //公用
         cell.money.text    = item.money
         cell.time.text     = item.week
@@ -198,10 +199,10 @@ class IncomeViewController:UITableViewController,RsyncDelegate{
             //获取此条的基本信息
             let delsn   = recordlist.sn
             //先修改银行余额
-            let sqlbank = "update qian8_bank set `current_deposit` = `current_deposit`+\(money) where id='\(bankid)'"
+            let sqlbank = "update qian8_bank set `current_deposit` = `current_deposit`-\(money) where id='\(bankid)'"
             if (DBRecord().execute(sql: sqlbank) ){
                 //同步日志
-                let upData = toJSONString2( ["current_deposit":"`current_deposit`+\(money)"] )
+                let upData = toJSONString2( ["current_deposit":"`current_deposit`-\(money)"] )
                 let sqlbankSync = "insert into qian8_sync_list (master_id,action_id,table_id,user_id,rsync_status,rsync_rs,data,local_id) values ('\(bankid)','2','1','\(agentid)','0','0','\(upData)','\(bankid)')"
                 if ( DBRecord().execute(sql:sqlbankSync) ) {
                     //同步删除日志
@@ -235,11 +236,11 @@ class IncomeViewController:UITableViewController,RsyncDelegate{
                 print("copy error")
             }
             //银行扣款
-            if (!DBRecord().execute(sql:"update `qian8_bank` set `current_deposit` = `current_deposit`-'\(money)' where `id`='\(bankid)'")){
+            if (!DBRecord().execute(sql:"update `qian8_bank` set `current_deposit` = `current_deposit`+'\(money)' where `id`='\(bankid)'")){
                 print("copy error")
             }
             //保存扣款记录
-            let update = ["current_deposit":"`current_deposit`-\(money)"]
+            let update = ["current_deposit":"`current_deposit`+\(money)"]
             if (!DBRecord().execute(sql:"insert into `qian8_sync_list` (`master_id`,`action_id`,`table_id`,`user_id`,`rsync_status`,`rsync_rs`,`data`,`local_id`) values ('\(bankid)','2','1','\(agentid)','0','0','\(toJSONString2(update as NSDictionary))','\(bankid)')")){
                 print("copy error")
             }else{

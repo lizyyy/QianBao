@@ -50,9 +50,9 @@ class AddIncomeViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDe
         pickerView.selectRow(0, inComponent: 1, animated: false)
         if(UserDefaults.standard.integer(forKey: "DeviceID") == 1)
         {
-            pickerView.selectRow(2, inComponent: 2, animated: false)
+            pickerView.selectRow(3, inComponent: 2, animated: false)
         }else{
-            pickerView.selectRow(0, inComponent: 2, animated: false)
+            pickerView.selectRow(1, inComponent: 2, animated: false)
         }
         incomeView()
     }
@@ -86,12 +86,12 @@ class AddIncomeViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDe
         button.addTarget(self, action: #selector(AddIncomeViewController.selCtg), for: UIControlEvents.touchUpInside)
         line.backgroundColor = UIColor(hex:0xD1D5Db,alpha:1)
         //保存
+        
         savebutton.backgroundColor = UIColor.clear
         savebutton.titleLabel?.font = UIFont.systemFont(ofSize: 18)
         savebutton.setTitle("完成",for:UIControlState());
-        savebutton.setTitleColor(UIColor(hex:0x1499d7,alpha:1), for: UIControlState())
-        savebutton.setTitleColor(UIColor(hex:0x1499d7,alpha:1), for: UIControlState.highlighted)
         savebutton.addTarget(self, action: #selector(AddIncomeViewController.done), for: UIControlEvents.touchUpInside)
+        savebutton.primaryStyle()
         //取消
         cancelbutton.backgroundColor = UIColor.clear
         cancelbutton.titleLabel?.font = UIFont.systemFont(ofSize: 18)
@@ -238,11 +238,11 @@ class AddIncomeViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDe
             print("add error")
         }
         //银行扣款
-        if(!DBRecord().execute(sql:"update `qian8_bank` set `current_deposit` = `current_deposit`-'\(money)' where `id`='\(bankid)'")){
+        if(!DBRecord().execute(sql:"update `qian8_bank` set `current_deposit` = `current_deposit`+'\(money)' where `id`='\(bankid)'")){
             print("add error")
         }
         //保存扣款记录
-        let update = ["current_deposit":"`current_deposit`-\(money)"]
+        let update = ["current_deposit":"`current_deposit`+\(money)"]
         if(!DBRecord().execute(sql:"insert into `qian8_sync_list` (`master_id`,`action_id`,`table_id`,`user_id`,`rsync_status`,`rsync_rs`,`data`,`local_id`) values ('\(bankid)','2','1','\(uid)','0','0','\(toJSONString2(update as NSDictionary))','\(bankid)')")){
             print("add error")
         }

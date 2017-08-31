@@ -154,6 +154,7 @@ class TransfViewController:UITableViewController,RsyncDelegate{
         let cell = ListCellView(cellStyle:ListCellStyle.Transf, reuseIdentifier:ListCellView.identifier)
         cell.selectionStyle = UITableViewCellSelectionStyle.none
         let item = dataList[indexPath.row]
+        if (Int(item.day)!)%2 == 1 {cell.backgroundColor =  UIColor(hex:0xf9f9f9,alpha:0.9)}  //隔天显颜色
         //公用
         cell.money.text    = item.money
         cell.time.text     = item.week

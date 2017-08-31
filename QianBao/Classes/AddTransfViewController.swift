@@ -76,7 +76,7 @@ class AddTransfViewController: UIViewController,ZYKeyboardDelegate,UITextFieldDe
         if(UserDefaults.standard.integer(forKey: "DeviceID")  == 1 ){
             button.setTitle("LZY【BJ招行】工资卡→转取钱→LZY【现金】", for: UIControlState())
         }else{
-            button.setTitle("JYY【XF招行】信用卡→转取钱→JYY【现金】`", for: UIControlState())
+            button.setTitle("JYY【XF招行】信用卡→转取钱→JYY【现金】", for: UIControlState())
         }
         button.addTarget(self, action: #selector(AddPayViewController.selCtg), for: UIControlEvents.touchUpInside)
         line.backgroundColor = UIColor(hex:0xD1D5Db,alpha:1)

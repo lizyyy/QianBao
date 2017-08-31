@@ -26,10 +26,6 @@
 		15781F681ECD995700001CBF /* HooDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 15781F651ECD995700001CBF /* HooDatePicker.m */; };
 		15781F691ECD995700001CBF /* NSDate+HooDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 15781F671ECD995700001CBF /* NSDate+HooDatePicker.m */; };
 		15781F6B1ECDA1E600001CBF /* SelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15781F6A1ECDA1E600001CBF /* SelectViewController.swift */; };
-		15912C5B1EAD9BF400A95D9C /* BButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 15912C541EAD9BF400A95D9C /* BButton.m */; };
-		15912C5C1EAD9BF400A95D9C /* NSString+FontAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 15912C561EAD9BF400A95D9C /* NSString+FontAwesome.m */; };
-		15912C5E1EAD9BF400A95D9C /* UIColor+BButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 15912C5A1EAD9BF400A95D9C /* UIColor+BButton.m */; };
-		15912C691EAD9FEF00A95D9C /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 15912C581EAD9BF400A95D9C /* FontAwesome.ttf */; };
 		15E37B661ED2C80100E6F081 /* GT.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 15E37B641ED2C80100E6F081 /* GT.bundle */; };
 		15FFCEB31EA7B2B6001ACBFE /* PayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFCEB21EA7B2B6001ACBFE /* PayViewController.swift */; };
 		15FFCEB51EA7B2C5001ACBFE /* IncomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFCEB41EA7B2C5001ACBFE /* IncomeViewController.swift */; };
@@ -110,13 +106,7 @@
 		15781F661ECD995700001CBF /* NSDate+HooDatePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+HooDatePicker.h"; sourceTree = "<group>"; };
 		15781F671ECD995700001CBF /* NSDate+HooDatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+HooDatePicker.m"; sourceTree = "<group>"; };
 		15781F6A1ECDA1E600001CBF /* SelectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectViewController.swift; sourceTree = "<group>"; };
-		15912C531EAD9BF400A95D9C /* BButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BButton.h; sourceTree = "<group>"; };
-		15912C541EAD9BF400A95D9C /* BButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BButton.m; sourceTree = "<group>"; };
-		15912C551EAD9BF400A95D9C /* NSString+FontAwesome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+FontAwesome.h"; sourceTree = "<group>"; };
-		15912C561EAD9BF400A95D9C /* NSString+FontAwesome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+FontAwesome.m"; sourceTree = "<group>"; };
-		15912C581EAD9BF400A95D9C /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
-		15912C591EAD9BF400A95D9C /* UIColor+BButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+BButton.h"; sourceTree = "<group>"; };
-		15912C5A1EAD9BF400A95D9C /* UIColor+BButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+BButton.m"; sourceTree = "<group>"; };
+		157CE0FE1F56BE95001686DF /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
 		15E37B621ED2C80100E6F081 /* GT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GT.framework; sourceTree = "<group>"; };
 		15E37B641ED2C80100E6F081 /* GT.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GT.bundle; sourceTree = "<group>"; };
 		15E37B671ED2C8A200E6F081 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
@@ -268,26 +258,12 @@
 			path = HooDatePicker;
 			sourceTree = "<group>";
 		};
-		15912C521EAD9BF400A95D9C /* BButton */ = {
+		157CE0FD1F56BE95001686DF /* UIButtonBootstrap */ = {
 			isa = PBXGroup;
 			children = (
-				15912C531EAD9BF400A95D9C /* BButton.h */,
-				15912C541EAD9BF400A95D9C /* BButton.m */,
-				15912C551EAD9BF400A95D9C /* NSString+FontAwesome.h */,
-				15912C561EAD9BF400A95D9C /* NSString+FontAwesome.m */,
-				15912C571EAD9BF400A95D9C /* resources */,
-				15912C591EAD9BF400A95D9C /* UIColor+BButton.h */,
-				15912C5A1EAD9BF400A95D9C /* UIColor+BButton.m */,
+				157CE0FE1F56BE95001686DF /* FontAwesome.ttf */,
 			);
-			path = BButton;
-			sourceTree = "<group>";
-		};
-		15912C571EAD9BF400A95D9C /* resources */ = {
-			isa = PBXGroup;
-			children = (
-				15912C581EAD9BF400A95D9C /* FontAwesome.ttf */,
-			);
-			path = resources;
+			path = UIButtonBootstrap;
 			sourceTree = "<group>";
 		};
 		15E37B601ED2C80100E6F081 /* GT.embeddedframework_v2.2.3 */ = {
@@ -336,8 +312,8 @@
 		15FFCEBC1EA7B3DC001ACBFE /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				157CE0FD1F56BE95001686DF /* UIButtonBootstrap */,
 				15781F631ECD995700001CBF /* HooDatePicker */,
-				15912C521EAD9BF400A95D9C /* BButton */,
 				15FFCEDA1EA7BA6F001ACBFE /* HUD.swift */,
 				15FFCEBD1EA7B3F0001ACBFE /* ZYKeyboard.swift */,
 			);
@@ -519,7 +495,6 @@
 				15E37B661ED2C80100E6F081 /* GT.bundle in Resources */,
 				150D236F1EA714170055CE68 /* Main.storyboard in Resources */,
 				15FFCED71EA7BA55001ACBFE /* Init.sqlite in Resources */,
-				15912C691EAD9FEF00A95D9C /* FontAwesome.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -592,7 +567,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				15912C5C1EAD9BF400A95D9C /* NSString+FontAwesome.m in Sources */,
 				15FFCED91EA7BA55001ACBFE /* Rsync.swift in Sources */,
 				15FFCEBB1EA7B2ED001ACBFE /* ConfViewController.swift in Sources */,
 				15FFCEB31EA7B2B6001ACBFE /* PayViewController.swift in Sources */,
@@ -604,7 +578,6 @@
 				15FFCED01EA7B6E4001ACBFE /* ListCell.swift in Sources */,
 				15FFCEB51EA7B2C5001ACBFE /* IncomeViewController.swift in Sources */,
 				15781F6B1ECDA1E600001CBF /* SelectViewController.swift in Sources */,
-				15912C5E1EAD9BF400A95D9C /* UIColor+BButton.m in Sources */,
 				15FFCEE01EA7BADD001ACBFE /* AddPayViewController.swift in Sources */,
 				15FFCED81EA7BA55001ACBFE /* Db.swift in Sources */,
 				151394A11EAF53C2006CC3D2 /* Views.swift in Sources */,
@@ -618,7 +591,6 @@
 				15FFCEB71EA7B2D5001ACBFE /* TransfViewController.swift in Sources */,
 				15FFCEE21EA7BD4A001ACBFE /* TerminalTableViewController.swift in Sources */,
 				1523FF0C1F289B840000D882 /* AddIncomeViewController.swift in Sources */,
-				15912C5B1EAD9BF400A95D9C /* BButton.m in Sources */,
 				15781F681ECD995700001CBF /* HooDatePicker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -796,6 +768,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 6C4NVVWZ6V;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -808,7 +782,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "-all_load";
-				PRODUCT_BUNDLE_IDENTIFIER = zhiyuan.QianBao;
+				PRODUCT_BUNDLE_IDENTIFIER = "com-leeey-qian8";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "QianBao/QianBao-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -825,6 +799,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 6C4NVVWZ6V;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -836,7 +812,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "-all_load";
-				PRODUCT_BUNDLE_IDENTIFIER = zhiyuan.QianBao;
+				PRODUCT_BUNDLE_IDENTIFIER = "com-leeey-qian8";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "QianBao/QianBao-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;

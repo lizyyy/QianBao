@@ -179,7 +179,7 @@ class SelectViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDa
             button.setTitle("\(ctg)", for: UIControlState())
         default:break;
         }
-        
+
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

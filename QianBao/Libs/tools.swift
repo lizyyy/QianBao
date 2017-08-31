@@ -15,6 +15,27 @@ extension Double {
     }
 }
 
+func 取消无效零(num:String) -> String{
+    var outNumber = num
+    var i = 1
+    if num.contains("."){
+        while i < num.characters.count{
+            if outNumber.hasSuffix("0"){
+                outNumber.removeLast()
+                i = i + 1
+            }else{
+                break
+            }
+        }
+        if outNumber.hasSuffix("."){
+            outNumber.removeLast()
+        }
+        return outNumber
+    }
+    else{
+        return num
+    }
+}
 
 func simpleAlert(msg:String) -> UIAlertController {
     let alertController = UIAlertController(title: "提示",message: msg, preferredStyle: .alert)
@@ -69,7 +90,6 @@ func toJSONString2(_ dict:NSDictionary!)->NSString{
     return strJson!
 }
 
-
 extension UIColor {
     //16进制原生值
     convenience init(hex: Int, alpha: CGFloat = 1.0) {
@@ -80,13 +100,9 @@ extension UIColor {
     }
 }
 
-
 func RGBA (r:CGFloat, g:CGFloat, b:CGFloat, a:CGFloat)->UIColor {
     return UIColor(red: r/255.0, green: g/255.0, blue: b/255.0, alpha: a)
 }
-
-
-
 
 func createImageWithColor(color:UIColor, size rect:CGRect =  CGRect(x:0, y:0, width:1, height:1) ) ->UIImage {
     UIGraphicsBeginImageContext(rect.size)
@@ -99,4 +115,31 @@ func createImageWithColor(color:UIColor, size rect:CGRect =  CGRect(x:0, y:0, wi
     return theImage!
 }
 
-
+extension UIButton{
+    func btnStyle(){
+        self.layer.borderWidth = 1
+        self.layer.cornerRadius = 4.0
+        self.layer.masksToBounds = true
+        self.adjustsImageWhenHighlighted = false
+        self.setTitleColor(UIColor.white, for: .normal)
+        self.titleLabel?.font = UIFont(name: "FontAwesome", size: (self.titleLabel?.font.pointSize)!)
+    }
+    
+    func defaultMyStyle(){
+        self.btnStyle()
+        self.setTitleColor(UIColor.black, for: .normal)
+        self.setTitleColor(UIColor.black, for: .highlighted)
+        self.backgroundColor = UIColor.white
+        self.layer.borderColor = RGBA(r: 204, g: 204, b: 204, a: 1).cgColor
+        self.setBackgroundImage(createImageWithColor(color: RGBA(r: 235, g: 235, b: 235, a: 1)), for: .highlighted)
+    }
+    
+    func primaryStyle(){
+        self.btnStyle()
+        self.backgroundColor = UIColor(hex:0x1499d7,alpha:1)
+        self.layer.borderColor = RGBA(r: 53, g: 126, b: 189, a: 1).cgColor
+        self.setBackgroundImage(createImageWithColor(color: RGBA(r: 51, g: 119, b: 172, a: 1)), for: .highlighted)
+    }
+    
+  
+}

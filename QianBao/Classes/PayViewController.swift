@@ -162,15 +162,16 @@ class PayViewController:UITableViewController,RsyncDelegate,UITabBarControllerDe
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+        return 70
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = ListCellView(cellStyle:ListCellStyle.Expense, reuseIdentifier:ListCellView.identifier)
         cell.selectionStyle = UITableViewCellSelectionStyle.none
         let item = dataList[indexPath.row]
+        if (Int(item.day)!)%2 == 1 {cell.backgroundColor =  UIColor(hex:0xf9f9f9,alpha:0.9)}  //隔天显颜色
         //公用
-        cell.money.text    = item.price
+        cell.money.text    = "￥" + item.price
         cell.time.text     = item.week
         cell.note.text     = item.demo
         cell.bankFrom.text = item.bank_name

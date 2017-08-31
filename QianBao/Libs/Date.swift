@@ -20,6 +20,12 @@ func toDate(_ s:String)->Date {
 }
 
 
+func toDay(date:NSDate)->String{
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "dd"
+    return dateFormatter.string(from: date as Date)
+}
+
 
 
 
