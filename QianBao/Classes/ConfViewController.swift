@@ -31,7 +31,7 @@ class ConfViewController : UITableViewController{
     }
     
     func inittitle()->ConfViewController{
-        self.title = "Config"
+        self.title = "设置"
         return self
     }
     

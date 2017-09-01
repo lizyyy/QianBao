@@ -36,7 +36,7 @@ class MyViewController : UITableViewController {
     }
     
     func inittitle()->MyViewController{
-        self.title = "Me"
+        self.title = "我的"
         return self
     }
     

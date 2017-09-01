@@ -205,7 +205,7 @@ class DBRecord {
             item.from_bank_id = Int(data.int(forColumn:"from_bank_id"))
             item.to_bank_id = Int(data.int(forColumn:"to_bank_id"))
             item.time = data.string(forColumn:"time")
-            item.money = data.double(forColumn: "money").format(".2")
+            item.money = 取消无效零(num:data.double(forColumn: "money").format(".2"))
             item.type = Int(data.int(forColumn:"type"))
             item.demo = data.string(forColumn:"demo")
             item.sn = Int(data.int(forColumn:"sn"))
@@ -280,7 +280,7 @@ class DBRecord {
             item.demo = data.string(forColumn: "demo")
             item.sn = Int(data.int(forColumn: "sn"))
             item.bank_id = Int(data.int(forColumn: "bank_id"))
-            item.money = data.double(forColumn: "money").format(".2")
+            item.money = 取消无效零(num:data.double(forColumn: "money").format(".2"))
             item.week = toWeek(date: toDate(item.time) as NSDate)
             item.day = toDay(date: toDate(item.time) as NSDate)
             item.user_name = data.string(forColumn: "user_name")
@@ -412,7 +412,7 @@ class DBUserManager: NSObject {
     static let sharedInstance = DBUserManager()
     fileprivate override init() {} // 这就阻止其他对象使用这个类的默认的'()'初始化方法
     func openUserDB() -> FMDatabase? {
-        let db = "data3.1.1.zip"
+        let db = "data3.1.4.zip"
         let docPath = URL( fileURLWithPath: (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] )).appendingPathComponent(db).path
         //print(docPath)
         database = FMDatabase(path:docPath)
@@ -437,18 +437,18 @@ class DBUserManager: NSObject {
                 """
             let initSql = """
                 insert into qian8_expense_category values
-                    (NULL,'衣服','1'),(NULL,'食品','2'),(NULL,'住房','3'),
-                    (NULL,'交通','4'),(NULL,'用品','5'), (NULL,'医疗','6'),
-                    (NULL,'娱乐','7'),(NULL,'饰品','8'),(NULL,'学习','9'),
-                    (NULL,'通讯','10'),(NULL,'往来','11'),(NULL,'美容','12'),
-                    (NULL,'汽车','13'),(NULL,'旅游','14'),(NULL,'运动','15'),
-                    (NULL,'维修','16'),(NULL,'投资','17'),(NULL,'宠物','18'),
-                    (NULL,'捐赠','19'),(NULL,'家居','20'), (NULL,'其它','99');
+                    (1,'衣服','1'),(2,'食品','2'),(3,'住房','3'),
+                    (4,'交通','4'),(5,'用品','5'), (6,'医疗','6'),
+                    (7,'娱乐','7'),(8,'饰品','8'),(9,'学习','9'),
+                    (10,'通讯','10'),(11,'往来','11'),(12,'美容','12'),
+                    (13,'汽车','13'),(14,'旅游','14'),(15,'运动','15'),
+                    (16,'维修','16'),(17,'投资','17'),(18,'宠物','18'),
+                    (19,'捐赠','19'),(20,'家居','20');
                 insert into 'qian8_income_category' values
-                    (NULL,'工资','1'),(NULL,'奖金','2'),(NULL,'报销','3'),
-                    (NULL,'补助','4'),(NULL,'往来','5'),(NULL,'理财','6'),
-                    (NULL,'其它','7'),(NULL,'兼职','8'),(NULL,'退款','9'),
-                    (NULL,'中奖','10'),(NULL,'借入','11');
+                    (1,'工资','1'),(2,'奖金','2'),(3,'报销','3'),
+                    (4,'补助','4'),(5,'往来','5'),(6,'理财','6'),
+                    (7,'其它','7'),(8,'兼职','8'),(9,'退款','9'),
+                    (10,'中奖','10'),(11,'借入','11');
                 insert into `qian8_bank` values
                     ('1','JYY【XF招行】','3','6225887100009196','CMB','1407945.34','0'),
                     ('2','LZY【XF中行】房贷','2','6013827603000190446','BOC','0','0.00'),
