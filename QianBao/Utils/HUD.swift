@@ -24,7 +24,6 @@ class HUD {
             spinnerView.layer.opacity = 0.6
             spinnerView.layer.cornerRadius = 20.0
             view.addSubview(spinnerView)
-         
     }
     
     class func close(_ view:UIView) {
