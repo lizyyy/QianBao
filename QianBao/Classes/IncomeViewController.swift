@@ -6,8 +6,9 @@
 //  Copyright © 2016年 leeey. All rights reserved.
 //
 import UIKit
-class IncomeViewController:UITableViewController,RsyncDelegate{
+class IncomeViewController:UITableViewController,RsyncDelegate,UITabBarControllerDelegate,UISearchResultsUpdating{
     var dataList = [incomeListItem]()
+    var searchList = [incomeListItem]()
     let navView = NavView()
     var taptime = CGFloat()
     var hud: MBProgressHUD!
@@ -17,11 +18,21 @@ class IncomeViewController:UITableViewController,RsyncDelegate{
     var userKV    = Dictionary<Int,userItem>()
     var incomeKV    = Dictionary<Int,incomeItem>()
     let db = DBRecord()
+    var initData = false
+    var 是否自动刷新 : Bool = false
+    var searchController: UISearchController?
+    
     func inittitle()->IncomeViewController{ return self}
+    // MARK: - 显示顺序
+    override func viewWillAppear(_ animated: Bool) {
+        是否自动刷新 = false
+        self.tabBarController?.delegate = self
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         userKV    = DBRecord().userKV()
         incomeKV     = DBRecord().incomeKV()
+        initData = true
         self.view.backgroundColor = UIColor.white
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add,target: self,action:#selector(IncomeViewController.添加页))
         //生成一个navView
@@ -33,12 +44,51 @@ class IncomeViewController:UITableViewController,RsyncDelegate{
             self.navigationController?.navigationBar.addSubview(view)
             self.reload()
         }
+        //搜索框
+        searchController = UISearchController(searchResultsController: nil)
+        searchController?.searchResultsUpdater = self
+        searchController?.dimsBackgroundDuringPresentation = false
+        searchController?.searchBar.sizeToFit()
         //下拉刷新
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(IncomeViewController.刷新和同步), for: UIControlEvents.valueChanged)
         refreshControl.attributedTitle = NSAttributedString(string: "同步数据...")
         self.refreshControl = refreshControl
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if(initData){
+            reload()
+            initData = false
+            //搜索框
+            self.tableView.tableHeaderView = searchController?.searchBar
+        }
+        self.tableView.contentOffset = CGPoint(x:0, y:-8) //搞不懂为啥，加上这句，搜索框才默认不显示..
+        是否自动刷新 = true  //这样就可以第二次点击tab的时候才会触发刷新
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        searchController?.isActive  = false
+    }
+    
+    
+    // MARK: - UITabBarControllerDelegate
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        if tabBarController.selectedIndex == 1 && 是否自动刷新{
+            self.tableView.setContentOffset(CGPoint(x:0, y:-146), animated: false)
+            刷新和同步()
+            是否自动刷新 = true
+        }
+    }
+
+    // MARK: - UISearchResultsUpdating  搜索内容变化
+    func updateSearchResults(for searchController: UISearchController) {
+        if let searchText = searchController.searchBar.text, !searchText.isEmpty {
+            searchList = db.getIncomeSearchList(text: searchText)
+        }
+        tableView.reloadData()
+    }
+    
     
     // MARK: - 一些方法
     func 刷新和同步(){
@@ -154,7 +204,11 @@ class IncomeViewController:UITableViewController,RsyncDelegate{
     
     //MARK: - UITableViewDataSource
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataList.count
+        if searchController!.isActive && searchController?.searchBar.text != "" {
+            return searchList.count
+        }else{
+            return dataList.count
+        }
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -168,7 +222,14 @@ class IncomeViewController:UITableViewController,RsyncDelegate{
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = ListCellView(cellStyle:ListCellStyle.Income, reuseIdentifier:ListCellView.identifier)
         cell.selectionStyle = UITableViewCellSelectionStyle.none
-        let item = dataList[indexPath.row]
+        var item  = incomeListItem()
+        if searchController!.isActive && searchController?.searchBar.text != "" {
+            item = searchList[indexPath.row]
+            cell.time.text     = item.time
+        }else{
+            item = dataList[indexPath.row]
+            cell.time.text     = item.week
+        }
         if (Int(item.day)!)%2 == 1 {cell.backgroundColor =  UIColor(hex:0xf9f9f9,alpha:0.9)}  //隔天显颜色
         //公用
         cell.money.text    = "￥" + item.money
@@ -190,7 +251,12 @@ class IncomeViewController:UITableViewController,RsyncDelegate{
     }
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let recordlist  = self.dataList[indexPath.row]
+        var recordlist = incomeListItem()
+        if searchController!.isActive && searchController?.searchBar.text != "" {
+            recordlist = self.searchList[indexPath.row]
+        }else{
+            recordlist = self.dataList[indexPath.row]
+        }
         let selid       = recordlist.id
         let agentid     = String(UserDefaults.standard.integer(forKey: "DeviceID"))
         let money       = recordlist.money
@@ -255,7 +321,11 @@ class IncomeViewController:UITableViewController,RsyncDelegate{
         }
         let deleteAction = UITableViewRowAction(style: .default, title: "删除", handler: deleteClosure)
         let moreAction = UITableViewRowAction(style:UITableViewRowActionStyle.normal, title: "复制到今天", handler: moreClosure)
-        return [deleteAction, moreAction]
+        if searchController!.isActive && searchController?.searchBar.text != "" {
+            return [moreAction]
+        }else{
+            return [deleteAction, moreAction]
+        }
     }
 }
 

@@ -92,6 +92,11 @@ class DBRecord {
         return expenseListSet(data)
     }
     
+    func getExpensesSearchList(text:String)->[expenseListItem]{
+        let data =  self.query("select l.*,c.name as cate_name,u.user as user_name,b.name as bank_name from qian8_expense_category c,qian8_expense_list l,qian8_bank b,qian8_user u where l.cate_id = c.id and l.user_id = u.id and l.bank_id = b.id  and l.demo like '%\(text)%' order by l.time desc", values: nil)
+        return expenseListSet(data)
+    }
+    
     func getExpenses() ->[expenseItem] {
         let data =  self.query("select * from qian8_expense_category", values: nil)
         return expenseSet(data)
@@ -114,6 +119,12 @@ class DBRecord {
         let data =  self.query("select l.*,c.name as cate_name,u.user as user_name,b.name as bank_name from qian8_income_category c,qian8_income_list l,qian8_bank b,qian8_user u where l.cate_id = c.id and l.user_id = u.id and l.bank_id = b.id  and \(sqluid)  \(sqlcid) l.time like '\(sqlmonth)%' order by l.time desc", values: nil)
         return incomeListSet(data)
     }
+    
+    func getIncomeSearchList(text:String)->[incomeListItem]{
+        let data =  self.query("select l.*,c.name as cate_name,u.user as user_name,b.name as bank_name from qian8_income_category c,qian8_income_list l,qian8_bank b,qian8_user u where l.cate_id = c.id and l.user_id = u.id and l.bank_id = b.id  and l.demo like '%\(text)%' order by l.time desc", values: nil)
+        return incomeListSet(data)
+    }
+    
     
     func getIncome() ->[incomeItem] {
         let data =  self.query("select * from qian8_income_category", values: nil)

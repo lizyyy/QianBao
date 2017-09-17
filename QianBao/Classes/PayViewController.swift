@@ -6,8 +6,9 @@
 //  Copyright © 2016年 leeey. All rights reserved.
 //
 import UIKit
-class PayViewController:UITableViewController,RsyncDelegate,UITabBarControllerDelegate{
+class PayViewController:UITableViewController,RsyncDelegate,UITabBarControllerDelegate,UISearchResultsUpdating,UISearchBarDelegate{
     var dataList = [expenseListItem]()
+    var searchList = [expenseListItem]()
     let navView = NavView()
     var taptime = CGFloat()
     var hud: MBProgressHUD!
@@ -17,11 +18,23 @@ class PayViewController:UITableViewController,RsyncDelegate,UITabBarControllerDe
     var userKV    = Dictionary<Int,userItem>()
     var expensesKV    = Dictionary<Int,expenseItem>()
     let db = DBRecord()
+    var initData = false
     var 是否自动刷新 : Bool = false
+    var searchController: UISearchController?
+
+// MARK: - 显示顺序
+    override func viewWillAppear(_ animated: Bool) {
+        是否自动刷新 = false
+        self.tabBarController?.delegate = self
+        self.searchController?.searchBar.delegate = self
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        userKV    = DBRecord().userKV()
-        expensesKV     = DBRecord().expensesKV()
+        self.edgesForExtendedLayout = UIRectEdge.all
+        userKV      = DBRecord().userKV()
+        expensesKV  = DBRecord().expensesKV()
+        initData = true
         self.view.backgroundColor = UIColor.white
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add,target: self,action:#selector(PayViewController.添加页))
         //生成一个navView
@@ -33,11 +46,56 @@ class PayViewController:UITableViewController,RsyncDelegate,UITabBarControllerDe
             self.navigationController?.navigationBar.addSubview(view)
             self.reload()
         }
+        //搜索框
+        searchController = UISearchController(searchResultsController: nil)
+        searchController?.searchResultsUpdater = self
+        searchController?.dimsBackgroundDuringPresentation = false
+        searchController?.searchBar.sizeToFit()
         //下拉刷新
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(PayViewController.刷新和同步), for: UIControlEvents.valueChanged)
         refreshControl.attributedTitle = NSAttributedString(string: "同步数据...")
         self.refreshControl = refreshControl
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if(initData){
+            reload()
+            initData = false
+            //搜索框
+            self.tableView.tableHeaderView = searchController?.searchBar
+        }
+        self.tableView.contentOffset = CGPoint(x:0, y:-8) //搞不懂为啥，加上这句，搜索框才默认不显示..
+        是否自动刷新 = true  //这样就可以第二次点击tab的时候才会触发刷新
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        searchController?.isActive  = false
+    }
+    
+    // MARK: - UITabBarControllerDelegate
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        if tabBarController.selectedIndex == 0 && 是否自动刷新{
+            self.tableView.setContentOffset(CGPoint(x:0, y:-146), animated: false)
+            刷新和同步()
+            是否自动刷新 = true
+        }
+    }
+//
+//    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+//        self.searchController?.searchBar.frame.size = CGSize(width: 0, height: 0)
+//        UIView.animate(withDuration: 0.4) {
+//            self.view.layoutIfNeeded()
+//            self.tableView.layoutIfNeeded()
+//        }
+//    }
+
+    // MARK: - UISearchResultsUpdating  搜索内容变化
+    func updateSearchResults(for searchController: UISearchController) {
+        if let searchText = searchController.searchBar.text, !searchText.isEmpty {
+            searchList = db.getExpensesSearchList(text: searchText)
+        }
+        tableView.reloadData()
     }
     
     // MARK: - 一些方法
@@ -154,7 +212,11 @@ class PayViewController:UITableViewController,RsyncDelegate,UITabBarControllerDe
     
     //MARK: - UITableViewDataSource
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataList.count
+        if searchController!.isActive && searchController?.searchBar.text != "" {
+            return searchList.count
+        }else{
+            return dataList.count
+        }
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -168,11 +230,17 @@ class PayViewController:UITableViewController,RsyncDelegate,UITabBarControllerDe
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = ListCellView(cellStyle:ListCellStyle.Expense, reuseIdentifier:ListCellView.identifier)
         cell.selectionStyle = UITableViewCellSelectionStyle.none
-        let item = dataList[indexPath.row]
+        var item  = expenseListItem()
+        if searchController!.isActive && searchController?.searchBar.text != "" {
+            item = searchList[indexPath.row]
+            cell.time.text     = item.time
+        }else{
+            item = dataList[indexPath.row]
+            cell.time.text     = item.week
+        }
         if (Int(item.day)!)%2 == 1 {cell.backgroundColor =  UIColor(hex:0xf9f9f9,alpha:0.9)}  //隔天显颜色
         //公用
         cell.money.text    = "￥" + item.price
-        cell.time.text     = item.week
         cell.note.text     = item.demo
         cell.bankFrom.text = item.bank_name
         cell.user.text     = item.user_name
@@ -190,7 +258,12 @@ class PayViewController:UITableViewController,RsyncDelegate,UITabBarControllerDe
     }
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let recordlist  = self.dataList[indexPath.row]
+        var recordlist = expenseListItem()
+        if searchController!.isActive && searchController?.searchBar.text != "" {
+            recordlist = self.searchList[indexPath.row]
+        }else{
+            recordlist = self.dataList[indexPath.row]
+        }
         let selid       = recordlist.id
         let agentid     = String(UserDefaults.standard.integer(forKey: "DeviceID"))
         let money       = recordlist.price
@@ -255,6 +328,10 @@ class PayViewController:UITableViewController,RsyncDelegate,UITabBarControllerDe
         }
         let deleteAction = UITableViewRowAction(style: .default, title: "删除", handler: deleteClosure)
         let moreAction = UITableViewRowAction(style:UITableViewRowActionStyle.normal, title: "复制到今天", handler: moreClosure)
-        return [deleteAction, moreAction]
+        if searchController!.isActive && searchController?.searchBar.text != "" {
+            return [moreAction]
+        }else{
+            return [deleteAction, moreAction]
+        }
     }
 }
