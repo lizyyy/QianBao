@@ -19,7 +19,7 @@ func 取消无效零(num:String) -> String{
     var outNumber = num
     var i = 1
     if num.contains("."){
-        while i < num.characters.count{
+        while i < num.count{
             if outNumber.hasSuffix("0"){
                 outNumber.removeLast()
                 i = i + 1

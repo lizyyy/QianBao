@@ -233,7 +233,6 @@ class IncomeViewController:UITableViewController,RsyncDelegate,UITabBarControlle
         if (Int(item.day)!)%2 == 1 {cell.backgroundColor =  UIColor(hex:0xf9f9f9,alpha:0.9)}  //隔天显颜色
         //公用
         cell.money.text    = "￥" + item.money
-        cell.time.text     = item.week
         cell.note.text     = item.demo
         cell.bankFrom.text = item.bank_name
         cell.user.text     = item.user_name

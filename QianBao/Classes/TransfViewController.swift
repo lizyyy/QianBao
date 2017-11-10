@@ -85,7 +85,7 @@ class TransfViewController:UITableViewController,RsyncDelegate{
     //筛选条件更新
     func newsel(_ notification: Notification){
         selDate = notification.userInfo!["date"] as! NSDate
-        selCtg =  notification.userInfo!["ctgid"] as! Int
+        selCtg =  notification.userInfo!["ctgid", default:0] as! Int //@ios11
         navView.btnMid.setTitle(toMonth(date:selDate) + " → \(DBRecord.changeTypeAll()[selCtg]!)", for: UIControlState())
         self.reload()
     }
