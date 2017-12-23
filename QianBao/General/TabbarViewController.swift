@@ -9,15 +9,16 @@ class TabbarViewController : UITabBarController {
     }
     
     func setupViewController() {
-        let titleArray = ["支出","收入","转账","我的","设置"]
+        let titleArray = ["支出","新版","收入","转账","我的","设置"]
         let viewControllerArray = [
             PayViewController(),
+            UseViewController().inittitle(),
             IncomeViewController().inittitle(),
             TransfViewController().inittitle(),
             MyViewController().inittitle(),
             ConfViewController().inittitle()
         ]
-        let normalImagesArray = [UIImage(named:"expense"),UIImage(named:"income"),UIImage(named:"transfer"),UIImage(named:"bank"),UIImage(named:"config")]
+        let normalImagesArray = [UIImage(named:"expense"),UIImage(named:"expense"),UIImage(named:"income"),UIImage(named:"transfer"),UIImage(named:"bank"),UIImage(named:"config")]
         
         let navigationVCArray = NSMutableArray()
         for (index, controller) in viewControllerArray.enumerated() {

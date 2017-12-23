@@ -69,6 +69,7 @@ class ConfViewController : UITableViewController{
                 let queue = DispatchQueue(label: "background", qos: .default, attributes: .concurrent)
                 Alamofire.request(apiUrl + "get.php?id=0&user=4").responseJSON(queue: queue) { response in
                     let value = response.result.value
+                    if(value == nil){return}
                     let json = JSON(value!)
                     self.rsycnCountString = json["ct"].stringValue
                     DispatchQueue.main.async { //主线程更新

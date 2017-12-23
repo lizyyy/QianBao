@@ -46,11 +46,32 @@ class PayViewController:UITableViewController,RsyncDelegate,UITabBarControllerDe
             self.navigationController?.navigationBar.addSubview(view)
             self.reload()
         }
+         //   [[UINavigationBar appearance]setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
+      
         //搜索框
         searchController = UISearchController(searchResultsController: nil)
         searchController?.searchResultsUpdater = self
-        searchController?.dimsBackgroundDuringPresentation = false
-        searchController?.searchBar.sizeToFit()
+     //   searchController?.searchBar.backgroundColor = UIColor.clear
+        //searchController?.dimsBackgroundDuringPresentation = false
+        //searchController?.definesPresentationContext = false
+        //searchController?.hidesNavigationBarDuringPresentation = true
+        //搜索框
+        
+      //  self.navigationController?.navigationBar.isTranslucent = true
+     //   self.navigationController?.navigationBar.backgroundColor = UIColor.white
+    //    self.searchController?.searchBar.backgroundColor = UIColor.white
+  //      self.searchController?.searchBar.tintColor = UIColor.white
+//        self.tabBarController?.tabBar.isTranslucent = true
+        //searchController?.searchBar.sizeToFit()
+//        if #available(iOS 11.0, *) {
+//            self.tableView.contentInsetAdjustmentBehavior = .always
+//        } else {
+//            self.automaticallyAdjustsScrollViewInsets = true
+//        }
+      //  self.extendedLayoutIncludesOpaqueBars = true
+        
+        self.tableView.tableHeaderView = searchController?.searchBar
+        
         //下拉刷新
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(PayViewController.刷新和同步), for: UIControlEvents.valueChanged)
@@ -62,10 +83,8 @@ class PayViewController:UITableViewController,RsyncDelegate,UITabBarControllerDe
         if(initData){
             reload()
             initData = false
-            //搜索框
-            self.tableView.tableHeaderView = searchController?.searchBar
         }
-        self.tableView.contentOffset = CGPoint(x:0, y:-8) //搞不懂为啥，加上这句，搜索框才默认不显示..
+        //self.tableView.contentOffset = CGPoint(x:0, y:-8) //搞不懂为啥，加上这句，搜索框才默认不显示..
         是否自动刷新 = true  //这样就可以第二次点击tab的时候才会触发刷新
     }
     
@@ -76,7 +95,7 @@ class PayViewController:UITableViewController,RsyncDelegate,UITabBarControllerDe
     // MARK: - UITabBarControllerDelegate
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         if tabBarController.selectedIndex == 0 && 是否自动刷新{
-            self.tableView.setContentOffset(CGPoint(x:0, y:-146), animated: false)
+           // self.tableView.setContentOffset(CGPoint(x:0, y:-146), animated: false)
             刷新和同步()
             是否自动刷新 = true
         }
@@ -226,6 +245,7 @@ class PayViewController:UITableViewController,RsyncDelegate,UITabBarControllerDe
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
     }
+    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = ListCellView(cellStyle:ListCellStyle.Expense, reuseIdentifier:ListCellView.identifier)

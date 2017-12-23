@@ -5,9 +5,8 @@
 //  Created by lzy on 2016/9/25.
 //  Copyright © 2016年 leeey. All rights reserved.
 //
-
 import UIKit
-
+import JLRoutes
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
@@ -23,13 +22,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window!.backgroundColor = UIColor.white
         self.tabbarController = TabbarViewController()
         self.window!.rootViewController = self.tabbarController
-        tabbarController?.selectedIndex = 0
+        tabbarController?.selectedIndex = 1
         self.window!.makeKeyAndVisible()
         if( UserDefaults.standard.integer(forKey: "DeviceID") == 0 ){
             UserDefaults.standard.set(4, forKey: "DeviceID")
         }
+        let routes = JLRoutes.global()
+        routes.addRoute("/qian8/view/:userID") { (params: [String : Any]) -> Bool in
+            print(String(describing: params))
+            return true
+        }
         return true
     }
+    
+    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        return JLRoutes.routeURL(url)
+    }
+    
+//    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+//        return JLRoutes.routeURL(url)
+//    }
     
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

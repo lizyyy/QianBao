@@ -113,8 +113,8 @@ class Rsync {
         let queue = DispatchQueue(label: "backgroundget", qos: .default, attributes: .concurrent)
         var sql = ""
         Alamofire.request(url).responseJSON(queue: queue) { response in
-            let value = response.result.value
-            let json = JSON(value!)
+            if (response.result.value == nil) {return}
+            let json = JSON(response.result.value!)
             if (json["ct"] == "0") {
                 self.getFinish()
                 return //无数据

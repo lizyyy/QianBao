@@ -9,6 +9,13 @@
 import Foundation
 import UIKit
 
+
+let LL_ScreenWidth = UIScreen.main.bounds.width
+let LL_ScreenHeight = UIScreen.main.bounds.height
+let LL_iPhoneX =  (LL_ScreenWidth == 375 && LL_ScreenHeight == 812 ? true : false)
+let LL_StatusBarAndNavigationBarHeight:CGFloat  =  (LL_iPhoneX ? 88 : 64)
+
+
 extension Double {
     func format(_ f: String) -> String {
         return String(format: "%\(f)f", self)
@@ -55,9 +62,6 @@ extension NSObject {
     }
 }
 
-
-
-
 func today()->String{
     let date = Date()
     let timeFormatter = DateFormatter()
@@ -73,11 +77,6 @@ func month()->String{
     let time = timeFormatter.string(from: date) as String
     return time
 }
-
-
-
-
-
 
 func toJSONString2(_ dict:NSDictionary!)->NSString{
     var data: Data?

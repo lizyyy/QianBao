@@ -14,8 +14,12 @@
 		150D237F1EA714180055CE68 /* QianBaoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150D237E1EA714180055CE68 /* QianBaoTests.swift */; };
 		150D238A1EA714180055CE68 /* QianBaoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150D23891EA714180055CE68 /* QianBaoUITests.swift */; };
 		151394A11EAF53C2006CC3D2 /* Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151394A01EAF53C2006CC3D2 /* Views.swift */; };
+		15187BAF1FE6C4BC002CD576 /* DateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15187BAE1FE6C4BC002CD576 /* DateCell.swift */; };
+		151F40CD1FEEB08C005F2E8C /* ControllerRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151F40CC1FEEB08C005F2E8C /* ControllerRouter.swift */; };
+		151F40CF1FEEB1A8005F2E8C /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151F40CE1FEEB1A8005F2E8C /* BaseViewController.swift */; };
 		1523FF0C1F289B840000D882 /* AddIncomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1523FF0B1F289B840000D882 /* AddIncomeViewController.swift */; };
 		15253E411F272D1000057456 /* config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15253E401F272D1000057456 /* config.swift */; };
+		1527AFAD1FCAB08E007CEAD7 /* UseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1527AFAC1FCAB08E007CEAD7 /* UseViewController.swift */; };
 		152E21A91F2CF8EE006E58D6 /* AddTransfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152E21A81F2CF8EE006E58D6 /* AddTransfViewController.swift */; };
 		1567272E1EA747B700AE472C /* MBProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 156727211EA746A500AE472C /* MBProgressHUD.framework */; };
 		1567272F1EA747B700AE472C /* MBProgressHUD.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 156727211EA746A500AE472C /* MBProgressHUD.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -26,6 +30,7 @@
 		15781F681ECD995700001CBF /* HooDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 15781F651ECD995700001CBF /* HooDatePicker.m */; };
 		15781F691ECD995700001CBF /* NSDate+HooDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 15781F671ECD995700001CBF /* NSDate+HooDatePicker.m */; };
 		15781F6B1ECDA1E600001CBF /* SelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15781F6A1ECDA1E600001CBF /* SelectViewController.swift */; };
+		15A004DA1FEA776000BADF54 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A004D91FEA776000BADF54 /* Button.swift */; };
 		15FFCEB31EA7B2B6001ACBFE /* PayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFCEB21EA7B2B6001ACBFE /* PayViewController.swift */; };
 		15FFCEB51EA7B2C5001ACBFE /* IncomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFCEB41EA7B2C5001ACBFE /* IncomeViewController.swift */; };
 		15FFCEB71EA7B2D5001ACBFE /* TransfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFCEB61EA7B2D5001ACBFE /* TransfViewController.swift */; };
@@ -94,8 +99,12 @@
 		150D23891EA714180055CE68 /* QianBaoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QianBaoUITests.swift; sourceTree = "<group>"; };
 		150D238B1EA714180055CE68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		151394A01EAF53C2006CC3D2 /* Views.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Views.swift; sourceTree = "<group>"; };
+		15187BAE1FE6C4BC002CD576 /* DateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCell.swift; sourceTree = "<group>"; };
+		151F40CC1FEEB08C005F2E8C /* ControllerRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerRouter.swift; sourceTree = "<group>"; };
+		151F40CE1FEEB1A8005F2E8C /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		1523FF0B1F289B840000D882 /* AddIncomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddIncomeViewController.swift; sourceTree = "<group>"; };
 		15253E401F272D1000057456 /* config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = config.swift; sourceTree = "<group>"; };
+		1527AFAC1FCAB08E007CEAD7 /* UseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseViewController.swift; sourceTree = "<group>"; };
 		152E21A81F2CF8EE006E58D6 /* AddTransfViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransfViewController.swift; sourceTree = "<group>"; };
 		1567271D1EA7437D00AE472C /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		1567271F1EA7438100AE472C /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
@@ -106,6 +115,7 @@
 		15781F671ECD995700001CBF /* NSDate+HooDatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+HooDatePicker.m"; sourceTree = "<group>"; };
 		15781F6A1ECDA1E600001CBF /* SelectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectViewController.swift; sourceTree = "<group>"; };
 		157CE0FE1F56BE95001686DF /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
+		15A004D91FEA776000BADF54 /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		15E37B621ED2C80100E6F081 /* GT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GT.framework; sourceTree = "<group>"; };
 		15E37B671ED2C8A200E6F081 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		15E37B691ED2C8AD00E6F081 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -293,6 +303,7 @@
 			children = (
 				15FFCEC81EA7B66D001ACBFE /* Cells */,
 				15781F6A1ECDA1E600001CBF /* SelectViewController.swift */,
+				1527AFAC1FCAB08E007CEAD7 /* UseViewController.swift */,
 				15FFCEB21EA7B2B6001ACBFE /* PayViewController.swift */,
 				15FFCEDF1EA7BADD001ACBFE /* AddPayViewController.swift */,
 				15FFCEB41EA7B2C5001ACBFE /* IncomeViewController.swift */,
@@ -325,6 +336,7 @@
 				15FFCED61EA7BA55001ACBFE /* Rsync.swift */,
 				15FFCEC01EA7B434001ACBFE /* tools.swift */,
 				15FFCEC21EA7B450001ACBFE /* Date.swift */,
+				15A004D91FEA776000BADF54 /* Button.swift */,
 				151394A01EAF53C2006CC3D2 /* Views.swift */,
 			);
 			path = Libs;
@@ -340,6 +352,8 @@
 				150D23721EA714170055CE68 /* LaunchScreen.storyboard */,
 				15FFCEC51EA7B4CA001ACBFE /* TabbarViewController.swift */,
 				15253E401F272D1000057456 /* config.swift */,
+				151F40CC1FEEB08C005F2E8C /* ControllerRouter.swift */,
+				151F40CE1FEEB1A8005F2E8C /* BaseViewController.swift */,
 			);
 			path = General;
 			sourceTree = "<group>";
@@ -349,6 +363,7 @@
 			children = (
 				15FFCECD1EA7B6D7001ACBFE /* MeCell.swift */,
 				15FFCECF1EA7B6E4001ACBFE /* ListCell.swift */,
+				15187BAE1FE6C4BC002CD576 /* DateCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -577,11 +592,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				151F40CD1FEEB08C005F2E8C /* ControllerRouter.swift in Sources */,
 				15FFCED91EA7BA55001ACBFE /* Rsync.swift in Sources */,
 				15FFCEBB1EA7B2ED001ACBFE /* ConfViewController.swift in Sources */,
 				15FFCEB31EA7B2B6001ACBFE /* PayViewController.swift in Sources */,
 				15FFCEC61EA7B4CA001ACBFE /* TabbarViewController.swift in Sources */,
+				151F40CF1FEEB1A8005F2E8C /* BaseViewController.swift in Sources */,
+				15187BAF1FE6C4BC002CD576 /* DateCell.swift in Sources */,
+				1527AFAD1FCAB08E007CEAD7 /* UseViewController.swift in Sources */,
 				15FFCEB91EA7B2DF001ACBFE /* MeViewController.swift in Sources */,
+				15A004DA1FEA776000BADF54 /* Button.swift in Sources */,
 				15781F691ECD995700001CBF /* NSDate+HooDatePicker.m in Sources */,
 				15FFCEDB1EA7BA6F001ACBFE /* HUD.swift in Sources */,
 				15FFCEC11EA7B434001ACBFE /* tools.swift in Sources */,
@@ -790,7 +810,7 @@
 				);
 				GCC_OPTIMIZATION_LEVEL = s;
 				INFOPLIST_FILE = QianBao/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "-all_load";
@@ -824,7 +844,7 @@
 					"$(PROJECT_DIR)/GT.embeddedframework_v2.2.3/GT.embeddedframework",
 				);
 				INFOPLIST_FILE = QianBao/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "-all_load";
