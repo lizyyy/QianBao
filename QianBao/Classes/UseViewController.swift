@@ -7,57 +7,64 @@
 //
 import UIKit
 import PNChart
-class UseViewController:UIViewController,UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource,RsyncDelegate,UITabBarControllerDelegate,UISearchResultsUpdating,UISearchBarDelegate,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
-    var dataList = [expenseListItem]()
-    var searchList = [expenseListItem]()
-    let navView = NavView()
+class UseViewController:UIViewController,UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource,UITabBarControllerDelegate,UISearchResultsUpdating,UISearchBarDelegate,UICollectionViewDelegate,UICollectionViewDataSource,PNChartDelegate,RsyncDelegate{
+    let db = DBRecord()
+    var _scrollview     = UIScrollView()
     var taptime = CGFloat()
-    var hud: MBProgressHUD!
     var selDate = NSDate()
     var selUser = 0
     var selCtg  = 0
+    //定义一个吸顶的工具栏
+    let toolBarView = UIView(frame: CGRect(x: 0, y: 0, width: ScreenW, height: 50)) //表头
+    var topToolBarView = UIView(frame: CGRect(x: 0, y: LL_StatusBarAndNavigationBarHeight, width: ScreenW, height: 50)) //固定
+    //横向滑动的统计图
+    var collectionView: UICollectionView!
+    let collectViewItem = CommCell(cellStyle: CommCellStyle.hotView, reuseIdentifier: "hotview")
+    //列表
+    let _tableView      = UITableView(frame: CGRect(x:0, y:0, width:ScreenW, height:ScreenH), style: UITableViewStyle.plain)
+    var searchController: UISearchController?
+    //数据
+    var dataList = [expenseListItem]()
+    var searchList = [expenseListItem]()
     var userKV    = Dictionary<Int,userItem>()
     var expensesKV    = Dictionary<Int,expenseItem>()
-    let db = DBRecord()
+    let rs = DBRecord().getExpensesSum()
+    //刷新效果
+    var hud: MBProgressHUD!
     var initData = false
     var 是否自动刷新 : Bool = false
-    var searchController: UISearchController?
     func inittitle()->UseViewController{ return self }
-    var collectionView: UICollectionView!
-    var _scrollview     = UIScrollView()
-    let _tableView      = UITableView(frame: CGRect(x:0, y:0, width:ScreenW, height:ScreenH), style: UITableViewStyle.grouped)
-    //定义一个吸顶的工具栏
-    let toolBarView = UIView(frame: CGRect(x: 0, y: 0, width: ScreenW, height: 50))
-    var topToolBarView = UIView(frame: CGRect(x: 0, y: LL_StatusBarAndNavigationBarHeight, width: ScreenW, height: 50))
-    // MARK: - 显示顺序
+    
+// MARK: - 显示顺序
     override func viewWillAppear(_ animated: Bool) {
         是否自动刷新 = false
         self.tabBarController?.delegate = self
         self.searchController?.searchBar.delegate = self
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        if(initData){
+            reload()
+            initData = false
+        }
+        是否自动刷新 = true  //这样就可以第二次点击tab的时候才会触发刷新
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        _tableView.dataSource = self
-        _tableView.delegate = self
-        self.view.addSubview(_tableView)
-        
-        self.navigationItem.title = "支出"
-        self._scrollview.delegate = self
-        navigationController?.navigationBar.barTintColor = UIColor.white
-        searchController = UISearchController(searchResultsController: nil)
-        if #available(iOS 11.0, *) {
-            navigationController?.navigationBar.prefersLargeTitles = true //大标题
-            navigationItem.hidesSearchBarWhenScrolling = true //滑动时隐藏searchBar
-            navigationItem.searchController = searchController
-        } else {
-            // Fallback on earlier versions
-        }
+        //数据
         userKV      = DBRecord().userKV()
         expensesKV  = DBRecord().expensesKV()
         initData = true
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add,target: self,action:#selector(PayViewController.添加页))
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.search,target: self,action:#selector(PayViewController.添加页))
+        //定义navigation
+        navigationItem.title = "支出"
+        navigationController?.navigationBar.barTintColor = UIColor.white
+        navigationController?.navigationBar.prefersLargeTitles = true //大标题
+        navigationItem.hidesSearchBarWhenScrolling = true //滑动时隐藏searchBar
+        searchController = UISearchController(searchResultsController: nil)
+        navigationItem.searchController = searchController
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add,target: self,action:#selector(PayViewController.添加页))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.search,target: self,action:#selector(PayViewController.添加页))
         //下拉刷新
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(PayViewController.刷新和同步), for: UIControlEvents.valueChanged)
@@ -71,47 +78,64 @@ class UseViewController:UIViewController,UIScrollViewDelegate,UITableViewDelegat
         topToolBarView.backgroundColor = UIColor.white
         topToolBarView.frame = CGRect(x: 0, y: LL_StatusBarAndNavigationBarHeight, width: ScreenW, height: 50)
         topToolBarView.isHidden = true
+        //collectview
+        collectViewItem.collectionView.delegate = self
+        collectViewItem.collectionView.dataSource = self
+        //tableview
+        _tableView.dataSource = self
+        _tableView.delegate = self
+        _scrollview.delegate = self
+        self.view.addSubview(_tableView)
         self.view.addSubview(topToolBarView)
-    }
-    
-    func setToolbarView(_ view:UIView){
-        let timeBtn = UIButton(frame: CGRect(x: 10, y: 10, width: 100, height: 20))
-        timeBtn.setTitle("2017-08", for:.normal)
-        timeBtn.setTitleColor(UIColor.black, for: .normal)
-        timeBtn.addTarget(self, action: #selector(self.add), for: .allTouchEvents)
-        timeBtn.defaultMyStyle()
-        view.addSubview(timeBtn)
-
-    }
-    
-    func add(){
-        print("111111")
-    }
-    
-
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let offsetY = scrollView.contentOffset.y
-        if(offsetY >= -88){
-            topToolBarView.isHidden = false
-        }else{
-            topToolBarView.isHidden = true
-        }
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        if(initData){
-            reload()
-            initData = false
-        }
-        //self.tableView.contentOffset = CGPoint(x:0, y:-8) //搞不懂为啥，加上这句，搜索框才默认不显示..
-        是否自动刷新 = true  //这样就可以第二次点击tab的时候才会触发刷新
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         searchController?.isActive  = false
     }
     
-    // MARK: - UITabBarControllerDelegate
+// MARK: - 吸顶工具的view
+    func setToolbarView(_ view:UIView){
+        let timeBtn = UIButton().buttonTitle(title: "2017-09-11", image: "xiala", selectImage: "xiala", backGroundColor: UIColor.white, Frame: CGRect(x: 10, y: 10, width: 140, height: 20))
+        timeBtn.layoutButtonWithEdgeInsetsStyle(style: .imageRight, imageTitleSpace: 3)
+        timeBtn.setTitleColor(UIColor.black, for: .normal)
+        timeBtn.titleLabel?.font = FONT(15)
+        timeBtn.addTarget(self, action: #selector(self.add), for: .allTouchEvents)
+        view.addSubview(timeBtn)
+        
+        let filterBtn = UIButton().buttonTitle(title: "筛选", image: "xiala", selectImage: "xiala", backGroundColor: UIColor.white, Frame: CGRect(x: 200, y: 10, width: 100, height: 20))
+        filterBtn.layoutButtonWithEdgeInsetsStyle(style: .imageRight, imageTitleSpace: 3)
+        filterBtn.setTitleColor(UIColor.black, for: .normal)
+        filterBtn.titleLabel?.font = FONT(15)
+        filterBtn.addTarget(self, action: #selector(self.add), for: .allTouchEvents)
+        view.addSubview(filterBtn)
+    }
+
+    func add(){
+        print("111111")
+    }
+    
+// MARK: - UIScrollViewDelegate
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        if(offsetY >= -LL_StatusBarAndNavigationBarHeight){
+            topToolBarView.isHidden = false
+        }else{
+            topToolBarView.isHidden = true
+        }
+    }
+    
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        if(scrollView.isKind(of: UICollectionView.self)){ //如果滑动的是CollectionView
+            if(velocity.x<0){
+                print("上个月")
+            }
+            if(velocity.x>0){
+                print("下个月")
+            }
+        }
+    }
+    
+// MARK: - UITabBarControllerDelegate
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         if tabBarController.selectedIndex == 0 && 是否自动刷新{
             // self.tableView.setContentOffset(CGPoint(x:0, y:-146), animated: false)
@@ -119,7 +143,15 @@ class UseViewController:UIViewController,UIScrollViewDelegate,UITableViewDelegat
             是否自动刷新 = true
         }
     }
-    // MARK: - UISearchResultsUpdating  搜索内容变化
+    
+    
+// MARK:- PNChartDelegate
+    func userClickedOnBar(at barIndex: Int) {
+        print(rs.0[barIndex])
+        print(rs.1[barIndex])
+    }
+    
+// MARK: - UISearchResultsUpdating  搜索内容变化
     func updateSearchResults(for searchController: UISearchController) {
         if let searchText = searchController.searchBar.text, !searchText.isEmpty {
             searchList = db.getExpensesSearchList(text: searchText)
@@ -127,7 +159,13 @@ class UseViewController:UIViewController,UIScrollViewDelegate,UITableViewDelegat
         _tableView.reloadData()
     }
     
-    // MARK: - 一些方法
+// MARK: - RsyncDelegate
+    func rsyncFinish(a:Int,b:Int,c:Int){
+        renew  = true
+        self.reload()
+    }
+    
+// MARK: - 一些方法
     func 刷新和同步(){
         if 更新锁 == false {
             更新锁 = true
@@ -138,50 +176,18 @@ class UseViewController:UIViewController,UIScrollViewDelegate,UITableViewDelegat
         }
     }
     
-    func previousM(sender: UIButton!) {
-        selDate = selDate.minusMonths(m: 1)
-        self.reload()
-        navView.btnMid.setTitle(toMonth(date:selDate) + " → \(userKV[selUser]!.user) → \(expensesKV[selCtg]!.name)", for: UIControlState())
-    }
-    
-    func nextM(sender: UIButton!){
-        //@todo 超出的月份不让翻页
-        selDate = selDate.plusMonths(m: 1)
-        self.reload()
-        navView.btnMid.setTitle(toMonth(date:selDate) + " → \(userKV[selUser]!.user) → \(expensesKV[selCtg]!.name)", for: UIControlState())
-    }
-    
-    func midAction(sender: UIButton!){
-        let selectview = SelectViewController()
-        selectview.selCtg = self.selCtg
-        selectview.selUser = self.selUser
-        selectview.selDate = self.selDate
-        selectview.selpage = frompage.pay
-        self.navigationController?.present( UINavigationController(rootViewController: selectview), animated: true, completion:nil)
-        NotificationCenter.default.addObserver(self, selector:#selector(PayViewController.newsel(_:)), name: NSNotification.Name(rawValue: "newsel"), object: nil)
-    }
-    
     func reload(){
         dataList = db.getExpensesList(toMonth(date:selDate),userid: selUser,ctgid: selCtg)
         DispatchQueue.main.async {
-            self.navView.lableSum.text = "总计：" + self.db.expenseSum.format(".2") + " 元"
             self._tableView.refreshControl?.endRefreshing()
             self._tableView.reloadData()
         }
         更新锁 = false
     }
-    
-    //筛选条件更新
-    func newsel(_ notification: Notification){
-        selUser = notification.userInfo!["userid"]! as! Int
-        selCtg =  notification.userInfo!["ctgid"]! as! Int
-        selDate = notification.userInfo!["date"] as! NSDate
-        navView.btnMid.setTitle(toMonth(date:selDate) + " → \(userKV[selUser]!.user) → \(expensesKV[selCtg]!.name)", for: UIControlState())
-        self.reload()
-    }
-    
+
+    //监听添加页面的newadd属性，当发生变化时，刷新页面
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if(keyPath == "newadd"){ //监听添加页面的newadd属性，当发生变化时，刷新页面
+        if(keyPath == "newadd"){
             self.reload()
         }
     }
@@ -193,31 +199,6 @@ class UseViewController:UIViewController,UIScrollViewDelegate,UITableViewDelegat
         let addPay = UINavigationController(rootViewController: addpayview)
         self.navigationController?.present(addPay, animated: true, completion:nil)
     }
-    
-    // MARK: - RsyncDelegate
-    var noticeview = UIView()
-    func rsyncFinish(a:Int,b:Int,c:Int){
-        renew  = true
-        self.reload()
-    }
-    
-    func removeNotice(){
-        noticeview.removeFromSuperview()
-    }
-    
-    //MARK: - UITableViewDelegate
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 0.001
-    }
-    
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 0.1
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-    }
-    
     
     //双击打开添加页
     func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
@@ -235,7 +216,7 @@ class UseViewController:UIViewController,UIScrollViewDelegate,UITableViewDelegat
             return searchList.count
         }else{
             if section == 0 {
-                return 2
+                return 1
             }else{
                 return dataList.count
             }
@@ -248,18 +229,21 @@ class UseViewController:UIViewController,UIScrollViewDelegate,UITableViewDelegat
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
-            return  indexPath.row == 0 ?  200 : 60
+            return  150
         }else{
             return 70
         }
     }
     
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == 1{
+        if indexPath.section == 0 {  //曲线
+            var cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
+            cell = self.collectViewItem
+            
+            return cell
+        }else{
             let cell = ListCellView(cellStyle:ListCellStyle.Expense, reuseIdentifier:ListCellView.identifier)
             cell.selectionStyle = UITableViewCellSelectionStyle.none
-            
             var item  = expenseListItem()
             if searchController!.isActive && searchController?.searchBar.text != "" {
                 item = searchList[indexPath.row]
@@ -285,101 +269,30 @@ class UseViewController:UIViewController,UIScrollViewDelegate,UITableViewDelegat
             }
             cell.user.textColor = backColor
             return cell
-        }else{  //曲线
-            let cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-            if(indexPath.row == 0 ){
-                let xLabelsSource = ["1", "2", "3", "4", "5", "6","7", "8", "9", "10", "11", "12"]
-                let lineChart = PNLineChart(frame: CGRect(x: 0, y: 0, width: 400, height: 100))
-                lineChart.setXLabels(xLabelsSource, withWidth: 400 / CGFloat(xLabelsSource.count) - 6)
-                let data1Source = [4, 2.5, 5.5, 4.7, 2.5, 7.3,5.5, 4.7, 2.5, 7.3,5.5, 4.7]
-                let data1 = PNLineChartData()
-                data1.color = UIColor.red
-                data1.itemCount = UInt(xLabelsSource.count)
-                data1.getData = ({ index -> PNLineChartDataItem in
-                    let yValue = CGFloat(data1Source[Int(index)])
-                    return  PNLineChartDataItem(y: yValue)
-                })
-                lineChart.chartData = [data1]
-                lineChart.showYGridLines = false
-                lineChart.isShowCoordinateAxis = false
-                lineChart.stroke()
-                cell.addSubview(lineChart)
-                
-                let barChart = PNBarChart(frame: CGRect(x: 0, y: 100, width: 400, height: 100))
-                barChart.showLabel = true
-                barChart.yMaxValue = 30
-                barChart.xLabels = ["衣", "食", "住", "行", "用", "娱"]
-                barChart.yLabels = [4, 2.5,20, 8, 2.5, 7.3]
-                barChart.stroke()
-                cell.addSubview(barChart)
-            }else{
-                let collectionFlowLayout = GLIndexedCollectionViewFlowLayout()
-                collectionFlowLayout.scrollDirection = .horizontal //水平滑动
-                collectionView = GLIndexedCollectionView(frame: CGRect(x:0, y:0, width:self.view.frame.size.width,height:60), collectionViewLayout: collectionFlowLayout)
-                collectionView.backgroundColor = UIColor.white
-                collectionView.showsHorizontalScrollIndicator = false  //不显示水平滚动条
-                collectionView.bounces = true //弹簧效果
-                // 是否只允许同时滑动一个方向,默认为NO,如果设置为YES,用户在水平/竖直方向开始进行滑动,便禁止同时在竖直/水平方向滑动(注: 当用户在对角线方向开始进行滑动,则本次滑动可以同时在任何方向滑动)
-                collectionView.isDirectionalLockEnabled = true
-                collectionView.isMultipleTouchEnabled = false
-                collectionView.delegate = self
-                collectionView.dataSource = self
-                //注册一个cell
-                collectionView.register(DateCell.self, forCellWithReuseIdentifier:"DateCell")
-                collectionView.isPagingEnabled = true
-                cell.addSubview(collectionView)
-            }
-            return cell
         }
-        
     }
     
-    
-    let collectionTopInset: CGFloat = 0
-    let collectionBottomInset: CGFloat = 0
-    let collectionLeftInset: CGFloat = 10
-    let collectionRightInset: CGFloat = 10
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-       return 10
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: collectionTopInset, left: collectionLeftInset, bottom: collectionBottomInset, right: collectionRightInset)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-       
-        return CGSize(width: 40, height: 50)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 50
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+// MARK:-  UICollectionViewDataSource
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
     }
     
-    // MARK: <UICollectionView Delegate>
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 3
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DateCell", for: indexPath) as! DateCell
-        cell.backgroundColor = UIColor.red
-        if indexPath.section == 0 {
-            cell.titleLabel?.text = "1"
-        }else{
-            cell.titleLabel?.text = "22"
+        var cell = collectionView.dequeueReusableCell(withReuseIdentifier: "navCollectCellId", for: indexPath as IndexPath) as? CollectCell
+        if (cell == nil) {
+            cell = CollectCell()
         }
-        return cell
+        cell?.barChart.yValues = rs.1
+        cell?.barChart.stroke()
+        cell?.barChart.delegate = self
+        return cell!
     }
-    
-    
+   
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        
         var recordlist = expenseListItem()
         if searchController!.isActive && searchController?.searchBar.text != "" {
             recordlist = self.searchList[indexPath.row]
@@ -459,56 +372,3 @@ class UseViewController:UIViewController,UIScrollViewDelegate,UITableViewDelegat
         }else{ return []}
     }
 }
-
-
-class GLIndexedCollectionViewFlowLayout: UICollectionViewFlowLayout {
-    fileprivate var paginatedScroll: Bool?
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-    override func targetContentOffset(forProposedContentOffset proposedContentOffset: CGPoint, withScrollingVelocity velocity: CGPoint) -> CGPoint {
-        guard proposedContentOffset.x > 0 else {
-            return CGPoint(x: 0, y: 0)
-        }
-        guard paginatedScroll == true else {
-            return CGPoint(x: proposedContentOffset.x, y: 0)
-        }
-        guard let collectionView: UICollectionView = collectionView else {
-            return CGPoint(x: proposedContentOffset.x, y: 0)
-        }
-        let scannerFrame: CGRect = CGRect(x: proposedContentOffset.x,
-                                          y: 0,
-                                          width: collectionView.bounds.width,
-                                          height: collectionView.bounds.height)
-        guard let layoutAttributes: [UICollectionViewLayoutAttributes] = super.layoutAttributesForElements(in: scannerFrame) else {
-            return CGPoint(x: proposedContentOffset.x, y: 0)
-        }
-        let collectionViewInsets: CGFloat = 10.0
-        let proposedXCoordWithInsets: CGFloat = proposedContentOffset.x + collectionViewInsets
-        var offsetCorrection: CGFloat = .greatestFiniteMagnitude
-        layoutAttributes.filter { layoutAttribute -> Bool in
-            layoutAttribute.representedElementCategory == .cell
-            }.forEach { cellLayoutAttribute in
-                let discardableScrollingElementsFrame: CGFloat = collectionView.contentOffset.x + (collectionView.frame.size.width / 2)
-                if (cellLayoutAttribute.center.x <= discardableScrollingElementsFrame && velocity.x > 0) || (cellLayoutAttribute.center.x >= discardableScrollingElementsFrame && velocity.x < 0) {
-                    return
-                }
-                if abs(cellLayoutAttribute.frame.origin.x - proposedXCoordWithInsets) < abs(offsetCorrection) {
-                    offsetCorrection = cellLayoutAttribute.frame.origin.x - proposedXCoordWithInsets
-                }
-        }
-        return CGPoint(x: proposedContentOffset.x + offsetCorrection, y: 0)
-    }
-}
-
-class GLIndexedCollectionView: UICollectionView {
-    /// The inner-`indexPath` of the GLIndexedCollectionView.
-    ///
-    /// Use it to discriminate between all the possible GLIndexedCollectionViews
-    /// inside `UICollectionView`'s `dataSource` and `delegate` methods.
-    ///
-    /// This should be set and updated only through GLCollectionTableViewCell's
-    /// `setCollectionViewDataSourceDelegate` func to avoid strange behaviors.
-    var indexPath: IndexPath!
-}
-

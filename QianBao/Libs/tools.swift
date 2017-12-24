@@ -89,6 +89,10 @@ func toJSONString2(_ dict:NSDictionary!)->NSString{
     return strJson!
 }
 
+public func FONT(_ int:CGFloat) ->UIFont {
+    return UIFont .systemFont(ofSize: int)
+}
+
 extension UIColor {
     //16进制原生值
     convenience init(hex: Int, alpha: CGFloat = 1.0) {

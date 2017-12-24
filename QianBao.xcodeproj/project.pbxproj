@@ -21,6 +21,8 @@
 		15253E411F272D1000057456 /* config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15253E401F272D1000057456 /* config.swift */; };
 		1527AFAD1FCAB08E007CEAD7 /* UseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1527AFAC1FCAB08E007CEAD7 /* UseViewController.swift */; };
 		152E21A91F2CF8EE006E58D6 /* AddTransfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152E21A81F2CF8EE006E58D6 /* AddTransfViewController.swift */; };
+		1540FE1A1FEF4E68006106BC /* CollectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1540FE191FEF4E68006106BC /* CollectCell.swift */; };
+		1540FE1C1FEF54DF006106BC /* Comm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1540FE1B1FEF54DF006106BC /* Comm.swift */; };
 		1567272E1EA747B700AE472C /* MBProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 156727211EA746A500AE472C /* MBProgressHUD.framework */; };
 		1567272F1EA747B700AE472C /* MBProgressHUD.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 156727211EA746A500AE472C /* MBProgressHUD.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		156727301EA747B900AE472C /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1567271F1EA7438100AE472C /* SwiftyJSON.framework */; };
@@ -106,6 +108,8 @@
 		15253E401F272D1000057456 /* config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = config.swift; sourceTree = "<group>"; };
 		1527AFAC1FCAB08E007CEAD7 /* UseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseViewController.swift; sourceTree = "<group>"; };
 		152E21A81F2CF8EE006E58D6 /* AddTransfViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransfViewController.swift; sourceTree = "<group>"; };
+		1540FE191FEF4E68006106BC /* CollectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectCell.swift; sourceTree = "<group>"; };
+		1540FE1B1FEF54DF006106BC /* Comm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comm.swift; sourceTree = "<group>"; };
 		1567271D1EA7437D00AE472C /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		1567271F1EA7438100AE472C /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
 		156727211EA746A500AE472C /* MBProgressHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MBProgressHUD.framework; path = Carthage/Build/iOS/MBProgressHUD.framework; sourceTree = "<group>"; };
@@ -336,7 +340,6 @@
 				15FFCED61EA7BA55001ACBFE /* Rsync.swift */,
 				15FFCEC01EA7B434001ACBFE /* tools.swift */,
 				15FFCEC21EA7B450001ACBFE /* Date.swift */,
-				15A004D91FEA776000BADF54 /* Button.swift */,
 				151394A01EAF53C2006CC3D2 /* Views.swift */,
 			);
 			path = Libs;
@@ -362,8 +365,10 @@
 			isa = PBXGroup;
 			children = (
 				15FFCECD1EA7B6D7001ACBFE /* MeCell.swift */,
+				1540FE191FEF4E68006106BC /* CollectCell.swift */,
 				15FFCECF1EA7B6E4001ACBFE /* ListCell.swift */,
 				15187BAE1FE6C4BC002CD576 /* DateCell.swift */,
+				1540FE1B1FEF54DF006106BC /* Comm.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -371,6 +376,7 @@
 		15FFCEDC1EA7BA90001ACBFE /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				15A004D91FEA776000BADF54 /* Button.swift */,
 				15FFCEDD1EA7BA9B001ACBFE /* FMDB-Extras.swift */,
 			);
 			path = Extensions;
@@ -599,6 +605,7 @@
 				15FFCEC61EA7B4CA001ACBFE /* TabbarViewController.swift in Sources */,
 				151F40CF1FEEB1A8005F2E8C /* BaseViewController.swift in Sources */,
 				15187BAF1FE6C4BC002CD576 /* DateCell.swift in Sources */,
+				1540FE1A1FEF4E68006106BC /* CollectCell.swift in Sources */,
 				1527AFAD1FCAB08E007CEAD7 /* UseViewController.swift in Sources */,
 				15FFCEB91EA7B2DF001ACBFE /* MeViewController.swift in Sources */,
 				15A004DA1FEA776000BADF54 /* Button.swift in Sources */,
@@ -608,6 +615,7 @@
 				15FFCED01EA7B6E4001ACBFE /* ListCell.swift in Sources */,
 				15FFCEB51EA7B2C5001ACBFE /* IncomeViewController.swift in Sources */,
 				15781F6B1ECDA1E600001CBF /* SelectViewController.swift in Sources */,
+				1540FE1C1FEF54DF006106BC /* Comm.swift in Sources */,
 				15FFCEE01EA7BADD001ACBFE /* AddPayViewController.swift in Sources */,
 				15FFCED81EA7BA55001ACBFE /* Db.swift in Sources */,
 				151394A11EAF53C2006CC3D2 /* Views.swift in Sources */,
@@ -810,7 +818,7 @@
 				);
 				GCC_OPTIMIZATION_LEVEL = s;
 				INFOPLIST_FILE = QianBao/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "-all_load";
@@ -844,7 +852,7 @@
 					"$(PROJECT_DIR)/GT.embeddedframework_v2.2.3/GT.embeddedframework",
 				);
 				INFOPLIST_FILE = QianBao/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "-all_load";

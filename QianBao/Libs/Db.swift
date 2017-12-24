@@ -92,6 +92,23 @@ class DBRecord {
         return expenseListSet(data)
     }
     
+    func getExpensesSum()->([String],[String]){
+        let sql = "select sum(price) as sum,b.name from qian8_expense_list a ,qian8_expense_category b on  a.cate_id = b.id  where a.time like '2017-12%' group by a.cate_id"
+        let data =  self.query(sql, values: nil)
+        var arr = Dictionary<String,String>()
+        while (data.next() != false){
+            arr[data.string(forColumn:"name")] = data.double(forColumn: "sum").format(".2")
+        }
+        let cate_arr = self.getExpenses()
+        var rs_cate = [String]()
+        var rs_sum = [String]()
+        cate_arr.forEach { (item) in
+            rs_cate.append(item.name)
+            rs_sum.append(arr[item.name] == nil ? "0" : arr[item.name]!)
+        }
+        return (rs_cate,rs_sum)
+    }
+    
     func getExpensesSearchList(text:String)->[expenseListItem]{
         let data =  self.query("select l.*,c.name as cate_name,u.user as user_name,b.name as bank_name from qian8_expense_category c,qian8_expense_list l,qian8_bank b,qian8_user u where l.cate_id = c.id and l.user_id = u.id and l.bank_id = b.id  and l.demo like '%\(text)%' order by l.time desc", values: nil)
         return expenseListSet(data)
